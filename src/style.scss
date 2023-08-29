@@ -1,7 +1,20 @@
+/******** GENERAL VARIABLES ********/
+$primary-orange: #EE6E10;
+$secondary-blue: #00849C;
+$light-orange: #F9913D;
+$light-blue: #29C0B2;
+
+/******** RESET STYLE ********/
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
+/******** PAGE STYLE ********/
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
 
