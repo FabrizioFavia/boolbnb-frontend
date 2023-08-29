@@ -1,4 +1,6 @@
 <script>
+import axios from 'axios';
+
 export default {
   name: 'HelloWorld',
   data() {
@@ -7,12 +9,14 @@ export default {
     }
   },
   methods: {
-    prova() {
-      console.log('ciao');
+    apiCall(){
+      axios.get('http://localhost:8000/api/apartments').then((response) => {
+        console.log(response.data);
+    });
     }
   },
   mounted() {
-    this.prova();
+    this.apiCall();
   }
 }
 </script>
