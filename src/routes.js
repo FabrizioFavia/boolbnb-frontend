@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AppHome from './pages/AppHome.vue'
+import AppHome from './pages/AppHome.vue';
+import AppShowApartment from './pages/AppShowApartment.vue';
 
 
 const routes = [
-    { path: '/homeProva', component: AppHome, name: 'home' },
+    { path: '/', component: AppHome, name: 'home' },
+    { path: '/apartments/:id', component: AppShowApartment, name: 'show-apartments' },
      
   ]
 
