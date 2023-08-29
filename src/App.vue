@@ -1,11 +1,12 @@
 <script>
 
 import HelloWorld from './components/HelloWorld.vue'
-
+import AppHeader from './components/AppHeader.vue';
 
 export default{
   components:{
     HelloWorld,
+    AppHeader,
     
   }
 }
@@ -13,7 +14,7 @@ export default{
 </script>
 
 <template>
-  
+  <AppHeader />
 <HelloWorld />
 
 <main>
