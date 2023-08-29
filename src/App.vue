@@ -1,13 +1,9 @@
 <script>
-
-import HelloWorld from './components/HelloWorld.vue'
 import AppHeader from './components/AppHeader.vue';
 
 export default{
   components:{
-    HelloWorld,
     AppHeader,
-    
   }
 }
 
@@ -19,7 +15,6 @@ export default{
     <AppHeader />
     <!-- Jumbotron Component: Carousel -->
   </header>
-  <!-- <HelloWorld /> -->
   <main class="border border-danger container">
     <router-view></router-view>
   </main>
