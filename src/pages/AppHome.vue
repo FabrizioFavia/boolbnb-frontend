@@ -98,7 +98,7 @@ export default {
 @use 'src/style.scss' as *;
 
 #apartmentsSec {
-  overflow-y: scroll;
+  
 
   &>section:first-child {
     gap: 2.5rem;
