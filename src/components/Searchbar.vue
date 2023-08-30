@@ -1,8 +1,7 @@
 <script>
 import axios from 'axios';
 import { store } from '../data/store';
-// import geolib from 'geolib';
-import * as geolib from 'geolib';
+// import * as geolib from 'geolib';
 
 export default {
     name: 'SearchBar',
@@ -15,6 +14,7 @@ export default {
         }
     },
     methods: {
+        // Get longitude and latitude from input search, via api call
         async getLocation() {
             try {
                 const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
@@ -27,48 +27,49 @@ export default {
                 console.error('Errore durante la chiamata asincrona:', error);
             }
         },
+        // Get distance between two places in km
+        getDistance(lat1, lon1, lat2, lon2) {
 
-        // getDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371000;
 
-        //     const R = 6371; // Raggio della Terra in chilometri
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLon = (lon2 - lon1) * (Math.PI / 180);
 
-        //     const dLat = (lat2 - lat1) * (Math.PI / 180);
-        //     const dLon = (lon2 - lon1) * (Math.PI / 180);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-        //     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        //         Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-        //         Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        //     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        //     const distance = R * c; // Distanza in chilometri
-        //     console.log(distance);
-        //     return distance;
-        // },
-
-        // searchApartmentss() {
-        //     this.store.apartments.forEach(element => {
-        //         let latitude = element.latitude;
-        //         let longitude = element.longitude;
-        //         console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
-        //         this.getDistance(this.lat1, this.lon1, latitude, longitude)
-        //     });
-        // },
+            const distance = R * c; // metres
+            const distanceKm = (distance / 1000).toFixed(2); // km, rounded
+            console.log(distance, distanceKm);
+            return distanceKm;
+        },
+        // Iterates and retrieves location of database apartments
         searchApartments() {
-        this.store.apartments.forEach(element => {
-            let latitude = element.latitude;
-            let longitude = element.longitude;
-            let distance = geolib.getPreciseDistance(
-                { latitude: this.lat1, longitude: this.lon1 },
-                { latitude: latitude, longitude: longitude }
-            );
-            console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
-            console.log('Distanza:', distance, 'metri');
-        });
+            this.store.apartments.forEach(element => {
+                let latitude = element.latitude;
+                let longitude = element.longitude;
+                console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
+                this.getDistance(this.lat1, this.lon1, latitude, longitude)
+            });
+        },
+        // Use Geolib Library to get distance between two places
+        // searchApartments() {
+        // this.store.apartments.forEach(element => {
+        //     let latitude = element.latitude;
+        //     let longitude = element.longitude;
+        //     let distance = geolib.getPreciseDistance(
+        //         { latitude: this.lat1, longitude: this.lon1 },
+        //         { latitude: latitude, longitude: longitude }
+        //     );
+        //     console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
+        //     console.log('Distanza:', distance, 'metri');
+        // });
     }
 
     }
-};
 
 
 
