@@ -6,7 +6,6 @@ import AppShowApartment from './pages/AppShowApartment.vue';
 const routes = [
     { path: '/', component: AppHome, name: 'home' },
     { path: '/apartments/:id', component: AppShowApartment, name: 'show-apartments' },
-     
   ]
 
 const router = createRouter({

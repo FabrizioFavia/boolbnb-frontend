@@ -18,10 +18,10 @@ export default {
     <nav class="navbar navbar-expand-lg bg-white justify-content-between">
         <div class="container">
             <div class="logoContainer">
-                <router-link class="" to="/homeProva">
+                <router-link class="" to="/">
                     <img class="navLogo" src="../assets/logo2.jpeg" alt="">
                 </router-link>
-                <router-link class="" to="/homeProva">
+                <router-link class="" to="/">
                     <img class="smallLogo" src="../assets/logo.jpeg" alt="">
                 </router-link>
             </div>

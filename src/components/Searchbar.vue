@@ -1,21 +1,26 @@
 <script>
 import axios from 'axios';
 import { store } from '../data/store';
+import { storeFilter } from '../data/storeFilter';
 // import * as geolib from 'geolib';
 
 export default {
     name: 'SearchBar',
     data() {
         return {
-            search: 'Roma, piazza del popolo 11',
+            search: 'Roma, piazza del popolo 10',
+            emptySearch: false,
             lat1: '',
             lon1: '',
-            store
+            store,
+            storeFilter
         }
     },
     methods: {
         // Get longitude and latitude from input search, via api call
         async getLocation() {
+            this.storeFilter.apartFiltered = [],
+            this.store.loading = true
             try {
                 const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
                 this.lat1 = response.data.results[0].position['lat'];
@@ -24,6 +29,7 @@ export default {
                 this.search = '';
                 this.searchApartments()
             } catch (error) {
+                this.store.loading = false;
                 console.error('Errore durante la chiamata asincrona:', error);
             }
         },
@@ -48,12 +54,17 @@ export default {
         },
         // Iterates and retrieves location of database apartments
         searchApartments() {
-            this.store.apartments.forEach(element => {
-                let latitude = element.latitude;
-                let longitude = element.longitude;
-                console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
-                this.getDistance(this.lat1, this.lon1, latitude, longitude)
+            this.storeFilter.apartmentsall.forEach(element => {
+                console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', element.latitude, 'LON2:', element.longitude);
+                let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
+                if(distance <= 20) {
+                    this.storeFilter.apartFiltered.push(element)
+                }
             });
+            this.store.loading = false;
+            setTimeout
+            this.storeFilter.apartFiltered.length > 0 ? null : this.emptySearch = true;
+            setTimeout(() => this.emptySearch = false, 3000); 
         },
         // Use Geolib Library to get distance between two places
         // searchApartments() {
@@ -77,9 +88,10 @@ export default {
 
 <template>
     <div class="searchContainer d-flex justify-content-center w-100">
-        <form class="d-flex w-75" @submit.prevent="onSubmit">
+        <form class="d-flex flex-column w-75" @submit.prevent="onSubmit">
             <input @keyup.enter="getLocation()" v-model="search" class="form-control me-2" type="search"
                 placeholder="Search" aria-label="Search">
+            <span v-if="emptySearch" class="text-danger mt-1">Your search returned no results</span>
         </form>
     </div>
 </template>
@@ -87,6 +99,9 @@ export default {
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
+.text-danger {
+    font-size: .75rem;
+}
 
 @media (max-width: 576px) {
 

@@ -2,6 +2,7 @@
 import { store } from '../data/store';
 import axios from 'axios';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
+import { storeFilter } from '../data/storeFilter';
 
 export default {
   name: 'AppShowApartment',
@@ -11,6 +12,7 @@ export default {
   data() {
     return {
       store,
+      storeFilter,
       apartment: '',
       loadingError: false,
     }
@@ -31,7 +33,8 @@ export default {
     }
   },
   mounted() {
-    this.getApartment(this.$route.params.id)
+    this.getApartment(this.$route.params.id),
+    this.storeFilter.apartFiltered = []
   }
 }
 </script>

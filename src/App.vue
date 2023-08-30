@@ -1,9 +1,30 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
+import { storeFilter } from './data/storeFilter';
+import axios from 'axios';
 
 export default {
   components: {
     AppHeader,
+  },
+  data() {
+    return {
+      storeFilter
+    }
+  },
+  methods: {
+    // Returns Apartments Data via API Call
+    getApartmentsData() {
+      axios.get(
+        import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTSALL_API_PATH).then((response) => {
+          response.data.results.forEach(element => {
+            this.storeFilter.apartmentsall.push(element)
+          });
+      })
+    }
+  },
+  mounted() {
+    this.getApartmentsData()
   }
 }
 
@@ -32,7 +53,7 @@ header {
 main {
   height: calc(100vh - 6.625rem);
 
-  & > div {
+  &>div {
     overflow-y: scroll;
   }
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
 import AppSpinner from '../components/AppSpinner.vue';
 import { store } from '../data/store';
+import { storeFilter } from '../data/storeFilter';
 
 export default {
   name: 'AppHome',
@@ -13,6 +14,7 @@ export default {
   data() {
     return {
       store,
+      storeFilter,
       apartments: [],
       loadingError: false,
       apartTotalPages: 0,
@@ -30,7 +32,7 @@ export default {
           console.log(response),
             this.store.loading = false,
             this.apartments = response.data.results.data,
-            this.store.apartments = response.data.results.data,
+            // this.store.apartments = response.data.results.data,
             this.apartCurrentPage = response.data.results.current_page,
             this.apartTotalPages = response.data.results.last_page
         }).catch(err => {
@@ -63,7 +65,14 @@ export default {
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center">
 
     <!-- Apartment Cards -->
-    <section v-if="apartments.length > 0"
+    <section v-if="storeFilter.apartFiltered.length > 0"
+      class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
+      <template v-for="apartment in storeFilter.apartFiltered">
+        <MainApartmentCard :apartment="apartment" />
+      </template>
+    </section>
+
+    <section v-else-if="apartments.length > 0"
       class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
       <template v-for="apartment in apartments">
         <MainApartmentCard :apartment="apartment" />
