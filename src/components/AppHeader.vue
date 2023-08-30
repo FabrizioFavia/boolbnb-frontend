@@ -1,6 +1,11 @@
 <script>
+import Searchbar from './Searchbar.vue';
+
 export default {
     name: 'AppHeader',
+    components:{
+        Searchbar
+    },
     data() {
         return {
             prova: "dato",
@@ -25,11 +30,7 @@ export default {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="searchContainer d-flex justify-content-center w-100">
-                    <form class="d-flex w-75">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    </form>
-                </div>
+                <Searchbar />
                 <div class="linkContainer">
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -76,9 +77,6 @@ export default {
         margin-top: 0;
     }
 
-    .searchContainer{
-        margin-top: 20px;
-    }
 }
 </style>
 

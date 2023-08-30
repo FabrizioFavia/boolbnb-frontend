@@ -30,6 +30,7 @@ export default {
           console.log(response),
             this.store.loading = false,
             this.apartments = response.data.results.data,
+            this.store.apartments = response.data.results.data,
             this.apartCurrentPage = response.data.results.current_page,
             this.apartTotalPages = response.data.results.last_page
         }).catch(err => {
