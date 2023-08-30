@@ -75,7 +75,7 @@ export default {
         <ul class="pagination d-inline-flex">
           <li class="py-3 mx-3">
             <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
-              class="page-link d-block rounded" aria-label="Previous" :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i></button>
+              class="page-link d-block rounded arrow" aria-label="Previous" :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i></button>
           </li>
           <template v-for="pageNumber in apartTotalPages">
             <li class="py-3 mx-3">
@@ -85,7 +85,7 @@ export default {
           </template>
           <li class="py-3 mx-3">
             <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
-              class="page-link d-block rounded" aria-label="Next" :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i class="fa-solid fa-chevron-right"></i></button>
+              class="page-link d-block rounded arrow" aria-label="Next" :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i class="fa-solid fa-chevron-right"></i></button>
           </li>
         </ul>
       </nav>
@@ -121,7 +121,7 @@ export default {
 
     & .page-link:hover,
     & .page-link.active,
-    & .page-link:focus {
+    & .page-link:focus:not(.arrow) {
       color: white;
       background: $primary-orange;
       line-height: 2.375rem;
