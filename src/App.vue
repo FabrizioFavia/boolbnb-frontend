@@ -1,8 +1,8 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
 
-export default{
-  components:{
+export default {
+  components: {
     AppHeader,
   }
 }
@@ -10,16 +10,16 @@ export default{
 </script>
 
 <template>
-
-  <header>
+  <header class="container">
     <AppHeader />
     <!-- Jumbotron Component: Carousel -->
   </header>
-  <main class="border border-danger container">
-    <router-view></router-view>
+  <main class="bg-dark">
+    <div class="container h-100">
+      <router-view></router-view>
+    </div>
   </main>
-  <footer></footer>
-
+  <footer class="container"></footer>
 </template>
 
 <style scoped lang="scss">
@@ -28,9 +28,12 @@ export default{
 header {
   height: 6.625rem;
 }
+
 main {
   height: calc(100vh - 6.625rem);
-  overflow-y: scroll;
-}
 
+  & > div {
+    overflow-y: scroll;
+  }
+}
 </style>

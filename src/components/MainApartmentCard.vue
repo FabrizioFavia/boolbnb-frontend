@@ -9,7 +9,7 @@ export default {
 
 <template>
     <!-- Apartment Card -->
-    <div class="apartment-card position-relative overflow-hidden rounded d-flex flex-wrap justify-content-center">
+    <div class="apartment-card position-relative overflow-hidden rounded d-flex flex-wrap justify-content-center text-start">
 
         <!-- On Click Redirect to Route 'show-apartments' -->
         <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }">

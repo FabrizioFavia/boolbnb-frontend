@@ -26,11 +26,10 @@ export default {
       this.store.loading = true
       axios.get(
         import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH,
-        { validateStatus: (status) => { return status < 500 } },
-        { params: { page: pageNumber } }).then((response) => {
+        { params: { page: pageNumber } }/*, { validateStatus: (status) => { return status < 500 } }*/).then((response) => {
+          console.log(response),
             this.store.loading = false,
             this.apartments = response.data.results.data,
-            console.log(this.apartments),
             this.apartCurrentPage = response.data.results.current_page,
             this.apartTotalPages = response.data.results.last_page
         }).catch(err => {
@@ -64,43 +63,92 @@ export default {
 
     <!-- Apartment Cards -->
     <section v-if="apartments.length > 0"
-      class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-between flex-wrap py-4">
+      class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
       <template v-for="apartment in apartments">
         <MainApartmentCard :apartment="apartment" />
       </template>
     </section>
 
-    <!-- Change Page Buttons  -->
-    <section class="d-flex justify-content-center py-3">
-      <div class="d-flex justify-content-center gap-7 border rounded px-3 py-1">
-        <button v-show="apartCurrentPage > 1" @click="getApartmentsData(apartCurrentPage - 1)"
-          class="px-2 border-e hover:text-primary-blu"><i
-            class="fa-solid fa-chevron-left fa-xs align-middle text-gray-500"></i> Preview</button>
-        <div class="px-3">
+    <!-- Page Navigation Buttons  -->
+    <section>
+      <nav class="text-center" aria-label="Page navigation">
+        <ul class="pagination d-inline-flex">
+          <li class="py-3 mx-3">
+            <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
+              class="page-link d-block rounded" aria-label="Previous" :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i></button>
+          </li>
           <template v-for="pageNumber in apartTotalPages">
-            <button @click="getApartmentsData(pageNumber)"
-              :class="apartCurrentPage === pageNumber ? 'font-bold border text-primary-blu' : null"
-              class="px-3 py-1 hover:bg-gray-200">{{ pageNumber }}</button>
+            <li class="py-3 mx-3">
+              <button @click="getApartmentsData(pageNumber)" :class="apartCurrentPage === pageNumber ? 'active' : null"
+                class="page-link d-block rounded">{{ pageNumber }}</button>
+            </li>
           </template>
-        </div>
-        <button v-show="apartCurrentPage < apartTotalPages" @click="getApartmentsData(apartCurrentPage + 1)"
-          class="px-2 border-s hover:text-primary-blu">Next <i
-            class="fa-solid fa-chevron-right fa-xs align-middle text-gray-500"></i></button>
-      </div>
+          <li class="py-3 mx-3">
+            <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
+              class="page-link d-block rounded" aria-label="Next" :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i class="fa-solid fa-chevron-right"></i></button>
+          </li>
+        </ul>
+      </nav>
     </section>
-
+    
   </section>
 </template>
 
-<style scoped lang="scss">@use 'src/style.scss' as *;
+<style scoped lang="scss">
+@use 'src/style.scss' as *;
 
 #apartmentsSec {
   overflow-y: scroll;
 
-  & > section:first-child {
-    // background-color: rgba(0, 0, 0, 0.222);
-    gap: 2rem;
+  &>section:first-child {
+    gap: 2.5rem;
+  }
+
+  & .pagination {
+    // font-family: 'Itim', cursive;
+    border-radius: 8px 8px 0 0;
+    border-top: 4px solid $primary-orange;
+
+    & .page-link {
+      color: $primary-orange;
+      background: transparent;
+      line-height: 1rem;
+      height: 2rem;
+      width: 2.625rem;
+      border: 1px solid $primary-orange;
+      transition: all 0.3s ease 0s;
+    }
+
+    & .page-link:hover,
+    & .page-link.active,
+    & .page-link:focus {
+      color: white;
+      background: $primary-orange;
+      line-height: 2.375rem;
+      height: 2.5625rem;
+      margin: -5px 0 -3px;
+      border: 1px solid $primary-orange;
+    }
+
+    & .page-link.active:hover {
+      background: $light-orange;
+    }
+
+    & .page-link.disabled {
+      color: lightgrey;
+      border: 1px solid lightgrey;
+    }
   }
 }
 
+@media only screen and (max-width: 480px) {
+  .pagination {
+    font-size: 0;
+    display: block;
+  }
+
+  .pagination li {
+    display: inline-block;
+  }
+}
 </style>
