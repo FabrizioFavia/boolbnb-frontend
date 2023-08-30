@@ -6,28 +6,28 @@ export default {
     name: 'SearchBar',
     data() {
         return {
-            search: '',
+            search: 'Roma, piazza del popolo 11',
             lat1: '',
             lon1: '',
             store
-
-
         }
     },
     methods: {
-        getLocation() {
-            axios.get(
-                import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY).then((response) => {
-                    this.lat1 = response.data.results[0].position['lat'];
-                    this.lon1 = response.data.results[0].position['lon'];
-                    console.log('LAT', this.lat1, 'LON' ,  this.lon1)
-                })
-            this.search = '';
-            this.searchApartments()
-            /* this.getDistance() */
+        async getLocation() {
+            try {
+                const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
+                this.lat1 = response.data.results[0].position['lat'];
+                this.lon1 = response.data.results[0].position['lon'];
+                console.log('LAT', this.lat1, 'LON', this.lon1, 'FINE CHIAMATAA');
+                this.search = '';
+                this.searchApartments()
+            } catch (error) {
+                console.error('Errore durante la chiamata asincrona:', error);
+            }
         },
 
         getDistance(lat1, lon1, lat2, lon2) {
+
             const R = 6371; // Raggio della Terra in chilometri
 
             const dLat = (lat2 - lat1) * (Math.PI / 180);
@@ -39,17 +39,16 @@ export default {
 
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-            const distance = R * c;
+            const distance = R * c; // Distanza in chilometri
             console.log(distance);
             return distance;
         },
-
 
         searchApartments() {
             this.store.apartments.forEach(element => {
                 let latitude = element.latitude;
                 let longitude = element.longitude;
-
+                console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
                 this.getDistance(this.lat1, this.lon1, latitude, longitude)
             });
         }
