@@ -1,6 +1,8 @@
 <script>
 import axios from 'axios';
 import { store } from '../data/store';
+// import geolib from 'geolib';
+import * as geolib from 'geolib';
 
 export default {
     name: 'SearchBar',
@@ -26,32 +28,44 @@ export default {
             }
         },
 
-        getDistance(lat1, lon1, lat2, lon2) {
+        // getDistance(lat1, lon1, lat2, lon2) {
 
-            const R = 6371; // Raggio della Terra in chilometri
+        //     const R = 6371; // Raggio della Terra in chilometri
 
-            const dLat = (lat2 - lat1) * (Math.PI / 180);
-            const dLon = (lon2 - lon1) * (Math.PI / 180);
+        //     const dLat = (lat2 - lat1) * (Math.PI / 180);
+        //     const dLon = (lon2 - lon1) * (Math.PI / 180);
 
-            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        //     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        //         Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+        //         Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        //     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-            const distance = R * c; // Distanza in chilometri
-            console.log(distance);
-            return distance;
-        },
+        //     const distance = R * c; // Distanza in chilometri
+        //     console.log(distance);
+        //     return distance;
+        // },
 
+        // searchApartmentss() {
+        //     this.store.apartments.forEach(element => {
+        //         let latitude = element.latitude;
+        //         let longitude = element.longitude;
+        //         console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
+        //         this.getDistance(this.lat1, this.lon1, latitude, longitude)
+        //     });
+        // },
         searchApartments() {
-            this.store.apartments.forEach(element => {
-                let latitude = element.latitude;
-                let longitude = element.longitude;
-                console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
-                this.getDistance(this.lat1, this.lon1, latitude, longitude)
-            });
-        }
+        this.store.apartments.forEach(element => {
+            let latitude = element.latitude;
+            let longitude = element.longitude;
+            let distance = geolib.getPreciseDistance(
+                { latitude: this.lat1, longitude: this.lon1 },
+                { latitude: latitude, longitude: longitude }
+            );
+            console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
+            console.log('Distanza:', distance, 'metri');
+        });
+    }
 
     }
 };
