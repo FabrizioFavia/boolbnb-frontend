@@ -31,6 +31,7 @@ export default {
 </script>
 
 <template>
+  
   <header class="container">
     <AppHeader />
     <!-- Jumbotron Component: Carousel -->
@@ -45,6 +46,10 @@ export default {
 
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
+
+.container::-webkit-scrollbar {
+  display: none;
+}
 
 header {
   height: 6.625rem;

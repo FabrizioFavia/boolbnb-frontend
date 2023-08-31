@@ -5,7 +5,7 @@ import { storeFilter } from '../data/storeFilter';
 export default {
     name: 'AppHeader',
     components:{
-        Searchbar
+        Searchbar,
     },
     data() {
         return {
@@ -35,10 +35,10 @@ export default {
                 <div class="linkContainer">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Login</a>
+                            <a class="nav-link" aria-current="page" href="http://localhost:8000/login">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Register</a>
+                            <a class="nav-link" href="http://localhost:8000/register">Register</a>
                         </li>
                     </ul>
                 </div>
@@ -46,6 +46,11 @@ export default {
         </div>
     </nav>
 </template>
+
+<style scoped>
+
+
+</style>
 
 
 

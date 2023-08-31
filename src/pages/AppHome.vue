@@ -4,12 +4,14 @@ import MainApartmentCard from '../components/MainApartmentCard.vue';
 import AppSpinner from '../components/AppSpinner.vue';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
+import OffCanvas from '../components/OffCanvas.vue';
 
 export default {
   name: 'AppHome',
   components: {
     MainApartmentCard,
-    AppSpinner
+    AppSpinner,
+    OffCanvas
   },
   data() {
     return {
@@ -79,13 +81,19 @@ export default {
       </template>
     </section>
 
+    <!-- OffCanvas -->
+    <section>
+      <OffCanvas />
+    </section>
+
     <!-- Page Navigation Buttons  -->
     <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
       <nav class="text-center" aria-label="Page navigation">
         <ul class="pagination d-inline-flex">
           <li class="py-3 mx-3">
             <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
-              class="page-link d-block rounded arrow" aria-label="Previous" :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i></button>
+              class="page-link d-block rounded arrow" aria-label="Previous"
+              :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i></button>
           </li>
           <template v-for="pageNumber in apartTotalPages">
             <li class="py-3 mx-3">
@@ -95,12 +103,14 @@ export default {
           </template>
           <li class="py-3 mx-3">
             <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
-              class="page-link d-block rounded arrow" aria-label="Next" :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i class="fa-solid fa-chevron-right"></i></button>
+              class="page-link d-block rounded arrow" aria-label="Next"
+              :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i
+                class="fa-solid fa-chevron-right"></i></button>
           </li>
         </ul>
       </nav>
     </section>
-    
+
   </section>
 </template>
 
@@ -108,7 +118,7 @@ export default {
 @use 'src/style.scss' as *;
 
 #apartmentsSec {
-  
+
 
   &>section:first-child {
     gap: 2.5rem;

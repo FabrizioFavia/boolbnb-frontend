@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
+
 // import * as geolib from 'geolib';
 
 export default {
@@ -83,6 +84,7 @@ export default {
                 placeholder="Search city or address" aria-label="Search">
             <span v-if="emptySearch" class="text-danger mt-1">Your search returned no results</span>
         </form>
+        <button class="btn btn-warning ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Filters</button>
     </div>
 </template>
 
