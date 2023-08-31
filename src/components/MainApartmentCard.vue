@@ -20,7 +20,7 @@ export default {
         <!-- Retractable Overlay -->
         <div class="overlay position-absolute bottom-0 text-white p-4">
             <h2 class="title mb-2">{{ apartment.name }}</h2>
-            <div class="post-date mb-2 text-white-50">Jan 29, 2018</div>
+            <div class="post-date mb-2 text-white-50">{{ apartment.address }}</div>
             <div class="details-overlay">
                 <p class="fw-light">{{ apartment.description }}</p>
                 <!-- <strong>Services:</strong>

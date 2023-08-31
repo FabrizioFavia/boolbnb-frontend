@@ -8,7 +8,7 @@ export default {
     name: 'SearchBar',
     data() {
         return {
-            search: 'Roma, piazza del popolo 10',
+            search: '',
             emptySearch: false,
             lat1: '',
             lon1: '',
@@ -25,46 +25,39 @@ export default {
                 const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
                 this.lat1 = response.data.results[0].position['lat'];
                 this.lon1 = response.data.results[0].position['lon'];
-                console.log('LAT', this.lat1, 'LON', this.lon1, 'FINE CHIAMATAA');
                 this.search = '';
                 this.searchApartments()
             } catch (error) {
                 this.store.loading = false;
-                console.error('Errore durante la chiamata asincrona:', error);
+                console.error('Error during asynchronous call:', error);
             }
         },
         // Get distance between two places in km
         getDistance(lat1, lon1, lat2, lon2) {
-
             const R = 6371000;
-
             const dLat = (lat2 - lat1) * (Math.PI / 180);
             const dLon = (lon2 - lon1) * (Math.PI / 180);
-
             const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-            const distance = R * c; // metres
+            const distance = R * c; // meters
             const distanceKm = (distance / 1000).toFixed(2); // km, rounded
-            console.log(distance, distanceKm);
+            // console.log(distance, distanceKm);
             return distanceKm;
         },
         // Iterates and retrieves location of database apartments
         searchApartments() {
             this.storeFilter.apartmentsall.forEach(element => {
-                console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', element.latitude, 'LON2:', element.longitude);
                 let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
+                console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
                 if(distance <= 20) {
                     this.storeFilter.apartFiltered.push(element)
                 }
             });
             this.store.loading = false;
-            setTimeout
             this.storeFilter.apartFiltered.length > 0 ? null : this.emptySearch = true;
-            setTimeout(() => this.emptySearch = false, 3000); 
+            setTimeout(() => this.emptySearch = false, 3500); 
         },
         // Use Geolib Library to get distance between two places
         // searchApartments() {
@@ -76,21 +69,18 @@ export default {
         //         { latitude: latitude, longitude: longitude }
         //     );
         //     console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
-        //     console.log('Distanza:', distance, 'metri');
+        //     console.log('Distance:', distance, 'meters');
         // });
     }
-
-    }
-
-
+}
 
 </script>
 
 <template>
     <div class="searchContainer d-flex justify-content-center w-100">
         <form class="d-flex flex-column w-75" @submit.prevent="onSubmit">
-            <input @keyup.enter="getLocation()" v-model="search" class="form-control me-2" type="search"
-                placeholder="Search" aria-label="Search">
+            <input @keyup.enter="search.length > 0 ? getLocation() : null" v-model="search" class="form-control me-2" type="search"
+                placeholder="Search city or address" aria-label="Search">
             <span v-if="emptySearch" class="text-danger mt-1">Your search returned no results</span>
         </form>
     </div>

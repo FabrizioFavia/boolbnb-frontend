@@ -1,5 +1,6 @@
 <script>
 import Searchbar from './Searchbar.vue';
+import { storeFilter } from '../data/storeFilter';
 
 export default {
     name: 'AppHeader',
@@ -8,7 +9,7 @@ export default {
     },
     data() {
         return {
-            prova: "dato",
+            storeFilter
         }
     },
 }
@@ -17,7 +18,7 @@ export default {
 <template>
     <nav class="navbar navbar-expand-lg bg-white justify-content-between">
         <div class="container">
-            <div class="logoContainer">
+            <div class="logoContainer" @click="storeFilter.apartFiltered = []">
                 <router-link class="" to="/">
                     <img class="navLogo" src="../assets/logo2.jpeg" alt="">
                 </router-link>
