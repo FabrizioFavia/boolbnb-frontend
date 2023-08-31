@@ -21,7 +21,7 @@ export default {
         // Get longitude and latitude from input search, via api call
         async getLocation() {
             this.storeFilter.apartFiltered = [],
-            this.store.loading = true
+                this.store.loading = true
             try {
                 const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
                 this.lat1 = response.data.results[0].position['lat'];
@@ -52,13 +52,13 @@ export default {
             this.storeFilter.apartmentsall.forEach(element => {
                 let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
                 console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
-                if(distance <= 20) {
+                if (distance <= 20) {
                     this.storeFilter.apartFiltered.push(element)
                 }
             });
             this.store.loading = false;
             this.storeFilter.apartFiltered.length > 0 ? null : this.emptySearch = true;
-            setTimeout(() => this.emptySearch = false, 3500); 
+            setTimeout(() => this.emptySearch = false, 3500);
         },
         // Use Geolib Library to get distance between two places
         // searchApartments() {
@@ -80,16 +80,33 @@ export default {
 <template>
     <div class="searchContainer d-flex justify-content-center w-100">
         <form class="d-flex flex-column w-75" @submit.prevent="onSubmit">
-            <input @keyup.enter="search.length > 0 ? getLocation() : null" v-model="search" class="form-control me-2" type="search"
-                placeholder="Search city or address" aria-label="Search">
+
+            <input @keyup.enter="search.length > 0 ? getLocation() : null" v-model="search" class="form-control me-2"
+                type="search" placeholder="Search city or address" aria-label="Search">
+
+
             <span v-if="emptySearch" class="text-danger mt-1">Your search returned no results</span>
         </form>
-        <button class="btn btn-warning ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Filters</button>
+        <router-link to="/advancedSearch">
+            <button class="btn searchBtn ms-3">Search</button>
+        </router-link>
+        
     </div>
 </template>
 
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
+
+.searchBtn {
+    background-color: $light-orange;
+
+    &:hover {
+        background-color: $light-orange;
+        filter: saturate(0.9);
+        color: white;
+    }
+
+}
 
 .text-danger {
     font-size: .75rem;
@@ -99,6 +116,7 @@ export default {
 
     .searchContainer {
         margin-top: 20px;
+
     }
 }
 </style>

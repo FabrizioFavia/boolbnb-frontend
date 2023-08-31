@@ -13,7 +13,7 @@ export default {
 
 
 <template>
-    <div class="offcanvas offcanvas-dark offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+    <div class="offcanvas offcanvas offcanvas-top mt-5" :offsetTop="100" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Filtra i tuoi risultati</h5>

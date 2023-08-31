@@ -20,7 +20,7 @@ export default {
           response.data.results.forEach(element => {
             this.storeFilter.apartmentsall.push(element)
           });
-      })
+        })
     }
   },
   mounted() {
@@ -31,9 +31,10 @@ export default {
 </script>
 
 <template>
-  
-  <header class="container">
-    <AppHeader />
+  <header class="">
+    <div class="container">
+      <AppHeader />
+    </div>
     <!-- Jumbotron Component: Carousel -->
   </header>
   <main class="bg-dark">
@@ -53,6 +54,9 @@ export default {
 
 header {
   height: 6.625rem;
+  background: rgb(17, 12, 6);
+  background: linear-gradient(180deg, rgba(17, 12, 6, 1) 47%, rgba(17, 12, 6, 0.8939950980392157) 92%);
+
 }
 
 main {

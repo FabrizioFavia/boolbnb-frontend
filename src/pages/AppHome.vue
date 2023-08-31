@@ -82,9 +82,9 @@ export default {
     </section>
 
     <!-- OffCanvas -->
-    <section>
+    <!-- <section>
       <OffCanvas />
-    </section>
+    </section> -->
 
     <!-- Page Navigation Buttons  -->
     <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
