@@ -68,15 +68,17 @@ export default {
                     <button @click="this.isClicked()"
                         class="btn serviceBtn btn-warning d-flex align-items-center justify-content-center"><span
                             v-show="!clicked">+</span><span v-show="clicked">-</span></button>
-
                     <span class="ms-2 text-white">Services</span>
+                </div>
+                <div class="btnContainer">
+
                 </div>
             </div>
         </div>
         <div class="bottomNav mb-2" :class="{ 'dropDown': animation }">
             <div v-show="clicked" class="serviceMenu ps-5 text-start py-3 w-100" :class="{ 'd-flex flex-wrap': clicked }">
                 <div class="row flex-wrap justify-content-start">
-                    <div v-for="service in services" class="d-block col-2">
+                    <div v-for="service in services" class="d-block col-2 ms-1">
                         <input type="checkbox" class="me-2">
                         <span class="text-white serviceName">{{ service.name }}</span>
                     </div>
@@ -97,10 +99,15 @@ export default {
         filter: saturate(0.9);
         border-radius: 15px;
         background-color: $light-orange;
+        /* background-color: #e4873e; */
+        /* background-color: #373737; */
+        /*  background-color: #dc8b49; */
+        /*  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; */
+        box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
     }
 
     .bottomNav {
-        width: 95%;
+        width: 97%;
         margin: 0 auto;
         transition: background-color 1.5s ease;
         filter: saturate(0.9);
@@ -113,7 +120,7 @@ export default {
 
 
     .dropDown {
-        height: 150px;
+        height: 177px;
         transform: translateY(0);
     }
 
@@ -142,7 +149,7 @@ export default {
     .serviceMenu {
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
-
+        border: 1px solid #ffffff29;
     }
 
 }
