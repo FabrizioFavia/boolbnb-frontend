@@ -16,6 +16,11 @@ export default {
             storeFilter
         }
     },
+    watch: {
+        'storeFilter.searchParams'() {
+            this.getLocation()
+        }
+    },
     methods: {
         // Get longitude and latitude from input search, via api call
         async getLocation() {
@@ -25,7 +30,7 @@ export default {
                 const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
                 this.lat1 = response.data.results[0].position['lat'];
                 this.lon1 = response.data.results[0].position['lon'];
-                this.search = '';
+                // this.search = '';
                 this.searchApartments()
             } catch (error) {
                 this.store.loading = false;
@@ -50,12 +55,13 @@ export default {
         searchApartments() {
             this.storeFilter.apartmentsall.forEach(element => {
                 let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
-                console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
-                distance <= 20 ? null : this.storeFilter.apartFiltered.push(element)
+                console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, element.name, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
+                let range = this.storeFilter.searchParams != null ? Number(this.storeFilter.searchParams.range) : 20;
+                distance <= range ? this.storeFilter.apartFiltered.push(element) : null
             });
             this.store.loading = false;
             this.storeFilter.emptySearch = this.storeFilter.apartFiltered.length === 0 ? true : false,
-            this.$router.push({ path: '/advancedSearch', query: { q: this.search } });
+            this.$router.push({ path: '/advancedSearch' });
         },
         // Use Geolib Library to get distance between two places
         // searchApartments() {

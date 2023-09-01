@@ -17,7 +17,7 @@ export default {
             animation: false,
             services: [],
             servicesIds: [],
-
+            search: '',
             bedNumber: 1,
             roomNumber: 1,
             storeFilter
@@ -30,10 +30,8 @@ export default {
         },
 
         getService() {
-            console.log('PARTITA');
             axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SERVICES_API_PATH).then((response) => {
                 this.services = response.data.results;
-                console.log(this.services)
             })
         },
         saveValues() {
@@ -45,9 +43,8 @@ export default {
             };
 
             this.storeFilter.searchParams = params
-            params = undefined;
+            // params = undefined;
             this.resetFilters()
-            console.log(this.storeFilter.searchParams)
         },
 
         resetFilters() {
@@ -69,7 +66,7 @@ export default {
 </script>
 
 <template>
-    <div class="alert alert-danger mt-1" role="alert" ref="alert">Your search returned no results!</div>
+    <div v-show="storeFilter.apartFiltered.length === 0" class="alert alert-danger mt-1" role="alert" ref="alert">Your search returned no results!</div>
 
     <form class="filterSection" @submit.prevent="onSubmit">
         <div class="topNav">
@@ -84,7 +81,7 @@ export default {
                 </div>
                 <div class="d-flex">
                     <label class="me-2 text-white" for="radius">Radius</label>
-                    <input v-model="range" min="20" step="10" max="1000" name="radius" type="range" class="w-100 ps-2">
+                    <input v-model="range" min="20" step="10" max="2000" name="radius" type="range" class="w-100 ps-2">
                     <span class="text-white ms-2">{{ range }}</span> <span class="ms-1 text-white">km</span>
                 </div>
 
