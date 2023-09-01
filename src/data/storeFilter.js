@@ -4,5 +4,7 @@ export const storeFilter = reactive({
     loading: true,
     emptySearch: false,
     apartmentsall: [],
-    apartFiltered: []
+    apartFiltered: [],
+    searchParams: null
+    
 });

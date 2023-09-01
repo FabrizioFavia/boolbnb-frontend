@@ -81,10 +81,6 @@ export default {
             <input @keyup.enter="search.length > 0 ? getLocation() : null" v-model="search" class="form-control me-2"
                 type="search" placeholder="Search city or address" aria-label="Search">
         </form>
-        <router-link to="/advancedSearch">
-            <button class="btn searchBtn ms-3">Search</button>
-        </router-link>
-
     </div>
 </template>
 

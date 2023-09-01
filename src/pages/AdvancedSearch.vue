@@ -16,6 +16,10 @@ export default {
             clicked: false,
             animation: false,
             services: [],
+            servicesIds: [],
+
+            bedNumber: 1,
+            roomNumber: 1,
             storeFilter
         }
     },
@@ -31,6 +35,26 @@ export default {
                 this.services = response.data.results;
                 console.log(this.services)
             })
+        },
+        saveValues() {
+            let params = {
+                bedNumber: this.bedNumber,
+                roomNumber: this.roomNumber,
+                range: this.range,
+                services: this.servicesIds
+            };
+
+            this.storeFilter.searchParams = params
+            params = undefined;
+            this.resetFilters()
+            console.log(this.storeFilter.searchParams)
+        },
+
+        resetFilters() {
+            this.bedNumber= 1
+            this.roomNumber= 1
+            this.range= 20
+            this.servicesIds= []
         }
     },
     watch: {
@@ -47,16 +71,16 @@ export default {
 <template>
     <div class="alert alert-danger mt-1" role="alert" ref="alert">Your search returned no results!</div>
 
-    <section class="filterSection">
+    <form class="filterSection" @submit.prevent="onSubmit">
         <div class="topNav">
             <div class="filterNav mt-3 w-100 py-2 px-2 d-flex align-items-center justify-content-evenly">
                 <div>
                     <label class="me-2 text-white" for="rooms">Rooms</label>
-                    <input min="1" name="rooms" type="number" class="w-25 ps-2">
+                    <input min="1" name="rooms" type="number" v-model="roomNumber" class="w-25 ps-2">
                 </div>
                 <div>
                     <label class="me-2 text-white" for="beds">Beds</label>
-                    <input min="1" name="beds" type="number" class="w-25 ps-2">
+                    <input min="1" name="beds" type="number" v-model="bedNumber" class="w-25 ps-2">
                 </div>
                 <div class="d-flex">
                     <label class="me-2 text-white" for="radius">Radius</label>
@@ -65,27 +89,31 @@ export default {
                 </div>
 
                 <div class="d-flex align-items-center ms-5">
-                    <button @click="this.isClicked()"
+                    <button @click="isClicked()"
                         class="btn serviceBtn btn-warning d-flex align-items-center justify-content-center"><span
                             v-show="!clicked">+</span><span v-show="clicked">-</span></button>
                     <span class="ms-2 text-white">Services</span>
                 </div>
                 <div class="btnContainer">
-
+                    <button @click="saveValues()" class="btn btn-warning px-1" type="submit">Apply</button>
+                    <button @click="resetFilters()" class="btn btn-danger ms-2 px-1">Reset</button>
                 </div>
+
             </div>
         </div>
         <div class="bottomNav mb-2" :class="{ 'dropDown': animation }">
             <div v-show="clicked" class="serviceMenu ps-5 text-start py-3 w-100" :class="{ 'd-flex flex-wrap': clicked }">
                 <div class="row flex-wrap justify-content-start">
-                    <div v-for="service in services" class="d-block col-2 ms-1">
-                        <input type="checkbox" class="me-2">
+
+
+                    <div v-for="(service, i) in services " class="d-block col-2 ms-1">
+                        <input type="checkbox" v-model="servicesIds" :true-value="[]" class="me-2" :value="service.id">
                         <span class="text-white serviceName">{{ service.name }}</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </form>
 
     <AppHome />
 </template>
