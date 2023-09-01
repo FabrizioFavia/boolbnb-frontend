@@ -1,20 +1,28 @@
 <script>
 import AppHome from './AppHome.vue';
+import { storeFilter } from '../data/storeFilter';
+
 export default {
     name: 'AdvancedSearch',
     components: {
-    AppHome,
-
-},
+        AppHome,
+    },
     data() {
         return {
-            range: 20
+            range: 20,
+            storeFilter
         }
     },
+    watch: {
+        'storeFilter.emptySearch'() {
+            this.$refs.alert.style.display = this.storeFilter.emptySearch === true ? "block" : "none";
+        }
+    }
 }
 </script>
 
 <template>
+    <div class="alert alert-danger mt-1" role="alert" ref="alert">Your search returned no results!</div>
     <section>
         <div class="filterNav mt-3 w-100 py-2 px-2 d-flex align-items-center justify-content-evenly">
             <div>
@@ -30,7 +38,7 @@ export default {
                 <input v-model="range" min="20" step="10" max="1000" name="radius" type="range" class="w-100 ps-2">
                 <span class="text-white ms-2">{{ range }}</span> <span class="ms-1 text-white">km</span>
             </div>
-            
+
             <div class="d-flex align-items-center ms-5">
                 <button class="btn serviceBtn btn-warning d-flex align-items-center justify-content-center">+</button>
                 <span class="ms-2 text-white">Services</span>
@@ -70,7 +78,7 @@ export default {
             outline: none
         }
 
-        
+
     }
 }
 </style>

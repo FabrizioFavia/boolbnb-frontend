@@ -10,7 +10,6 @@ export default {
     data() {
         return {
             search: '',
-            emptySearch: false,
             lat1: '',
             lon1: '',
             store,
@@ -52,13 +51,11 @@ export default {
             this.storeFilter.apartmentsall.forEach(element => {
                 let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
                 console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
-                if (distance <= 20) {
-                    this.storeFilter.apartFiltered.push(element)
-                }
+                distance <= 20 ? null : this.storeFilter.apartFiltered.push(element)
             });
             this.store.loading = false;
-            this.storeFilter.apartFiltered.length > 0 ? null : this.emptySearch = true;
-            setTimeout(() => this.emptySearch = false, 3500);
+            this.storeFilter.emptySearch = this.storeFilter.apartFiltered.length === 0 ? true : false,
+            this.$router.push({ path: '/advancedSearch', query: { q: this.search } });
         },
         // Use Geolib Library to get distance between two places
         // searchApartments() {
@@ -83,14 +80,11 @@ export default {
 
             <input @keyup.enter="search.length > 0 ? getLocation() : null" v-model="search" class="form-control me-2"
                 type="search" placeholder="Search city or address" aria-label="Search">
-
-
-            <span v-if="emptySearch" class="text-danger mt-1">Your search returned no results</span>
         </form>
         <router-link to="/advancedSearch">
             <button class="btn searchBtn ms-3">Search</button>
         </router-link>
-        
+
     </div>
 </template>
 
