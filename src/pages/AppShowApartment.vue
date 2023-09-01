@@ -4,12 +4,14 @@ import axios from 'axios';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
 import { storeFilter } from '../data/storeFilter';
 import tt from '@tomtom-international/web-sdk-maps';
+import Map from '../components/Map.vue';
 
 export default {
   name: 'AppShowApartment',
   components: {
-    MainApartmentCard
-  },
+    MainApartmentCard,
+    Map
+    },
   props: {
     apartment: Object
   },
@@ -17,63 +19,55 @@ export default {
     return {
       store,
       storeFilter,
-      apartment: '',
+      apartment: "",
       loadingError: false,
     }
   },
   methods: {
     // Returns Apartment Data via API Call
-    async getApartment(id) {
-      this.store.loading = true;
-        try {
-          const response= await axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH + '/' + id);
-          console.log("arrivato", response.data),
+    getApartment(id) {
+      this.store.loading = true,
+        axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH + '/' + id).then((response) => {
+          console.log(response.data),
             this.store.loading = false,
             this.apartment = response.data.results
             console.log(this.apartment)
-        } catch (error) {
-            this.store.loading = false,
-            this.loadingError = "Cannot load apartment data. " + error
-            // this.$router.push({ name: 'error', params: { code: 404 } })
-        }
+        }).catch(err => {
+          this.store.loading = false,
+            this.loadingError = "Cannot load apartment data. " + err,
+            this.$router.push({ name: 'error', params: { code: 404 } })
+        })
     }
   },
   mounted() {
-    this.getApartment(this.$route.params.id),
-    this.storeFilter.apartFiltered = [],
-    this.map = tt.map({
-        key: import.meta.env.VITE_API_KEY,
-        container: 'map',
-    });
-    this.marker = new tt.Marker()
-        console.log(this.apartment.latitude, this.apartment.longitude)
-        .setLngLat([Number(this.apartment.latitude), Number(this.apartment.longitude)])
-        .addTo(this.map);
+    this.getApartment(this.$route.params.id);
+    this.storeFilter.apartFiltered = [];
   }
 }
 </script>
 
 <template>
+
   <!-- Error Message -->
   <div v-if="loadingError" class="d-flex justify-content-center my-10 alert alert-danger">
     <p>{{ loadingError }}</p>
   </div>
 
-  <!-- <MainApartmentCard :apartment="apartment" /> -->
-
-  <div class="container my-5">
+  <!-- Main Apartment Content -->
+  <div v-if="apartment" class="container my-5">
     <div class="row">
       <h1 class="my-4 textColoCastom">{{ this.apartment.name }}</h1>
       <div class="col-8">
         <img class="img-fluid castomImgContainer" :src='"http://localhost:8000/storage/" + apartment.image' :alt="apartment.name" alt="">
       </div>
       <div class="col-4">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24735.62533777304!2d-106.85732416031654!3d39.19851289432479!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8740397cf7413c7d%3A0xc12b42dc782cf672!2sAspen%2C%20Colorado%2081611%2C%20Stati%20Uniti!5e0!3m2!1sit!2sit!4v1693488740173!5m2!1sit!2sit" width="432" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <Map :apartment="apartment"></Map>
       </div>
     </div>
   </div>
 
-  <div class="container">
+  <!-- Apartment Description and Services -->
+  <div v-if="apartment" class="container">
     <div class="row">
       <div class="col-6 text-start p-4 text-white">
         <h3 class="textColoCastom pb-3">Apartment Description:</h3>
@@ -90,27 +84,23 @@ export default {
         <hr class="mt-4">
       </div>
       <div class="col-6 d-flex justify-content-center align-content-center py-4">
-              <div class="login-box">
-                <h2>Contact Me</h2>
-                <form>
-                  <div class="user-box">
-                    <input type="email" name="email" required="">
-                    <label>Email</label>
-                  </div>
-                  <div class="user-box">
-                    <textarea class="formCastom" name="" id="" cols="30" rows="5" placeholder="Write your message"></textarea>
-                  </div>
-                  <a class="" href="#">
-                    Submit
-                  </a>
-                </form>
-              </div>
+        <div class="login-box">
+          <h2>Contact Me</h2>
+          <form>
+            <div class="user-box">
+              <input type="email" name="email" required="">
+              <label>Email</label>
+            </div>
+            <div class="user-box">
+              <textarea class="formCastom" name="" id="" cols="30" rows="5" placeholder="Write your message"></textarea>
+            </div>
+            <a class="" href="#">
+              Submit
+            </a>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div id="map">
-
   </div>
 
 </template>
@@ -124,7 +114,6 @@ export default {
   background-color: aqua;
   object-fit: cover;
 }
-
 
 // form
 .login-box {
