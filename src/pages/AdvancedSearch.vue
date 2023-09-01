@@ -18,8 +18,8 @@ export default {
             services: [],
             servicesIds: [],
             searchHistory: '',
-            bedNumber: 1,
-            roomNumber: 1,
+            bedNumber: undefined,
+            roomNumber: undefined,
             storeFilter
         }
     },
@@ -43,15 +43,16 @@ export default {
             };
 
             this.storeFilter.searchParams = params
+            this.servicesIds= []
             // params = undefined;
-            this.resetFilters()
         },
 
         resetFilters() {
-            this.bedNumber= 1
-            this.roomNumber= 1
-            this.range= 20
-            this.servicesIds= []
+            this.bedNumber= undefined,
+            this.roomNumber= undefined,
+            this.range= 20,
+            this.servicesIds= [],
+            this.storeFilter.searchParams = null
         }
     },
     watch: {

@@ -48,30 +48,39 @@ export default {
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             const distance = R * c; // meters
             const distanceKm = (distance / 1000).toFixed(2); // km, rounded
-            // console.log(distance, distanceKm);
             return distanceKm;
         },
         // Iterates and retrieves location of database apartments
         searchApartments() {
             this.storeFilter.apartmentsall.forEach(element => {
                 let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
-                console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, element.name, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
-
+                // console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, element.name, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
+                // Check if advanced filters are set
                 if (this.storeFilter.searchParams != null) {
-                    if (Number(element.room_number) === Number(this.storeFilter.searchParams.roomNumber) && Number(element.bed_number) === Number(this.storeFilter.searchParams.bedNumber)) {
-                        if (this.storeFilter.searchParams.services.every((el) => element.services.some((item) => item.id === el))) {
-                            console.log('i servizi sono tutti compresi! TOP')
-                            // Range Filter
-                            let range = this.storeFilter.searchParams != null ? Number(this.storeFilter.searchParams.range) : 20;
-                            distance <= range ? this.storeFilter.apartFiltered.push(element) : null
-                        }
-                    }
+                    this.checkFilter(distance, element)
+                } else {
+                    // Show only apartments with 20km distance
+                    distance <= 20 ? this.storeFilter.apartFiltered.push(element) : null
                 }
             });
             this.store.loading = false;
             this.storeFilter.emptySearch = this.storeFilter.apartFiltered.length === 0 ? true : false,
-                this.$router.push({ name: 'advancedSearch', state: { search: this.search } });
+            this.$router.push({ name: 'advancedSearch', state: { search: this.search } });
         },
+        // Check Advanced Filter On Search Input
+        checkFilter(distance, element) {
+            // Room Number Filter
+            if (Number(element.room_number) === Number(this.storeFilter.searchParams.roomNumber) || this.storeFilter.searchParams.roomNumber === undefined ) {
+                // Bed Number Filter
+                if (Number(element.bed_number) === Number(this.storeFilter.searchParams.bedNumber) || this.storeFilter.searchParams.bedNumber === undefined) {
+                    // Services Filter
+                    if (this.storeFilter.searchParams.services.every((el) => element.services.some((item) => item.id === el))) {
+                        // Range Filter
+                        distance <= Number(this.storeFilter.searchParams.range) ? this.storeFilter.apartFiltered.push(element) : null
+                    }
+                }
+            }
+        }
         // Use Geolib Library to get distance between two places
         // searchApartments() {
         // this.store.apartments.forEach(element => {
