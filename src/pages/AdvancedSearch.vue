@@ -17,7 +17,7 @@ export default {
             animation: false,
             services: [],
             servicesIds: [],
-            search: '',
+            searchHistory: '',
             bedNumber: 1,
             roomNumber: 1,
             storeFilter
@@ -57,16 +57,20 @@ export default {
     watch: {
         'storeFilter.emptySearch'() {
             this.$refs.alert.style.display = this.storeFilter.emptySearch === true ? "block" : "none";
+        },
+        'history.state'() {
+            this.searchHistory = history.state.search
         }
     },
     mounted() {
-        this.getService()
+        this.getService(),
+        this.searchHistory = history.state.search
     }
 }
 </script>
 
 <template>
-    <div v-show="storeFilter.apartFiltered.length === 0" class="alert alert-danger mt-1" role="alert" ref="alert">Your search returned no results!</div>
+    <div v-show="storeFilter.apartFiltered.length === 0" class="alert alert-danger mt-1" role="alert" ref="alert">Your search for "{{ searchHistory }}" returned no results!</div>
 
     <form class="filterSection" @submit.prevent="onSubmit">
         <div class="topNav">

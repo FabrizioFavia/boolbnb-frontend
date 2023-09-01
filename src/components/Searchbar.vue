@@ -56,12 +56,21 @@ export default {
             this.storeFilter.apartmentsall.forEach(element => {
                 let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
                 console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, element.name, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
-                let range = this.storeFilter.searchParams != null ? Number(this.storeFilter.searchParams.range) : 20;
-                distance <= range ? this.storeFilter.apartFiltered.push(element) : null
+
+                if (this.storeFilter.searchParams != null) {
+                    if (Number(element.room_number) === Number(this.storeFilter.searchParams.roomNumber) && Number(element.bed_number) === Number(this.storeFilter.searchParams.bedNumber)) {
+                        if (this.storeFilter.searchParams.services.every((el) => element.services.some((item) => item.id === el))) {
+                            console.log('i servizi sono tutti compresi! TOP')
+                            // Range Filter
+                            let range = this.storeFilter.searchParams != null ? Number(this.storeFilter.searchParams.range) : 20;
+                            distance <= range ? this.storeFilter.apartFiltered.push(element) : null
+                        }
+                    }
+                }
             });
             this.store.loading = false;
             this.storeFilter.emptySearch = this.storeFilter.apartFiltered.length === 0 ? true : false,
-            this.$router.push({ path: '/advancedSearch' });
+                this.$router.push({ name: 'advancedSearch', state: { search: this.search } });
         },
         // Use Geolib Library to get distance between two places
         // searchApartments() {
