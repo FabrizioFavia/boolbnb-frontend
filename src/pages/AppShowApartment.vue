@@ -3,6 +3,7 @@ import { store } from '../data/store';
 import axios from 'axios';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
 import { storeFilter } from '../data/storeFilter';
+import tt from '@tomtom-international/web-sdk-maps';
 
 export default {
   name: 'AppShowApartment',
@@ -18,30 +19,36 @@ export default {
       storeFilter,
       apartment: '',
       loadingError: false,
-      googleKey:"AIzaSyDuM9SAgvcyXToWA9h5uMHOepfunshcKN0",
-      googleApi:"https://maps.googleapis.com/maps/api/js?libraries=places&key=",
-      googleComplete:"https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDuM9SAgvcyXToWA9h5uMHOepfunshcKN0"
     }
   },
   methods: {
     // Returns Apartment Data via API Call
-    getApartment(id) {
-      this.store.loading = true,
-        axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH + '/' + id).then((response) => {
-          console.log(response.data),
+    async getApartment(id) {
+      this.store.loading = true;
+        try {
+          const response= await axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH + '/' + id);
+          console.log("arrivato", response.data),
             this.store.loading = false,
             this.apartment = response.data.results
             console.log(this.apartment)
-        }).catch(err => {
-          this.store.loading = false,
-            this.loadingError = "Cannot load apartment data. " + err,
-            this.$router.push({ name: 'error', params: { code: 404 } })
-        })
+        } catch (error) {
+            this.store.loading = false,
+            this.loadingError = "Cannot load apartment data. " + error
+            // this.$router.push({ name: 'error', params: { code: 404 } })
+        }
     }
   },
   mounted() {
     this.getApartment(this.$route.params.id),
-    this.storeFilter.apartFiltered = []
+    this.storeFilter.apartFiltered = [],
+    this.map = tt.map({
+        key: import.meta.env.VITE_API_KEY,
+        container: 'map',
+    });
+    this.marker = new tt.Marker()
+        console.log(this.apartment.latitude, this.apartment.longitude)
+        .setLngLat([Number(this.apartment.latitude), Number(this.apartment.longitude)])
+        .addTo(this.map);
   }
 }
 </script>
@@ -100,6 +107,10 @@ export default {
               </div>
       </div>
     </div>
+  </div>
+
+  <div id="map">
+
   </div>
 
 </template>
