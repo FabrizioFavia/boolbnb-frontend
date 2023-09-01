@@ -17,7 +17,7 @@ export default {
       key: import.meta.env.VITE_API_KEY,
       container: 'map',
       center: [this.apartment.longitude, this.apartment.latitude],
-      zoom: 18,
+      zoom: 13,
       radius: 20000,
     });
 
