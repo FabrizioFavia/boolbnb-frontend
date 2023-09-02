@@ -1,8 +1,7 @@
 import { reactive } from 'vue'
 
 export const storeFilter = reactive({
-    loading: true,
-    emptySearch: false,
+    loading: false,
     apartmentsall: [],
     apartFiltered: [],
     searchParams: null

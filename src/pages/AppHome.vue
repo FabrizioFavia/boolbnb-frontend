@@ -31,10 +31,8 @@ export default {
       axios.get(
         import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH,
         { params: { page: pageNumber } }/*, { validateStatus: (status) => { return status < 500 } }*/).then((response) => {
-          console.log(response),
             this.store.loading = false,
             this.apartments = response.data.results.data,
-            // this.store.apartments = response.data.results.data,
             this.apartCurrentPage = response.data.results.current_page,
             this.apartTotalPages = response.data.results.last_page
         }).catch(err => {

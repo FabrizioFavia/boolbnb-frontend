@@ -6,7 +6,7 @@ import AdvancedSearch from './pages/AdvancedSearch.vue'
 
 const routes = [
     { path: '/', component: AppHome, name: 'home' },
-    { path: '/advancedSearch', component: AdvancedSearch, name: 'advancedSearch' },
+    { path: '/advancedSearch/:search', component: AdvancedSearch, name: 'advancedSearch', props: true },
     { path: '/apartments/:id', component: AppShowApartment, name: 'show-apartments' },
   ]
 

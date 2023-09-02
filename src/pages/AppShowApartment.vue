@@ -3,7 +3,6 @@ import { store } from '../data/store';
 import axios from 'axios';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
 import { storeFilter } from '../data/storeFilter';
-import tt from '@tomtom-international/web-sdk-maps';
 import Map from '../components/Map.vue';
 
 export default {
@@ -11,9 +10,6 @@ export default {
   components: {
     MainApartmentCard,
     Map
-    },
-  props: {
-    apartment: Object
   },
   data() {
     return {
@@ -28,10 +24,8 @@ export default {
     getApartment(id) {
       this.store.loading = true,
         axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH + '/' + id).then((response) => {
-          console.log(response.data),
             this.store.loading = false,
             this.apartment = response.data.results
-            console.log(this.apartment)
         }).catch(err => {
           this.store.loading = false,
             this.loadingError = "Cannot load apartment data. " + err,
@@ -56,7 +50,7 @@ export default {
   <!-- Main Apartment Content -->
   <div v-if="apartment" class="container my-5">
     <div class="row">
-      <h1 class="my-4 textColoCastom">{{ this.apartment.name }}</h1>
+      <h1 class="my-4 textColoCastom">{{ apartment.name }}</h1>
       <div class="col-8">
         <img class="img-fluid castomImgContainer" :src='"http://localhost:8000/storage/" + apartment.image' :alt="apartment.name" alt="">
       </div>
@@ -71,7 +65,7 @@ export default {
     <div class="row">
       <div class="col-6 text-start p-4 text-white">
         <h3 class="textColoCastom pb-3">Apartment Description:</h3>
-        <P>{{ this.apartment.description }}</P>
+        <p>{{ this.apartment.description }}</p>
         <hr class="my-4">
 
         <h3 class="textColoCastom pb-3">Services:</h3>

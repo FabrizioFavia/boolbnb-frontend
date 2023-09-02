@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
-
 // import * as geolib from 'geolib';
 
 export default {
@@ -12,6 +11,7 @@ export default {
             search: '',
             lat1: '',
             lon1: '',
+            animation: false,
             store,
             storeFilter
         }
@@ -22,23 +22,25 @@ export default {
         }
     },
     methods: {
-        // Get longitude and latitude from input search, via api call
+        // Get Longitude and Latitude from input search, via API Call
         async getLocation() {
+            this.search = this.search.trim();
+            if(!this.search) return this.animationInput(); // If empty search -> call 'animationInput()' and stop this function
             this.storeFilter.apartFiltered = [],
-                this.store.loading = true
+            this.storeFilter.loading = true;
             try {
                 const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
                 this.lat1 = response.data.results[0].position['lat'];
                 this.lon1 = response.data.results[0].position['lon'];
-                // this.search = '';
                 this.searchApartments()
             } catch (error) {
-                this.store.loading = false;
-                console.error('Error during asynchronous call:', error);
+                this.storeFilter.loading = false;
+                console.error('⚠️ Error during TomTom API Call while trying to get location from search input:', error);
             }
         },
-        // Get distance between two places in km
+        // Get Distance between two places in km
         getDistance(lat1, lon1, lat2, lon2) {
+            // Haversine Formula
             const R = 6371000;
             const dLat = (lat2 - lat1) * (Math.PI / 180);
             const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -50,37 +52,41 @@ export default {
             const distanceKm = (distance / 1000).toFixed(2); // km, rounded
             return distanceKm;
         },
-        // Iterates and retrieves location of database apartments
+        // Manages the search Filtering the results
         searchApartments() {
             this.storeFilter.apartmentsall.forEach(element => {
                 let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
-                // console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, element.name, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE: ', distance + 'km');
-                // Check if advanced filters are set
-                if (this.storeFilter.searchParams != null) {
-                    this.checkFilter(distance, element)
+                if (this.storeFilter.searchParams) {
+                    this.checkFilter(distance, element) // Check if advanced filters are set
                 } else {
-                    // Show only apartments with 20km distance
-                    distance <= 20 ? this.storeFilter.apartFiltered.push(element) : null
+                    distance <= 20 && this.storeFilter.apartFiltered.push(element) // Basic Search: show only apartments with 20km distance
                 }
+                // console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, element.name, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE:', distance + 'km');
             });
-            this.store.loading = false;
-            this.storeFilter.emptySearch = this.storeFilter.apartFiltered.length === 0 ? true : false,
-            this.$router.push({ name: 'advancedSearch', state: { search: this.search } });
+            this.storeFilter.loading = false;
+            this.storeFilter.apartFiltered.length === 0 && this.animationInput();
+            this.$router.push({ name: 'advancedSearch', params: { search: this.search } });
         },
         // Check Advanced Filter On Search Input
         checkFilter(distance, element) {
             // Room Number Filter
-            if (Number(element.room_number) === Number(this.storeFilter.searchParams.roomNumber) || this.storeFilter.searchParams.roomNumber === undefined ) {
+            if (Number(element.room_number) === Number(this.storeFilter.searchParams.roomNumber) || this.storeFilter.searchParams.roomNumber === undefined) {
                 // Bed Number Filter
                 if (Number(element.bed_number) === Number(this.storeFilter.searchParams.bedNumber) || this.storeFilter.searchParams.bedNumber === undefined) {
                     // Services Filter
                     if (this.storeFilter.searchParams.services.every((el) => element.services.some((item) => item.id === el))) {
                         // Range Filter
-                        distance <= Number(this.storeFilter.searchParams.range) ? this.storeFilter.apartFiltered.push(element) : null
+                        distance <= Number(this.storeFilter.searchParams.range) && this.storeFilter.apartFiltered.push(element)
                     }
                 }
             }
+        },
+        // Add/Remove Animation on searchbar with wrong input
+        animationInput() {
+            this.animation = true,
+                setTimeout(() => this.animation = false, 600)
         }
+
         // Use Geolib Library to get distance between two places
         // searchApartments() {
         // this.store.apartments.forEach(element => {
@@ -101,9 +107,8 @@ export default {
 <template>
     <div class="searchContainer d-flex justify-content-center w-100">
         <form class="d-flex flex-column w-75" @submit.prevent="onSubmit">
-
-            <input @keyup.enter="search.length > 0 ? getLocation() : null" v-model="search" class="form-control me-2"
-                type="search" placeholder="Search city or address" aria-label="Search">
+            <input @keyup.enter="getLocation()" v-model="search" class="form-control me-2" type="search"
+                placeholder="Search city or address" aria-label="Search" :class="{ 'inputError': animation }">
         </form>
     </div>
 </template>
@@ -111,26 +116,22 @@ export default {
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
-.searchBtn {
-    background-color: $light-orange;
-
-    &:hover {
-        background-color: $light-orange;
-        filter: saturate(0.9);
-        color: white;
-    }
-
+.inputError {
+    animation: shake .2s;
+    animation-iteration-count: 2;
 }
 
-.text-danger {
-    font-size: .75rem;
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
 }
 
 @media (max-width: 576px) {
-
     .searchContainer {
         margin-top: 20px;
-
     }
 }
 </style>

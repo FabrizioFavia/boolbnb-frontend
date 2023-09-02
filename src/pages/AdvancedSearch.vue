@@ -10,6 +10,9 @@ export default {
     components: {
         AppHome,
     },
+    props: {
+        search: String
+    },
     data() {
         return {
             range: 20,
@@ -24,16 +27,17 @@ export default {
         }
     },
     methods: {
+        // Show/Hide Services Filter
         isClicked() {
             this.clicked = !this.clicked;
             this.animation = !this.animation;
         },
-
+        // Get Services List via API Call
         getService() {
-            axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SERVICES_API_PATH).then((response) => {
-                this.services = response.data.results;
-            })
+            axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SERVICES_API_PATH)
+                .then((response) => this.services = response.data.results)
         },
+        // Save Filter values inside storeFilter
         saveValues() {
             let params = {
                 bedNumber: this.bedNumber,
@@ -41,37 +45,35 @@ export default {
                 range: this.range,
                 services: this.servicesIds
             };
-
-            this.storeFilter.searchParams = params
-            this.servicesIds= []
-            // params = undefined;
+            this.storeFilter.searchParams = params,
+                this.servicesIds = []
         },
-
+        // Reset Filter values
         resetFilters() {
-            this.bedNumber= undefined,
-            this.roomNumber= undefined,
-            this.range= 20,
-            this.servicesIds= [],
-            this.storeFilter.searchParams = null
+            this.bedNumber = undefined,
+                this.roomNumber = undefined,
+                this.range = 20,
+                this.servicesIds = [],
+                this.storeFilter.searchParams = null
         }
     },
     watch: {
-        'storeFilter.emptySearch'() {
-            this.$refs.alert.style.display = this.storeFilter.emptySearch === true ? "block" : "none";
-        },
-        'history.state'() {
-            this.searchHistory = history.state.search
+        // Update Search Input Data
+        '$route.params.search'() {
+            this.searchHistory = this.$route.params.search;
         }
     },
     mounted() {
         this.getService(),
-        this.searchHistory = history.state.search
+        this.searchHistory = this.$route.params.search
     }
 }
 </script>
 
 <template>
-    <div v-show="storeFilter.apartFiltered.length === 0" class="alert alert-danger mt-1" role="alert" ref="alert">Your search for "{{ searchHistory }}" returned no results!</div>
+    <div v-show="storeFilter.apartFiltered.length === 0 && !storeFilter.loading" class="alert alert-danger mt-1"
+        role="alert" ref="alert">Your search for "{{ searchHistory }}" returned no results! You are viewing all apartments
+    </div>
 
     <form class="filterSection" @submit.prevent="onSubmit">
         <div class="topNav">
@@ -148,13 +150,10 @@ export default {
         transition: all .5s ease;
     }
 
-
     .dropDown {
         height: 177px;
         transform: translateY(0);
     }
-
-
 
     .filterNav {
 
