@@ -4,14 +4,12 @@ import MainApartmentCard from '../components/MainApartmentCard.vue';
 import AppSpinner from '../components/AppSpinner.vue';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
-import OffCanvas from '../components/OffCanvas.vue';
 
 export default {
   name: 'AppHome',
   components: {
     MainApartmentCard,
-    AppSpinner,
-    OffCanvas
+    AppSpinner
   },
   data() {
     return {

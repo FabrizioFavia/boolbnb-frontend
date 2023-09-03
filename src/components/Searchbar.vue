@@ -35,6 +35,7 @@ export default {
                 this.searchApartments()
             } catch (error) {
                 this.storeFilter.loading = false;
+                this.animationInput();
                 console.error('⚠️ Error during TomTom API Call while trying to get location from search input:', error);
             }
         },
