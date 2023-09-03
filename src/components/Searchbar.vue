@@ -55,20 +55,20 @@ export default {
         // Manages the search Filtering the results
         searchApartments() {
             this.storeFilter.apartmentsall.forEach(element => {
-                let distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
+                element.distance = this.getDistance(this.lat1, this.lon1, element.latitude, element.longitude);
                 if (this.storeFilter.searchParams) {
-                    this.checkFilter(distance, element) // Check if advanced filters are set
+                    this.checkFilter(element) // Check if advanced filters are set
                 } else {
-                    distance <= 20 && this.storeFilter.apartFiltered.push(element) // Basic Search: show only apartments with 20km distance
+                    element.distance <= 20 && this.storeFilter.apartFiltered.push(element) // Basic Search: show only apartments with 20km distance
                 }
-                // console.log('Lat1:', this.lat1, 'Lon1:', this.lon1, element.name, 'Lat2:', element.latitude, 'Lon2:', element.longitude, 'DISTANCE:', distance + 'km');
             });
+            this.storeFilter.apartFiltered.sort((a, b) => a.distance - b.distance), // sort apartments by distance
             this.storeFilter.loading = false;
             this.storeFilter.apartFiltered.length === 0 && this.animationInput();
             this.$router.push({ name: 'advancedSearch', params: { search: this.search } });
         },
         // Check Advanced Filter On Search Input
-        checkFilter(distance, element) {
+        checkFilter(element) {
             // Room Number Filter
             if (Number(element.room_number) === Number(this.storeFilter.searchParams.roomNumber) || this.storeFilter.searchParams.roomNumber === undefined) {
                 // Bed Number Filter
@@ -76,7 +76,7 @@ export default {
                     // Services Filter
                     if (this.storeFilter.searchParams.services.every((el) => element.services.some((item) => item.id === el))) {
                         // Range Filter
-                        distance <= Number(this.storeFilter.searchParams.range) && this.storeFilter.apartFiltered.push(element)
+                        element.distance <= Number(this.storeFilter.searchParams.range) && this.storeFilter.apartFiltered.push(element)
                     }
                 }
             }
