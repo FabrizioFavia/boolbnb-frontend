@@ -28,8 +28,8 @@ export default {
             this.apartment = response.data.results
         }).catch(err => {
           this.store.loading = false,
-            this.loadingError = "Cannot load apartment data. " + err,
-            this.$router.push({ name: 'error', params: { code: 404 } })
+          this.loadingError = "Cannot load apartment data. " + err,
+          this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
         })
     }
   },

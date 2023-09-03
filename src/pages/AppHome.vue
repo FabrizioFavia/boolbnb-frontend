@@ -38,11 +38,7 @@ export default {
         }).catch(err => {
           this.store.loading = false;
           this.loadingError = "Cannot load apartments data. " + err;
-          this.statusCode = 404;
-          if (err.response && err.response.status > 0 && err.response.status < 599) {
-            this.statusCode = err.response.status
-          }
-          this.$router.push({ name: 'error', params: { code: this.statusCode }, state: { message: err.message } })
+          this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
         })
     }
   },

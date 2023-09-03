@@ -37,8 +37,8 @@ export default {
     </div>
     <!-- Jumbotron Component: Carousel -->
   </header>
-  <main class="bg-dark">
-    <div class="container h-100">
+  <main :class="this.$route.name === 'error' ? 'bg-gray-900' : 'bg-dark'">
+    <div :class="this.$route.name === 'error' ? 'h-100' : 'container h-100'">
       <router-view></router-view>
     </div>
   </main>
