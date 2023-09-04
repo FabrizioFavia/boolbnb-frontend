@@ -100,7 +100,7 @@ export default {
     <!-- Search Filters -->
     <form class="filterSection" @submit.prevent="onSubmit">
         <div class="topNav">
-            <div class="filterNav mt-3 w-100 py-2 px-2 d-flex align-items-center justify-content-evenly">
+            <div class="filterNav w-100 py-2 px-2 d-flex align-items-center justify-content-evenly">
                 <div>
                     <label class="me-2 text-white" for="rooms">Rooms</label>
                     <input min="1" name="rooms" type="number" v-model="roomNumber" class="w-25 ps-2">
@@ -205,16 +205,13 @@ export default {
 @use 'src/style.scss' as *;
 
 .filterSection {
-
+position: fixed;
+width: 100%;
+top: 60px;
+z-index: 2;
     .topNav {
         filter: saturate(0.9);
-        border-radius: 15px;
         background-color: $light-orange;
-        /* background-color: #e4873e; */
-        /* background-color: #373737; */
-        /*  background-color: #dc8b49; */
-        /*  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; */
-        box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
     }
 
     .bottomNav {
@@ -225,7 +222,7 @@ export default {
         border-radius: 0 0 15px 15px;
         /* background-color: $light-orange; */
         background-color: rgba(0, 0, 0, 0.3);
-        height: 0;
+     
         transition: all .5s ease;
     }
 

@@ -47,7 +47,7 @@ export default {
             </div>
         </div>
     </nav>
-    <div class="bottomNavWrapper w-100">
+    <div class="bottomNavWrapper w-100" v-if="this.$route.name==='home'">
         <div class="bottomNavbar container w-100">
           <h5 class="d-flex text-white justify-content-center align-items-center h-100 list-unstyled">
             See the five Top Rated hosts!

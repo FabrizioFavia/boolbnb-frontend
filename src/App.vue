@@ -3,12 +3,12 @@ import AppHeader from './components/AppHeader.vue';
 // import SubscriptionList from './components/SubscriptionList.vue';
 import { storeFilter } from './data/storeFilter';
 import axios from 'axios';
-import Jumbotron from './components/Jumbotron.vue';
+/* import Jumbotron from './components/Jumbotron.vue'; */
 
 export default {
   components: {
     AppHeader,
-    Jumbotron
+   /*  Jumbotron */
     // SubscriptionList,
   },
   data() {
@@ -39,15 +39,15 @@ export default {
     <AppHeader />
   </header>
 
-  <div v-if="this.$route.name === 'home'">
+  <!-- <div v-if="this.$route.name === 'home'">
     <Jumbotron />
-  </div>
+  </div> -->
 
 
   <main :class="this.$route.name === 'error' ? 'bg-gray-900' : 'h-100'">
     <div :class="this.$route.name === 'error' ? 'h-100' : 'container h-100'">
-      <router-view></router-view>
     </div>
+    <router-view></router-view>
   </main>
   <footer class="container"></footer>
   <!-- <SubscriptionList /> -->
