@@ -29,14 +29,14 @@ export default {
             this.storeFilter.apartFiltered = [],
             this.storeFilter.loading = true;
             try {
-                const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
-                this.lat1 = response.data.results[0].position['lat'];
-                this.lon1 = response.data.results[0].position['lon'];
+                const response = await axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_API_TOMTOM_GEO_PATH + this.search);
+                this.lat1 = response.data.lat;
+                this.lon1 = response.data.lon;
                 this.searchApartments()
             } catch (error) {
                 this.storeFilter.loading = false;
                 this.animationInput();
-                console.error('⚠️ Error during TomTom API Call while trying to get location from search input:', error);
+                console.error('⚠️ Error during Server Proxy -> TomTom API Call while trying to get location from search input:', error);
             }
         },
         // Get Distance between two places in km
