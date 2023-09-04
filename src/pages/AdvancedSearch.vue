@@ -2,13 +2,17 @@
 import axios from 'axios';
 import AppHome from './AppHome.vue';
 import { storeFilter } from '../data/storeFilter';
-
+import { store } from '../data/store';
+import AppSpinner from '../components/AppSpinner.vue';
+import MainApartmentCard from '../components/MainApartmentCard.vue';
 
 
 export default {
     name: 'AdvancedSearch',
     components: {
         AppHome,
+        AppSpinner,
+        MainApartmentCard
     },
     props: {
         search: String
@@ -16,6 +20,9 @@ export default {
     data() {
         return {
             range: 20,
+            apartments: [],
+            apartTotalPages: 0,
+            apartCurrentPage: 0,
             clicked: false,
             animation: false,
             services: [],
@@ -23,7 +30,8 @@ export default {
             searchHistory: '',
             bedNumber: undefined,
             roomNumber: undefined,
-            storeFilter
+            storeFilter,
+            store
         }
     },
     methods: {
@@ -55,6 +63,22 @@ export default {
                 this.range = 20,
                 this.servicesIds = [],
                 this.storeFilter.searchParams = null
+        },
+        // Returns Apartments Data via API Call
+        getApartmentsData(pageNumber) {
+            this.store.loading = true
+            axios.get(
+                import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH,
+                { params: { page: pageNumber } }).then((response) => {
+                    this.store.loading = false,
+                        this.apartments = response.data.results.data,
+                        this.apartCurrentPage = response.data.results.current_page,
+                        this.apartTotalPages = response.data.results.last_page
+                }).catch(err => {
+                    this.store.loading = false;
+                    this.loadingError = "Cannot load apartments data. " + err;
+                    this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
+                })
         }
     },
     watch: {
@@ -65,16 +89,15 @@ export default {
     },
     mounted() {
         this.getService(),
-        this.searchHistory = this.$route.params.search
+            this.getApartmentsData(1),
+            this.searchHistory = this.$route.params.search
     }
 }
 </script>
 
 <template>
-    <div v-show="storeFilter.apartFiltered.length === 0 && !storeFilter.loading" class="alert alert-danger mt-1"
-        role="alert" ref="alert">Your search for "{{ searchHistory }}" returned no results! You are viewing all apartments
-    </div>
 
+    <!-- Search Filters -->
     <form class="filterSection" @submit.prevent="onSubmit">
         <div class="topNav">
             <div class="filterNav mt-3 w-100 py-2 px-2 d-flex align-items-center justify-content-evenly">
@@ -119,7 +142,63 @@ export default {
         </div>
     </form>
 
-    <AppHome />
+    <!-- Spinner Loader -->
+    <AppSpinner></AppSpinner>
+
+    <!-- Empty Search Alert Message -->
+    <div v-show="storeFilter.apartFiltered.length === 0 && !storeFilter.loading" class="alert alert-danger mt-3"
+        role="alert" ref="alert">Your search for "{{ searchHistory }}" returned no results! You are viewing all apartments
+    </div>
+
+    <!-- Apartment Filter Cards -->
+    <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
+
+        <!-- Filtered Apartment Cards -->
+        <section v-if="storeFilter.apartFiltered.length > 0"
+            class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
+            <template v-for="apartment in storeFilter.apartFiltered">
+                <MainApartmentCard :apartment="apartment" />
+            </template>
+        </section>
+
+        <!-- All Apartments Cards -->
+        <section v-else-if="apartments.length > 0"
+            class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
+            <template v-for="apartment in apartments">
+                <MainApartmentCard :apartment="apartment" />
+            </template>
+        </section>
+
+        <!-- Page Navigation Buttons  -->
+        <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
+            <nav class="text-center" aria-label="Page navigation">
+                <ul class="pagination d-inline-flex">
+                    <li class="py-3 mx-3">
+                        <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
+                            class="page-link d-block rounded arrow" aria-label="Previous"
+                            :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                    </li>
+                    <template v-for="pageNumber in apartTotalPages">
+                        <li class="py-3 mx-3">
+                            <button @click="getApartmentsData(pageNumber)"
+                                :class="apartCurrentPage === pageNumber ? 'active' : null"
+                                class="page-link d-block rounded">{{ pageNumber }}
+                            </button>
+                        </li>
+                    </template>
+                    <li class="py-3 mx-3">
+                        <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
+                            class="page-link d-block rounded arrow" aria-label="Next"
+                            :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i
+                                class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+
+    </section>
 </template>
 
 <style scoped lang="scss">
@@ -190,6 +269,50 @@ export default {
         accent-color: #d86a41;
         height: 4px;
         margin-top: 10px;
+    }
+}
+
+#apartmentsSec {
+
+
+    &>section:first-child {
+        gap: 2.5rem;
+    }
+
+    & .pagination {
+        // font-family: 'Itim', cursive;
+        border-radius: 8px 8px 0 0;
+        border-top: 4px solid $primary-orange;
+
+        & .page-link {
+            color: $primary-orange;
+            background: transparent;
+            line-height: 1rem;
+            height: 2rem;
+            width: 2.625rem;
+            border: 1px solid $primary-orange;
+            transition: all 0.3s ease 0s;
+        }
+
+        & .page-link:hover,
+        & .page-link.active,
+        & .page-link:focus:not(.arrow) {
+            color: white;
+            background: $primary-orange;
+            line-height: 2.375rem;
+            height: 2.5625rem;
+            margin: -5px 0 -3px;
+            border: 1px solid $primary-orange;
+        }
+
+        & .page-link.active:hover {
+            background: $light-orange;
+        }
+
+        & .page-link.disabled {
+            color: lightgrey;
+            border: 1px solid lightgrey;
+        }
     }
 }
 </style>

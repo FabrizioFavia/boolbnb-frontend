@@ -22,8 +22,7 @@ export default {
       apartments: [],
       loadingError: false,
       apartTotalPages: 0,
-      apartCurrentPage: 0,
-      statusCode: null,
+      apartCurrentPage: 0
     }
   },
   methods: {

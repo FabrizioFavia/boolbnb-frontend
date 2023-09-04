@@ -65,7 +65,7 @@ export default {
             });
             this.storeFilter.apartFiltered.sort((a, b) => a.distance - b.distance), // sort apartments by distance
             this.storeFilter.loading = false;
-            this.storeFilter.apartFiltered.length === 0 && this.animationInput();
+            // this.storeFilter.apartFiltered.length === 0 && this.animationInput();
             this.$router.push({ name: 'advancedSearch', params: { search: this.search } });
         },
         // Check Advanced Filter On Search Input
