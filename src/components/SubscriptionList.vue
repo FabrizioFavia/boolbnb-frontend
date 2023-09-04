@@ -106,7 +106,7 @@ ul {
     align-items: start;
     gap: 1.25em;
     color: #222;
-    background-color: #4e4e4e96;
+    background-color: #4e4e4e3c;
     border: 1px solid #eceff133;
     border-radius: 15px;
 }
