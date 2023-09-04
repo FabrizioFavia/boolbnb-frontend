@@ -47,6 +47,14 @@ export default {
             </div>
         </div>
     </nav>
+    <div class="bottomNavWrapper w-100">
+        <div class="bottomNavbar container w-100">
+          <h5 class="d-flex text-white justify-content-center align-items-center h-100 list-unstyled">
+            See the three Top Rated Hosts!
+          </h5>
+        </div>
+    </div>
+    <Jumbotron />
 </template>
 
 <style scoped lang="scss">
@@ -85,6 +93,16 @@ export default {
         margin-top: 0;
     }
 
+}
+
+.bottomNavWrapper{
+
+background-color: $light-orange;
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+.bottomNavbar{
+
+  height: 40px;
+}
 }
 </style>
 
