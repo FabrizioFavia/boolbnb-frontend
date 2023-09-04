@@ -49,7 +49,7 @@ export default {
   </div>
 
   <!-- Apartment Image & Map -->
-  <div v-if="apartment" class="container mt-3">
+  <div v-if="apartment" class="container mt-3 mb-2">
     <div class="row">
       <h1 class="my-4 textColoCustom">{{ apartment.name.toUpperCase() }}</h1>
       <div class="col-8">
@@ -81,7 +81,7 @@ export default {
       <div class="col-7 text-start p-4 text-white">
         <h3 class="textColoCustom py-4">Apartment Description:</h3>
         <p>{{ apartment.description }}</p>
-        <hr class="my-5">
+        <hr class="my-4">
 
         <h3 class="textColoCustom pb-3">What this place offers:</h3>
         <ul class="d-flex flex-wrap">
@@ -106,9 +106,10 @@ export default {
 
 .customImgContainer {
   width: 100%;
-  height: 25rem;
+  height: 28.125rem;
   background-color: aqua;
   object-fit: cover;
+  border-radius: 5px 0 0 5px;
 }
 
 .textColoCustom {

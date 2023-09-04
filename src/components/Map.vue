@@ -45,8 +45,9 @@ export default {
 @use 'src/style.scss' as *;
 
 #map{
-    height: 400px;
+    height: 28.125rem;
     width: 100%;
+    border-radius: 0 5px 5px 0;
 }
 
 
