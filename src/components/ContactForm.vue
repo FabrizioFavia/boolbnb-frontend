@@ -16,7 +16,7 @@ export default {
     // Get Auth User Email from API Call
     created() {
         axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_AUTH_EMAIL_API_PATH)
-            .then(response => this.requestData.user_mail = response.data.email )
+            .then(response => this.requestData.user_mail = response.data.email)
             .catch(err => console.error('Contact Request GET AUTH MAIL API Failure. ', err));
     },
     watch: {
@@ -45,13 +45,13 @@ export default {
                 } else {
                     this.success = true;
                     this.requestData = { apartment_id: '', user_mail: '', text: '' },
-                    setTimeout(() => this.success = false, 1 * 5000);
+                        setTimeout(() => this.success = false, 1 * 5000);
                 }
             }).catch(err => {
                 this.loading = false,
-                this.failure = true,
-                setTimeout(() => this.failure = false, 1 * 5000),
-                console.error('Contact Request POST API Failure. ', err)
+                    this.failure = true,
+                    setTimeout(() => this.failure = false, 1 * 5000),
+                    console.error('Contact Request POST API Failure. ', err)
             })
         }
     }
@@ -61,7 +61,7 @@ export default {
 
 <template>
     <!-- Apartment Contact Form -->
-    <div class="col-6 d-flex justify-content-center align-content-center py-4">
+    <div class="col-5 d-flex justify-content-center align-content-center py-5">
         <div class="message-box">
             <h2>Contact Host</h2>
             <form @submit.prevent="sendForm()">
@@ -94,8 +94,8 @@ export default {
                 <button type="submit" class="btn" :disabled="loading">{{ loading ? 'SENDING...' : 'SEND' }}</button>
 
                 <!-- Confirmation Message -->
-                <p class="text-success text-sm mt-2" v-if="success">Your message has been successfully sent!</p>
-                <p class="text-danger text-sm mt-2" v-if="failure">Something went wrong while sending your message</p>
+                <p class="text-success text-sm mt-3" v-if="success">Your message has been successfully sent!</p>
+                <p class="text-danger text-sm mt-3" v-if="failure">Something went wrong while sending your message</p>
 
             </form>
         </div>
@@ -117,6 +117,12 @@ export default {
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
     border-radius: 10px;
+    transition: all .8s ease-in-out;
+
+    &:hover {
+        -webkit-box-shadow: 0px 7px 50px 11px rgba(0, 132, 156, 0.52) !important;
+        box-shadow: 0px 3px 50px 10px rgba(0, 132, 156, 0.52) !important;
+    }
 }
 
 .message-box h2 {
