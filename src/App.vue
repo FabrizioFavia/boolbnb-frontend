@@ -35,14 +35,6 @@ export default {
 <template>
   <header>
     <AppHeader />
-    </div>
-    <div class="bottomNavWrapper w-100">
-      <div class="bottomNavbar container w-100">
-        <h5 class="d-flex text-white justify-content-center align-items-center h-100 list-unstyled">
-          See the three Top Rated Hosts!
-        </h5>
-      </div>
-    </div>
     <!-- Jumbotron Component: Carousel -->
 
   </header>
