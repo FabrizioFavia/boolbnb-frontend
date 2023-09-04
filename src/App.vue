@@ -3,10 +3,12 @@ import AppHeader from './components/AppHeader.vue';
 // import SubscriptionList from './components/SubscriptionList.vue';
 import { storeFilter } from './data/storeFilter';
 import axios from 'axios';
+import Jumbotron from './components/Jumbotron.vue';
 
 export default {
   components: {
     AppHeader,
+    Jumbotron
     // SubscriptionList,
   },
   data() {
@@ -35,12 +37,15 @@ export default {
 <template>
   <header>
     <AppHeader />
-    <!-- Jumbotron Component: Carousel -->
-
   </header>
 
-  <main :class="this.$route.name === 'error' ? 'bg-gray-900' : ''">
-    <div :class="this.$route.name === 'error' ? 'h-100' : ''">
+  <div v-if="this.$route.name === 'home'">
+    <Jumbotron />
+  </div>
+
+
+  <main :class="this.$route.name === 'error' ? 'bg-gray-900' : 'h-100'">
+    <div :class="this.$route.name === 'error' ? 'h-100' : 'container h-100'">
       <router-view></router-view>
     </div>
   </main>
