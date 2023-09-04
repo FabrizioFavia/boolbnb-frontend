@@ -2,6 +2,7 @@
 import axios from 'axios';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
 import AppSpinner from '../components/AppSpinner.vue';
+import SubscriptionList from '../components/SubscriptionList.vue';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
 
@@ -9,7 +10,8 @@ export default {
   name: 'AppHome',
   components: {
     MainApartmentCard,
-    AppSpinner
+    AppSpinner,
+    SubscriptionList,
   },
   data() {
     return {
@@ -29,7 +31,7 @@ export default {
       axios.get(
         import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH,
         { params: { page: pageNumber } }/*, { validateStatus: (status) => { return status < 500 } }*/).then((response) => {
-            this.store.loading = false,
+          this.store.loading = false,
             this.apartments = response.data.results.data,
             this.apartCurrentPage = response.data.results.current_page,
             this.apartTotalPages = response.data.results.last_page
@@ -77,7 +79,7 @@ export default {
     <!-- <section>
       <OffCanvas />
     </section> -->
-
+    <SubscriptionList />
     <!-- Page Navigation Buttons  -->
     <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
       <nav class="text-center" aria-label="Page navigation">
