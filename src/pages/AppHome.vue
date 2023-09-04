@@ -109,6 +109,7 @@ export default {
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
+
 #apartmentsSec {
 
 

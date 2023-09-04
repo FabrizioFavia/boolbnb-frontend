@@ -112,8 +112,15 @@ export default {
   border-radius: 5px 0 0 5px;
 }
 
-.textColoCustom {
-  color: $primary-orange;
+// form
+.login-box {
+  width: 400px;
+  padding: 40px;
+  /* background: rgba(0,0,0,.5); */
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
 }
 
 .dot {
