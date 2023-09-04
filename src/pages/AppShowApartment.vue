@@ -50,12 +50,12 @@ export default {
 
   <!-- Apartment Image & Map -->
   <div v-if="apartment" class="container mt-3 mb-2">
-    <div class="row">
+    <div class="row justify-content-center">
       <h1 class="my-4 textColoCustom">{{ apartment.name.toUpperCase() }}</h1>
-      <div class="col-8">
+      <div class="col-12 col-lg-8">
         <img class="img-fluid customImgContainer" :src='"http://localhost:8000/storage/" + apartment.image'
           :alt="apartment.name">
-        <p class="text-center text-white pt-3">
+        <p class="text-center text-secondary fs-5 pt-3">
           <span>{{ apartment.square_meters }}mq</span>
           <strong class="dot px-2">&#126;</strong>
           <span>{{ apartment.room_number }} rooms</span>
@@ -65,7 +65,7 @@ export default {
           <span>{{ apartment.bathroom_number }} bathrooms</span>
         </p>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-lg-4">
         <Map :apartment="apartment"></Map>
         <p class="text-secondary pt-3"><i class="fa-solid fa-location-dot me-1"></i> {{ apartment.address }}</p>
       </div>
@@ -78,7 +78,7 @@ export default {
     <div class="row align-items-center">
 
       <!-- Apartment Description & Services -->
-      <div class="col-7 text-start p-4 text-white">
+      <div class="col-12 col-lg-7 text-start p-4 text-dark">
         <h3 class="textColoCustom py-4">Apartment Description:</h3>
         <p>{{ apartment.description }}</p>
         <hr class="my-4">
@@ -123,6 +123,10 @@ export default {
   border-radius: 10px;
 }
 
+.textColoCustom{
+  color: $primary-orange;
+}
+
 .dot {
   color: $light-blue;
 }
@@ -137,9 +141,9 @@ ul {
     transition: all .7s ease-in-out;
 
     &:hover {
-      border-color: $light-blue !important;
-      -webkit-box-shadow: 0px 7px 50px 16px rgba(0, 132, 156, 0.56);
-      box-shadow: 0px 5px 40px 9px rgba(0, 132, 156, 0.56);
+      border-color: rgba(21, 21, 21, 0.193) !important;
+      -webkit-box-shadow: 0px 3px 20px 8px rgba(21, 21, 21, 0.193);
+      box-shadow: 0px 5px 40px 9px rgba(21, 21, 21, 0.193);
     }
 
     & i {

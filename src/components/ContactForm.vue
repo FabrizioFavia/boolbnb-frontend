@@ -61,13 +61,13 @@ export default {
 
 <template>
     <!-- Apartment Contact Form -->
-    <div class="col-5 d-flex justify-content-center align-content-center py-5">
+    <div class="col-12 col-lg-5 d-flex justify-content-center align-content-center py-5">
         <div class="message-box">
             <h2>Contact Host</h2>
             <form @submit.prevent="sendForm()">
 
                 <!-- Email -->
-                <div class="user-box">
+                <div class="user-box text-white">
                     <input type="email" name="user_mail" id="user_mail" required min="5"
                         :class="{ 'is-invalid': errors.user_mail }" v-model="requestData.user_mail">
                     <label for="user_mail">Email</label>
@@ -113,15 +113,17 @@ export default {
 .message-box {
     width: 400px;
     padding: 40px;
-    background: rgba(0, 0, 0, .5);
+    // background-color: #F9913D;
+    background: rgb(245,215,179);
+    background: linear-gradient(9deg, rgba(245,215,179,1) 0%, rgba(244,166,73,0.9500175070028011) 27%, rgba(245,215,179,1) 72%, rgba(249,145,61,1) 92%);
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
     border-radius: 10px;
     transition: all .8s ease-in-out;
 
     &:hover {
-        -webkit-box-shadow: 0px 7px 50px 11px rgba(0, 132, 156, 0.52) !important;
-        box-shadow: 0px 3px 50px 10px rgba(0, 132, 156, 0.52) !important;
+        -webkit-box-shadow: 0px 7px 50px 11px rgba(24, 24, 24, 0.465) !important;
+        box-shadow: 0px 3px 50px 10px rgba(24, 24, 24, 0.465) !important;
     }
 }
 
@@ -163,7 +165,7 @@ export default {
 .message-box .user-box input:valid~label {
     top: -20px;
     left: 0;
-    color: #03e9f4;
+    color: white;
     font-size: 12px;
 }
 
@@ -171,7 +173,8 @@ export default {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    color: #03e9f4;
+    // color: #03e9f4;
+    color: white;
     font-size: 16px;
     text-decoration: none;
     text-transform: uppercase;
@@ -182,13 +185,12 @@ export default {
 }
 
 .message-box button:hover {
-    background: rgba(223, 133, 107, 1)4;
     color: #fff;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(223, 133, 107, 1),
-        0 0 25px rgba(223, 133, 107, 1),
-        0 0 50px rgba(223, 133, 107, 1),
-        0 0 100px rgba(223, 133, 107, 1);
+    box-shadow: 0 0 5px white,
+        0 0 25px white,
+        0 0 50px white,
+        0 0 100px white;
 }
 
 .message-box button span {
@@ -289,5 +291,9 @@ export default {
     border-bottom: 1px solid #fff;
     outline: none;
     background: transparent;
+}
+
+textarea::placeholder{
+    color: white;
 }
 </style>

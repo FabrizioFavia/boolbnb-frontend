@@ -5,7 +5,7 @@ import AppSpinner from '../components/AppSpinner.vue';
 import SubscriptionList from '../components/SubscriptionList.vue';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
-import Jumbotron from '../components/Jumbotron.vue';
+// import Jumbotron from '../components/Jumbotron.vue';
 
 export default {
   name: 'AppHome',
@@ -13,7 +13,7 @@ export default {
     MainApartmentCard,
     AppSpinner,
     SubscriptionList,
-    Jumbotron
+    // Jumbotron
   },
   data() {
     return {
@@ -59,7 +59,7 @@ export default {
   </div>
 
   <!-- JUMBOTRON -->
-  <Jumbotron />
+  <!-- <Jumbotron /> -->
 
   <!-- APARTMENTS SECTION -->
 
