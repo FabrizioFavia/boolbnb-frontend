@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 export default {
     name: "ContactForm",
@@ -12,6 +13,12 @@ export default {
             failure: false
         }
     },
+    // Get Auth User Email from API Call
+    created() {
+        axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_AUTH_EMAIL_API_PATH)
+            .then(response => this.requestData.user_mail = response.data.email )
+            .catch(err => console.error('Contact Request GET AUTH MAIL API Failure. ', err));
+    },
     watch: {
         // Immediately Sets Failure False When Success Becomes True
         success() {
@@ -21,7 +28,7 @@ export default {
         }
     },
     methods: {
-        // Send Contact Request with API
+        // Send New Message with API
         sendForm() {
             this.loading = true;
             this.errors = [];
@@ -38,13 +45,12 @@ export default {
                 } else {
                     this.success = true;
                     this.requestData = { apartment_id: '', user_mail: '', text: '' },
-                        console.log('Contact Request POST API Success.');
                     setTimeout(() => this.success = false, 1 * 5000);
                 }
             }).catch(err => {
                 this.loading = false,
-                    this.failure = true,
-                    setTimeout(() => this.failure = false, 1 * 5000);
+                this.failure = true,
+                setTimeout(() => this.failure = false, 1 * 5000),
                 console.error('Contact Request POST API Failure. ', err)
             })
         }
@@ -88,8 +94,8 @@ export default {
                 <button type="submit" class="btn" :disabled="loading">{{ loading ? 'SENDING...' : 'SEND' }}</button>
 
                 <!-- Confirmation Message -->
-                <p class="text-success text-sm" v-if="success">Your message has been successfully sent!</p>
-                <p class="text-danger text-sm" v-if="failure">Something went wrong while sending your message</p>
+                <p class="text-success text-sm mt-2" v-if="success">Your message has been successfully sent!</p>
+                <p class="text-danger text-sm mt-2" v-if="failure">Something went wrong while sending your message</p>
 
             </form>
         </div>
