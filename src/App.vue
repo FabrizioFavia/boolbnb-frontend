@@ -33,9 +33,8 @@ export default {
 </script>
 
 <template>
-  <header class="">
-    <div class="container">
-      <AppHeader />
+  <header>
+    <AppHeader />
     </div>
     <div class="bottomNavWrapper w-100">
       <div class="bottomNavbar container w-100">
@@ -47,8 +46,9 @@ export default {
     <!-- Jumbotron Component: Carousel -->
 
   </header>
+
   <main :class="this.$route.name === 'error' ? 'bg-gray-900' : ''">
-    <div :class="this.$route.name === 'error' ? 'h-100' : 'container h-100'">
+    <div :class="this.$route.name === 'error' ? 'h-100' : ''">
       <router-view></router-view>
     </div>
   </main>
@@ -75,18 +75,13 @@ export default {
 }
 
 header {
-  /* height: 6.625rem;
-  background: rgb(17, 12, 6);
-  background: linear-gradient(180deg, rgba(17, 12, 6, 1) 47%, rgba(17, 12, 6, 0.8939950980392157) 92%); */
+  height: 96px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 main {
-  height: calc(100vh - 6.625rem);
-
-  &>div {
-    overflow-y: scroll;
-  }
+  max-height: calc(100vh - 96px);
+  overflow-y: scroll;
 }
 </style>

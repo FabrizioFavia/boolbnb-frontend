@@ -5,6 +5,7 @@ import AppSpinner from '../components/AppSpinner.vue';
 import SubscriptionList from '../components/SubscriptionList.vue';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
+import Jumbotron from '../components/Jumbotron.vue';
 
 export default {
   name: 'AppHome',
@@ -12,6 +13,7 @@ export default {
     MainApartmentCard,
     AppSpinner,
     SubscriptionList,
+    Jumbotron
   },
   data() {
     return {
@@ -57,8 +59,12 @@ export default {
     <p>{{ loadingError }}</p>
   </div>
 
+  <!-- JUMBOTRON -->
+  <Jumbotron />
+
   <!-- APARTMENTS SECTION -->
-  <section id="apartmentsSec" class="d-flex flex-column justify-content-center">
+
+  <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
     <!-- Apartment Cards -->
     <section v-if="storeFilter.apartFiltered.length > 0"
