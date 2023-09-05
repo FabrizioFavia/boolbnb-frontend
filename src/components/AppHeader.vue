@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg justify-content-between">
+    <nav class="navbar navbar-expand-lg justify-content-between w-100">
         <div class="container">
             <div class="logoContainer d-flex align-items-center" @click="storeFilter.apartFiltered = []">
                 <!-- <router-link class="" to="/"> -->

@@ -35,7 +35,7 @@ export default {
 </script>
 
 <template>
-  <header>
+  <header :class="{ 'd-flex align-items-center' : this.$route.name != 'home' && this.$route.name != 'advancedSearch'}">
     <AppHeader />
   </header>
 
