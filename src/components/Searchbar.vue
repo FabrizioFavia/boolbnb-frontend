@@ -29,12 +29,11 @@ export default {
             this.storeFilter.apartFiltered = [],
                 this.storeFilter.loading = true;
             if (window.navigator.platform.toLowerCase().includes('win')) {
-                console.log('windows.navigator: ', window.navigator);
                 axios.defaults.withCredentials = false;
                 try {
                     const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
-                    this.lat1 = response['results']['0']['position']['lat'];
-                    this.lon1 = response['results']['0']['position']['lon'];
+                    this.lat1 = response.data.results['0'].position.lat;
+                    this.lon1 = response.data.results['0'].position.lon;
                     this.searchApartments()
                 } catch (error) {
                     this.storeFilter.loading = false;
