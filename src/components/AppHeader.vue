@@ -24,7 +24,7 @@ export default {
                 <!-- </router-link> -->
                 <router-link class="" to="/">
                     <img class="navLogo" src="../assets/logo4.jpeg" alt="">
-                    <img class="smallLogo" src="../assets/logo.jpeg" alt="">
+                    <img class="smallLogo" src="../assets/logo4.jpeg" alt="">
                 </router-link>
                 <h4>BoolBnb</h4>
             </div>
@@ -59,15 +59,6 @@ export default {
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
-</style>
-
-
-
-
-
-<style scoped lang="scss">
-@use 'src/style.scss' as *;
-
 .navLogo {
     height: 40px;
     margin-right: 10px;
@@ -88,9 +79,16 @@ export default {
 
     .smallLogo {
         display: block;
-        max-height: 80px;
+        max-height: 40px;
+        margin-right: 10px;
         margin-top: 0;
     }
+
+    .nav, .collapse {
+        z-index: 99;
+        border: 1px solid red;
+        background-color: $primary-orange;
+    } 
 
 }
 .navbar{

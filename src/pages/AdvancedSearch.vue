@@ -98,7 +98,7 @@ export default {
 <template>
 
     <!-- Search Filters -->
-    <form class="filterSection" @submit.prevent="onSubmit">
+    <form class="filterSection mt-3" @submit.prevent="onSubmit">
         <div class="topNav">
             <div class="filterNav w-100 py-2 px-2 d-flex align-items-center justify-content-evenly">
                 <div>
@@ -205,10 +205,10 @@ export default {
 @use 'src/style.scss' as *;
 
 .filterSection {
-position: fixed;
-width: 100%;
-top: 60px;
-z-index: 2;
+// position: fixed;
+// width: 100%;
+// top: 60px;
+// z-index: 2;
     .topNav {
         filter: saturate(0.9);
         background-color: $light-orange;
