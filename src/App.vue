@@ -46,8 +46,8 @@ export default {
 
   <main :class="this.$route.name === 'error' ? 'bg-gray-900' : 'h-100'">
     <div :class="this.$route.name === 'error' ? 'h-100' : 'container h-100'">
+      <router-view></router-view>
     </div>
-    <router-view></router-view>
   </main>
   <footer class="container"></footer>
   <!-- <SubscriptionList /> -->
