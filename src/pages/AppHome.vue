@@ -50,8 +50,6 @@ export default {
 </script>
 
 <template>
-  <!-- Spinner Loader -->
-  <AppSpinner></AppSpinner>
 
   <!-- Error Message -->
   <div v-if="loadingError" class="d-flex justify-content-center my-10 alert alert-danger">
@@ -59,12 +57,14 @@ export default {
   </div>
 
   <!-- JUMBOTRON -->
-  <!-- <Jumbotron /> -->
-
-  <!-- APARTMENTS SECTION -->
   <div v-if="this.$route.name === 'home'">
     <Jumbotron />
   </div>
+
+  <!-- Spinner Loader -->
+  <AppSpinner />
+
+  <!-- APARTMENTS SECTION -->
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
     <!-- Apartment Cards -->
@@ -82,11 +82,9 @@ export default {
       </template>
     </section>
 
-    <!-- OffCanvas -->
-    <!-- <section>
-      <OffCanvas />
-    </section> -->
+    <!-- Subscription Cards -->
     <SubscriptionList />
+
     <!-- Page Navigation Buttons  -->
     <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
       <nav class="text-center" aria-label="Page navigation">

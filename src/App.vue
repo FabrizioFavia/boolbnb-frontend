@@ -8,7 +8,7 @@ import axios from 'axios';
 export default {
   components: {
     AppHeader,
-   /*  Jumbotron */
+    /*  Jumbotron */
     // SubscriptionList,
   },
   data() {
@@ -39,13 +39,8 @@ export default {
     <AppHeader />
   </header>
 
-  <!-- <div v-if="this.$route.name === 'home'">
-    <Jumbotron />
-  </div> -->
-
-
-  <main :class="this.$route.name === 'error' ? 'bg-gray-900' : 'h-100'">
-    <div :class="this.$route.name === 'error' ? 'h-100' : 'container h-100'">
+  <main :class="this.$route.name === 'error' ? 'bg-gray-900 totalvh' : 'h-100'">
+    <div :class="{ 'h-100': this.$route.name === 'error', 'container h-100': this.$route.name === 'show-apartments' }">
       <router-view></router-view>
     </div>
   </main>
@@ -81,4 +76,9 @@ main {
   max-height: calc(100vh - 96px);
   overflow-y: scroll;
 }
+
+.totalvh {
+  height: calc(100vh - 96px);
+}
+
 </style>
