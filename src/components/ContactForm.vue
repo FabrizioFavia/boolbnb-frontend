@@ -114,8 +114,8 @@ export default {
     width: 400px;
     padding: 40px;
     // background-color: #F9913D;
-    background: rgb(245,215,179);
-    background: linear-gradient(9deg, rgba(245,215,179,1) 0%, rgba(244,166,73,0.9500175070028011) 27%, rgba(245,215,179,1) 72%, rgba(249,145,61,1) 92%);
+    background: rgb(245,55,50);
+    background: linear-gradient(57deg, rgba(245,55,50,1) 1%, rgba(242,93,52,1) 36%, rgba(254,155,57,1) 84%);
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
     border-radius: 10px;
@@ -138,10 +138,10 @@ export default {
     position: relative;
 }
 
-.message-box .user-box input {
+.message-box .user-box input{
     width: 100%;
     padding: 10px 0;
-    font-size: 16px;
+    font-size: 18px;
     color: #fff;
     margin-bottom: 30px;
     border: none;
@@ -284,7 +284,7 @@ export default {
 .formCustom {
     width: 100%;
     padding: 10px 0;
-    font-size: 16px;
+    font-size: 18px;
     color: #fff;
     margin-bottom: 30px;
     border: none;
