@@ -25,19 +25,35 @@ export default {
         // Get Longitude and Latitude from input search, via API Call
         async getLocation() {
             this.search = this.search.trim();
-            if(!this.search) return this.animationInput(); // If empty search -> call 'animationInput()' and stop this function
+            if (!this.search) return this.animationInput(); // If empty search -> call 'animationInput()' and stop this function
             this.storeFilter.apartFiltered = [],
-            this.storeFilter.loading = true;
-            try {
-                const response = await axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_API_TOMTOM_GEO_PATH + this.search);
-                this.lat1 = response.data.lat;
-                this.lon1 = response.data.lon;
-                this.searchApartments()
-            } catch (error) {
-                this.storeFilter.loading = false;
-                this.animationInput();
-                console.error('⚠️ Error during Server Proxy -> TomTom API Call while trying to get location from search input:', error);
+                this.storeFilter.loading = true;
+            if (window.navigator.platform.toLowerCase().includes('win')) {
+                console.log('windows.navigator: ', window.navigator);
+                axios.defaults.withCredentials = false;
+                try {
+                    const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
+                    this.lat1 = response['results']['0']['position']['lat'];
+                    this.lon1 = response['results']['0']['position']['lon'];
+                    this.searchApartments()
+                } catch (error) {
+                    this.storeFilter.loading = false;
+                    this.animationInput();
+                    console.error('⚠️ Error during Server Proxy -> TomTom API Call while trying to get location from search input:', error);
+                }
+            } else {
+                try {
+                    const response = await axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_API_TOMTOM_GEO_PATH + this.search);
+                    this.lat1 = response.data.lat;
+                    this.lon1 = response.data.lon;
+                    this.searchApartments()
+                } catch (error) {
+                    this.storeFilter.loading = false;
+                    this.animationInput();
+                    console.error('⚠️ Error during Server Proxy -> TomTom API Call while trying to get location from search input:', error);
+                }
             }
+
         },
         // Get Distance between two places in km
         getDistance(lat1, lon1, lat2, lon2) {
@@ -64,7 +80,7 @@ export default {
                 }
             });
             this.storeFilter.apartFiltered.sort((a, b) => a.distance - b.distance), // sort apartments by distance
-            this.storeFilter.loading = false;
+                this.storeFilter.loading = false;
             // this.storeFilter.apartFiltered.length === 0 && this.animationInput();
             this.$router.push({ name: 'advancedSearch', params: { search: this.search } });
         },
@@ -123,16 +139,29 @@ export default {
 }
 
 @keyframes shake {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(2deg); }
-  50% { transform: rotate(0deg); }
-  75% { transform: rotate(-2deg); }
-  100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(2deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(-2deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 @media (max-width: 576px) {
     .searchContainer {
         margin-top: 20px;
     }
-}
-</style>
+}</style>
