@@ -31,7 +31,8 @@ export default {
             bedNumber: undefined,
             roomNumber: undefined,
             storeFilter,
-            store
+            store,
+            screenWidth: window.innerWidth,
         }
     },
     methods: {
@@ -79,6 +80,9 @@ export default {
                     this.loadingError = "Cannot load apartments data. " + err;
                     this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
                 })
+        },
+        updateScreenWidth() {
+            this.screenWidth = window.innerWidth;
         }
     },
     watch: {
@@ -90,17 +94,26 @@ export default {
     mounted() {
         this.getService(),
             this.getApartmentsData(1),
-            this.searchHistory = this.$route.params.search
-    }
+            this.searchHistory = this.$route.params.search,
+            window.addEventListener('resize', this.updateScreenWidth);
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.updateScreenWidth);
+    },
 }
 </script>
 
 <template>
-
     <!-- Search Filters -->
-    <form class="filterSection mt-3" @submit.prevent="onSubmit">
-        <div class="topNav">
-            <div class="filterNav w-100 py-2 px-2 d-flex align-items-center justify-content-evenly">
+
+    <div v-if="screenWidth < 992" class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1"
+        id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+        <div class="offcanvas-header my-3 d-flex justify-content-evenly">
+            <img src="../assets/logo4.jpeg" class="offLogo" alt="logo">
+            <h5 class="offcanvas-title py-3" id="staticBackdropLabel">Choose your additional services</h5>
+        </div>
+        <div class="offcanvas-body">
+            <div class="filterNav w-100 py-2 px-2 d-flex justify-content-evenly">
                 <div>
                     <label class="me-2 text-white" for="rooms">Rooms</label>
                     <input min="1" name="rooms" type="number" v-model="roomNumber" class="w-25 ps-2">
@@ -115,25 +128,73 @@ export default {
                     <span class="text-white ms-2">{{ range }}</span> <span class="ms-1 text-white">km</span>
                 </div>
 
-                <div class="d-flex align-items-center ms-5">
+                <div class=" ms-5 d-flex align-items-center justify-content-center">
                     <button @click="isClicked()"
-                        class="btn serviceBtn btn-warning d-flex align-items-center justify-content-center"><span
-                            v-show="!clicked">+</span><span v-show="clicked">-</span></button>
-                    <span class="ms-2 text-white">Services</span>
+                        class="btn serviceBtn btn-warning d-flex align-items-center justify-content-center"
+                        data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                        <span v-show="!clicked">+</span><span v-show="clicked">-</span>
+                    </button>
+                    <span class="ms-2 text-white">Filters</span>
                 </div>
                 <div class="btnContainer">
-                    <button @click="saveValues()" class="btn btn-warning px-1" type="submit">Apply</button>
+                    <button @click="saveValues()" class="btn btn-warning px-1 text-white" type="submit">Apply</button>
                     <button @click="resetFilters()" class="btn btn-danger ms-2 px-1">Reset</button>
                 </div>
-
+            </div>
+            <div class="serviceMenu ps-3 text-start py-3 w-100">
+                <div class="row flex-wrap justify-content-start">
+                    <div v-for="(service, i) in services " class="d-block col-6">
+                        <input type="checkbox" v-model="servicesIds" :true-value="[]" class="me-2" :value="service.id">
+                        <span class="serviceName">{{ service.name }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <button @click="saveValues()" class="btn btn-warning text-white px-2" type="submit"
+                        data-bs-dismiss="offcanvas" aria-label="Close">Apply</button>
+                </div>
             </div>
         </div>
-        <div class="bottomNav mb-2" :class="{ 'dropDown': animation }">
+    </div>
+
+    <form class="filterSection w-100 mt-3" @submit.prevent="onSubmit">
+        <div class="topNav">
+            <div class="filterNav w-100 py-2 px-2 d-flex justify-content-evenly">
+                <div>
+                    <label class="me-2 text-white" for="rooms">Rooms</label>
+                    <input min="1" name="rooms" type="number" v-model="roomNumber" class="w-25 ps-2">
+                </div>
+                <div>
+                    <label class="me-2 text-white" for="beds">Beds</label>
+                    <input min="1" name="beds" type="number" v-model="bedNumber" class="w-25 ps-2">
+                </div>
+                <div class="d-flex">
+                    <label class="me-2 text-white" for="radius">Radius</label>
+                    <input v-model="range" min="20" step="10" max="2000" name="radius" type="range" class="w-100 ps-2">
+                    <span class="text-white ms-2">{{ range }}</span> <span class="ms-1 text-white">km</span>
+                </div>
+
+                <div class=" ms-5 d-flex align-items-center justify-content-center">
+                    <button @click="isClicked()"
+                        class="btn serviceBtn btn-warning d-flex align-items-center justify-content-center"
+                        data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                        <span v-show="!clicked">+</span><span v-show="clicked">-</span>
+                    </button>
+                    <span class="ms-2 text-white">Filters</span>
+                </div>
+                <div class="btnContainer">
+                    <button @click="saveValues()" class="btn btn-warning px-1 text-white" type="submit">Apply</button>
+                    <button @click="resetFilters()" class="btn btn-danger ms-2 px-1">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Container -->
+        <div v-if="screenWidth > 992" class="bottomNav mb-2" :class="{ 'dropDown': animation }">
             <div v-show="clicked" class="serviceMenu ps-5 text-start py-3 w-100" :class="{ 'd-flex flex-wrap': clicked }">
                 <div class="row flex-wrap justify-content-start">
-
-
-                    <div v-for="(service, i) in services " class="d-block col-2 ms-1">
+                    <div v-for="(service, i) in services " class="d-block col-2">
                         <input type="checkbox" v-model="servicesIds" :true-value="[]" class="me-2" :value="service.id">
                         <span class="text-white serviceName">{{ service.name }}</span>
                     </div>
@@ -204,25 +265,32 @@ export default {
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
+
+/* Offcanvas */
+
+.offLogo {
+    height: 35px;
+}
+
 .filterSection {
-// position: fixed;
-// width: 100%;
-// top: 60px;
-// z-index: 2;
+
+    // position: fixed;
+    // width: 100%;
+    // top: 60px;
+    // z-index: 2;
     .topNav {
         filter: saturate(0.9);
         background-color: $light-orange;
     }
 
     .bottomNav {
-        width: 97%;
+
         margin: 0 auto;
         transition: background-color 1.5s ease;
         filter: saturate(0.9);
-        border-radius: 0 0 15px 15px;
-        /* background-color: $light-orange; */
-        background-color: rgba(0, 0, 0, 0.3);
-     
+        /* border-radius: 0 0 15px 15px; */
+        background-color: rgb(137 158 165 / 72%);
+
         transition: all .5s ease;
     }
 
@@ -258,7 +326,6 @@ export default {
     }
 
 }
-
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 
@@ -311,5 +378,11 @@ export default {
             border: 1px solid lightgrey;
         }
     }
+}
+
+@media (max-width: 992px) {
+    /*  .filterNav{
+        flex-direction: column;
+    } */
 }
 </style>
