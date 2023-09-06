@@ -61,6 +61,12 @@ export default {
                         <li class="nav-item">
                             <a class="nav-link" href="http://localhost:8000/register">Register</a>
                         </li>
+                        <li  class="nav-item">
+                            <button v-show="screenWidth < 992" @click="isOpen()" class="btn" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                close
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -78,6 +84,8 @@ export default {
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
+
+
 .navLogo {
     height: 40px;
     margin-right: 10px;
@@ -92,7 +100,7 @@ export default {
 
     .collapse {
         z-index: 99;
-        margin-top: 9px;
+        margin-top: 28px;
         background: rgb(214, 139, 18);
         background: linear-gradient(49deg, rgba(214, 139, 18, 1) 22%, rgba(194, 33, 79, 1) 100%);
     }

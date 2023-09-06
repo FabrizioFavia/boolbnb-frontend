@@ -106,44 +106,35 @@ export default {
 <template>
     <!-- Search Filters -->
 
+    <!-- offCanvas -->
     <div v-if="screenWidth < 992" class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1"
         id="staticBackdrop" aria-labelledby="staticBackdropLabel">
         <div class="offcanvas-header my-3 d-flex justify-content-evenly">
             <img src="../assets/logo4.jpeg" class="offLogo" alt="logo">
-            <h5 class="offcanvas-title py-3" id="staticBackdropLabel">Choose your additional services</h5>
+            <h5 class="offcanvas-title py-3" id="staticBackdropLabel">Customize your apartment search</h5>
         </div>
-        <div class="offcanvas-body">
-            <div class="filterNav w-100 py-2 px-2 d-flex justify-content-evenly">
-                <div>
-                    <label class="me-2 text-white" for="rooms">Rooms</label>
-                    <input min="1" name="rooms" type="number" v-model="roomNumber" class="w-25 ps-2">
+        <div class="offcanvas-body pb-2">
+            <div class="filterNav w-100 py-2 px-2 d-flex flex-column">
+                <div class="d-flex my-4">
+                    <div>
+                        <label class="me-2 " for="rooms">Rooms number</label>
+                        <input min="1" name="rooms" type="number" v-model="roomNumber" class="w-25 ps-2">
+                    </div>
+                    <div>
+                        <label class="me-2 " for="beds">Beds number</label>
+                        <input min="1" name="beds" type="number" v-model="bedNumber" class="w-25 ps-2">
+                    </div>
                 </div>
-                <div>
-                    <label class="me-2 text-white" for="beds">Beds</label>
-                    <input min="1" name="beds" type="number" v-model="bedNumber" class="w-25 ps-2">
-                </div>
-                <div class="d-flex">
-                    <label class="me-2 text-white" for="radius">Radius</label>
+                <div class="d-flex px-3 my-4">
+                    <label class="me-2 " for="radius">Radius</label>
                     <input v-model="range" min="20" step="10" max="2000" name="radius" type="range" class="w-100 ps-2">
-                    <span class="text-white ms-2">{{ range }}</span> <span class="ms-1 text-white">km</span>
-                </div>
-
-                <div class=" ms-5 d-flex align-items-center justify-content-center">
-                    <button @click="isClicked()"
-                        class="btn serviceBtn btn-warning d-flex align-items-center justify-content-center"
-                        data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
-                        <span v-show="!clicked">+</span><span v-show="clicked">-</span>
-                    </button>
-                    <span class="ms-2 text-white">Filters</span>
-                </div>
-                <div class="btnContainer">
-                    <button @click="saveValues()" class="btn btn-warning px-1 text-white" type="submit">Apply</button>
-                    <button @click="resetFilters()" class="btn btn-danger ms-2 px-1">Reset</button>
+                    <span class=" ms-2">{{ range }}</span> <span class="ms-1 ">km</span>
                 </div>
             </div>
-            <div class="serviceMenu ps-3 text-start py-3 w-100">
+            <h5 class="text-start ms-4 my-3">Additional services</h5>
+            <div class="serviceMenu ps-4 text-start py-3 w-100">
                 <div class="row flex-wrap justify-content-start">
-                    <div v-for="(service, i) in services " class="d-block col-6">
+                    <div v-for="(service, i) in services " class="d-block col-6 serviceItem">
                         <input type="checkbox" v-model="servicesIds" :true-value="[]" class="me-2" :value="service.id">
                         <span class="serviceName">{{ service.name }}</span>
                     </div>
@@ -154,28 +145,36 @@ export default {
                     <button @click="saveValues()" class="btn btn-warning text-white px-2" type="submit"
                         data-bs-dismiss="offcanvas" aria-label="Close">Apply</button>
                 </div>
+                <div class="col-3 mb-3">
+                    <button class="btn btn-danger text-white px-2" type="submit"
+                        data-bs-dismiss="offcanvas" aria-label="Close">Close</button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- offCanvas end-->
+
+    <!-- advanced searchbar -->
+
     <form class="filterSection w-100 mt-3" @submit.prevent="onSubmit">
         <div class="topNav">
             <div class="filterNav w-100 py-2 px-2 d-flex justify-content-evenly">
-                <div>
+                <div class="choicesContainer">
                     <label class="me-2 text-white" for="rooms">Rooms</label>
                     <input min="1" name="rooms" type="number" v-model="roomNumber" class="w-25 ps-2">
                 </div>
-                <div>
+                <div class="choicesContainer">
                     <label class="me-2 text-white" for="beds">Beds</label>
                     <input min="1" name="beds" type="number" v-model="bedNumber" class="w-25 ps-2">
                 </div>
-                <div class="d-flex">
+                <div class="radiusContainer d-flex">
                     <label class="me-2 text-white" for="radius">Radius</label>
                     <input v-model="range" min="20" step="10" max="2000" name="radius" type="range" class="w-100 ps-2">
                     <span class="text-white ms-2">{{ range }}</span> <span class="ms-1 text-white">km</span>
                 </div>
 
-                <div class=" ms-5 d-flex align-items-center justify-content-center">
+                <div class=" d-flex align-items-center justify-content-center">
                     <button @click="isClicked()"
                         class="btn serviceBtn btn-warning d-flex align-items-center justify-content-center"
                         data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
@@ -183,8 +182,8 @@ export default {
                     </button>
                     <span class="ms-2 text-white">Filters</span>
                 </div>
-                <div class="btnContainer">
-                    <button @click="saveValues()" class="btn btn-warning px-1 text-white" type="submit">Apply</button>
+                <div class="filterBtnContainer">
+                    <button @click="saveValues()" class="btn applyBtn btn-warning px-1 text-white" type="submit">Apply</button>
                     <button @click="resetFilters()" class="btn btn-danger ms-2 px-1">Reset</button>
                 </div>
             </div>
@@ -194,7 +193,7 @@ export default {
         <div v-if="screenWidth > 992" class="bottomNav mb-2" :class="{ 'dropDown': animation }">
             <div v-show="clicked" class="serviceMenu ps-5 text-start py-3 w-100" :class="{ 'd-flex flex-wrap': clicked }">
                 <div class="row flex-wrap justify-content-start">
-                    <div v-for="(service, i) in services " class="d-block col-2">
+                    <div v-for="(service, i) in services " class="d-block col-2 ">
                         <input type="checkbox" v-model="servicesIds" :true-value="[]" class="me-2" :value="service.id">
                         <span class="text-white serviceName">{{ service.name }}</span>
                     </div>
@@ -380,9 +379,26 @@ export default {
     }
 }
 
+/* Media Query */
+
 @media (max-width: 992px) {
-    /*  .filterNav{
-        flex-direction: column;
-    } */
+    .radiusContainer {
+        display: none !important;
+        ;
+    }
+}
+
+@media (max-width: 768px) {
+    .choicesContainer {
+        display: none;
+    }
+
+    .serviceItem{
+        margin-bottom: 15px;
+    }
+
+    .filterBtnContainer .applyBtn{
+        display: none;
+    }
 }
 </style>
