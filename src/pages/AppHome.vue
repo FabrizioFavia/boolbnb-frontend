@@ -20,6 +20,7 @@ export default {
       store,
       storeFilter,
       apartments: [],
+      sponsored:[],
       loadingError: false,
       apartTotalPages: 0,
       apartCurrentPage: 0
@@ -41,10 +42,17 @@ export default {
           this.loadingError = "Cannot load apartments data. " + err;
           this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
         })
+    },
+    getSponsored(){
+      axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SPONSORED_API_PATH,).then((response)=>{
+        console.log("SPONSORIZZATI==>", response.data);
+      })
     }
+
   },
   mounted() {
-    this.getApartmentsData(1)
+    this.getApartmentsData(1);
+    this.getSponsored()
   }
 }
 </script>
@@ -68,14 +76,10 @@ export default {
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
     <!-- Apartment Cards -->
-    <section v-if="storeFilter.apartFiltered.length > 0"
-      class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
-      <template v-for="apartment in storeFilter.apartFiltered">
-        <MainApartmentCard :apartment="apartment" />
-      </template>
-    </section>
+    <!-- sponsored apartments -->
+    
 
-    <section v-else-if="apartments.length > 0"
+    <section v-if="apartments.length > 0"
       class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
       <template v-for="apartment in apartments">
         <MainApartmentCard :apartment="apartment" />
