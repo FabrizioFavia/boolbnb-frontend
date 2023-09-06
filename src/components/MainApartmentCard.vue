@@ -9,13 +9,19 @@ export default {
 
 <template>
     <!-- Apartment Card -->
-    <div class="apartment-card position-relative overflow-hidden rounded d-flex flex-wrap justify-content-center text-start">
+    <div
+        class="apartment-card position-relative overflow-hidden rounded d-flex flex-wrap justify-content-center text-start">
 
         <!-- On Click Redirect to Route 'show-apartments' -->
         <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }">
             <img :src='"http://localhost:8000/storage/" + apartment.image' :alt="apartment.name"
                 class="card-image w-100 h-100 position-absolute top-0 start-0">
+            <div class="sponsored rounded position-absolute text-white px-2 start-0 top-0">
+                <i class="fa-solid fa-medal me-1"></i>
+                <span>BEST CHOICE</span>
+            </div>
         </router-link>
+
 
         <!-- Retractable Overlay -->
         <div class="overlay position-absolute bottom-0 text-white p-4">
@@ -23,17 +29,14 @@ export default {
             <div class="post-date mb-2 text-white-50">{{ apartment.address }}</div>
             <div class="details-overlay">
                 <p class="fw-light">{{ apartment.description }}</p>
-                <!-- <strong>Services:</strong>
-                <p class="fw-light">
-                    <template v-for="service in apartment.services">
-                        {{ service.name ?? N / A }} {{ service.name ? ' - ' : '' }}
-                    </template>
-                </p> -->
 
                 <!-- On Click Redirect to Route 'show-apartments' -->
                 <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }">
-                    <button class="btn bg-dark text-white-50 rounded read-more px-2 py-1 mt-2 text-decoration-none border border-secondary ms-auto d-block position-relative">READ MORE <i class="fas fa-long-arrow-alt-right position-relative"></i></button>
+                    <button
+                        class="btn bg-dark text-white-50 rounded read-more px-2 py-1 mt-2 text-decoration-none border border-secondary ms-auto d-block position-relative">READ
+                        MORE <i class="fas fa-long-arrow-alt-right position-relative"></i></button>
                 </router-link>
+
             </div>
         </div>
 
@@ -43,9 +46,22 @@ export default {
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
+.sponsored {
+    background-color: rgba(128, 128, 128, 0.565) !important;
+
+    &>span {
+        font-size: 0.8rem;
+    }
+
+    &>i {
+        color: #e6bd37;
+    }
+}
+
 a {
     text-decoration: none;
 }
+
 .apartment-card {
     width: 30%;
     height: 20rem;
@@ -130,5 +146,4 @@ a {
             color: $light-blue;
         }
     }
-}
-</style>
+}</style>

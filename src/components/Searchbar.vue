@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
-// import * as geolib from 'geolib';
 
 export default {
     name: 'SearchBar',
@@ -90,19 +89,6 @@ export default {
             this.animation = true,
                 setTimeout(() => this.animation = false, 600)
         }
-
-        // Use Geolib Library to get distance between two places
-        // searchApartments() {
-        // this.store.apartments.forEach(element => {
-        //     let latitude = element.latitude;
-        //     let longitude = element.longitude;
-        //     let distance = geolib.getPreciseDistance(
-        //         { latitude: this.lat1, longitude: this.lon1 },
-        //         { latitude: latitude, longitude: longitude }
-        //     );
-        //     console.log('LAT1:', this.lat1, 'LON1:', this.lon1, 'LAT2:', latitude, 'LON2:', longitude);
-        //     console.log('Distance:', distance, 'meters');
-        // });
     }
 }
 
