@@ -47,8 +47,8 @@ export default {
             </div>
             <div class="searchBar" :class="{
         'w-100': screenWidth > 992,
-        'mediumSearch': screenWidth < 991 && screenWidth > 758,
-        'smallSearch': screenWidth <= 757 && screenWidth > 577,
+        'mediumSearch': screenWidth <= 992 && screenWidth > 768,
+        'smallSearch': screenWidth <= 768 && screenWidth > 577,
         'customSmallSearch': screenWidth <= 576,
         'xsSearch': screenWidth <= 537,
     }">
@@ -183,7 +183,7 @@ export default {
 }
 
 .smallSearch{
-    width: 320px;
+    width: 300px;
     
 }
 
