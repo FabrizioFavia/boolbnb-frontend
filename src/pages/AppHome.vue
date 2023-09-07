@@ -20,7 +20,7 @@ export default {
       store,
       storeFilter,
       apartments: [],
-      sponsored:[],
+      sponsored: [],
       loadingError: false,
       apartTotalPages: 0,
       apartCurrentPage: 0
@@ -43,9 +43,15 @@ export default {
           this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
         })
     },
-    getSponsored(){
-      axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SPONSORED_API_PATH,).then((response)=>{
-        console.log("SPONSORIZZATI==>", response.data);
+    getSponsored() {
+      this.store.loading = true
+      axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SPONSORED_API_PATH,).then((response) => {
+        this.sponsored = response.data.results,
+          console.log("SPONSORIZZATI==>", this.sponsored);
+      }).catch(err => {
+        this.store.loading = false;
+        this.loadingError = "Cannot load apartments data. " + err;
+        this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
       })
     }
 
@@ -58,7 +64,6 @@ export default {
 </script>
 
 <template>
-
   <!-- Error Message -->
   <div v-if="loadingError" class="d-flex justify-content-center my-10 alert alert-danger">
     <p>{{ loadingError }}</p>
@@ -72,13 +77,33 @@ export default {
   <!-- Spinner Loader -->
   <AppSpinner />
 
-  <!-- APARTMENTS SECTION -->
+  <!-- SPONSORED SECTION -->
+  <!-- Section title -->
+
+  <div class="container d-flex justify-content-start mx-auto my-3">
+    <h3 class="text-start ms-4 mt-5">Most popular apartments</h3>
+  </div>
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
     <!-- Apartment Cards -->
     <!-- sponsored apartments -->
-    
+    <section v-if="sponsored.length > 0"
+      class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
+      <template v-for="apartment in sponsored">
+        <MainApartmentCard :apartment="apartment" />
+      </template>
+    </section>
 
+  </section>
+
+  <!-- ALL APART SECTION -->
+  <!-- Section title -->
+  <div class="container d-flex justify-content-start mx-auto my-3">
+    <h3 class="text-start ms-4 mt-5">All apartments</h3>
+  </div>
+
+  <!-- All apartments -->
+  <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
     <section v-if="apartments.length > 0"
       class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
       <template v-for="apartment in apartments">
