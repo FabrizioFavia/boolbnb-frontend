@@ -6,6 +6,7 @@ import SubscriptionList from '../components/SubscriptionList.vue';
 import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
 import Jumbotron from '../components/Jumbotron.vue';
+import Advertisement from '../components/Advertisement.vue'
 
 export default {
   name: 'AppHome',
@@ -13,7 +14,9 @@ export default {
     MainApartmentCard,
     AppSpinner,
     SubscriptionList,
-    Jumbotron
+    Jumbotron,
+    Advertisement
+
   },
   data() {
     return {
@@ -113,7 +116,7 @@ export default {
     </section>
 
     <!-- Subscription Cards -->
-   <!--  <SubscriptionList /> -->
+    <!--  <SubscriptionList /> -->
 
     <!-- Page Navigation Buttons  -->
     <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
@@ -139,6 +142,10 @@ export default {
         </ul>
       </nav>
     </section>
+
+    <!-- Advertisement section -->
+
+    <Advertisement />
 
   </section>
 </template>
