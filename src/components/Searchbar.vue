@@ -107,7 +107,8 @@ export default {
 
 <template>
     <div class="searchContainer d-flex justify-content-center" >
-        <form class="d-flex flex-column w-75" @submit.prevent="onSubmit">
+        <form class="d-flex flex-column w-75" :class="{
+        'w-100': screenWidth < 578}" @submit.prevent="onSubmit">
             <input @keyup.enter="getLocation()" v-model="search" class="form-control me-2" type="search"
                 placeholder="Search city or address" aria-label="Search" :class="{ 'inputError': animation }">
         </form>

@@ -188,12 +188,12 @@ export default {
 }
 
 .customSmallSearch{
-    width: 320px;
+    width: 400px;
     margin-top: -17px;
 }
 
 .xsSearch{
-    width: 235px;
+    width: 320px;
 }
 </style>
 
