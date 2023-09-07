@@ -34,7 +34,7 @@ export default {
 
 <template>
     <nav class="navbar navbar-expand-lg justify-content-between w-100">
-        <div class="container">
+        <div class="container d-flex">
             <div class="logoContainer d-flex align-items-center" @click="storeFilter.apartFiltered = []">
                 <!-- <router-link class="" to="/"> -->
                 <!-- <img class="navLogo" src="../assets/logo3.png" alt=""> -->
@@ -43,16 +43,22 @@ export default {
                     <img class="navLogo" src="../assets/logo4.jpeg" alt="">
                     <img class="smallLogo" src="../assets/logo4.jpeg" alt="">
                 </router-link>
-                <h4>BoolBnb</h4>
+                <h4 v-if="screenWidth >= 576">BoolBnb</h4>
+            </div>
+            <div class="searchBar" :class="{
+        'w-100': screenWidth > 992,
+        'mediumSearch': screenWidth <= 992 && screenWidth > 758,
+        'smallSearch': screenWidth <= 768 && screenWidth > 576,
+        'customSmallSearch': screenWidth <= 576,
+        'xsSearch': screenWidth <= 537,
+    }">
+                <Searchbar />
             </div>
             <button @click="isOpen()" class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <div class=" searchBar w-100" v-show="openMenu || screenWidth >= 992">
-                    <Searchbar />
-                </div>
                 <div v-show="openMenu || screenWidth >= 992" class="linkContainer">
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -61,9 +67,10 @@ export default {
                         <li class="nav-item">
                             <a class="nav-link" href="http://localhost:8000/register">Register</a>
                         </li>
-                        <li  class="nav-item">
-                            <button v-show="screenWidth < 992" @click="isOpen()" class="btn" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <li class="nav-item">
+                            <button v-show="screenWidth < 992" @click="isOpen()" class="btn" data-bs-toggle="collapse"
+                                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                                aria-label="Toggle navigation">
                                 close
                             </button>
                         </li>
@@ -129,10 +136,6 @@ export default {
         background: rgb(214, 139, 18);
         background: linear-gradient(49deg, rgba(214, 139, 18, 1) 22%, rgba(194, 33, 79, 1) 100%);
         margin-top: 9px;
-
-        .searchBar {
-            padding-top: 16px;
-        }
     }
 
 
@@ -160,9 +163,6 @@ export default {
 }
 
 @media (max-width: 992px) {
-    .searchBar {
-        padding-top: 16px;
-    }
 }
 
 .navbar {
@@ -176,6 +176,24 @@ export default {
     .bottomNavbar {
         height: 40px;
     }
+}
+
+.mediumSearch{
+    width: 498px;
+}
+
+.smallSearch{
+    width: 320px;
+    
+}
+
+.customSmallSearch{
+    width: 320px;
+    margin-top: -17px;
+}
+
+.xsSearch{
+    width: 235px;
 }
 </style>
 

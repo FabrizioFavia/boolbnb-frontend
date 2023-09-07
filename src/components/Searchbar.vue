@@ -12,7 +12,8 @@ export default {
             lon1: '',
             animation: false,
             store,
-            storeFilter
+            storeFilter,
+            screenWidth: window.innerWidth,
         }
     },
     watch: {
@@ -26,20 +27,20 @@ export default {
             this.search = this.search.trim();
             if (!this.search) return this.animationInput(); // If empty search -> call 'animationInput()' and stop this function
             this.storeFilter.apartFiltered = [],
-            this.storeFilter.loading = true;
+                this.storeFilter.loading = true;
             axios.defaults.withCredentials = false;
-                try {
-                    const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
-                    this.lat1 = response.data.results['0'].position.lat;
-                    this.lon1 = response.data.results['0'].position.lon;
-                    axios.defaults.withCredentials = true;
-                    this.searchApartments()
-                } catch (error) {
-                    this.storeFilter.loading = false;
-                    axios.defaults.withCredentials = true;
-                    this.animationInput();
-                    console.error('⚠️ Error during Server Proxy -> TomTom API Call while trying to get location from search input:', error);
-                }
+            try {
+                const response = await axios.get(import.meta.env.VITE_API_PATH + this.search + '.json?key=' + import.meta.env.VITE_API_KEY);
+                this.lat1 = response.data.results['0'].position.lat;
+                this.lon1 = response.data.results['0'].position.lon;
+                axios.defaults.withCredentials = true;
+                this.searchApartments()
+            } catch (error) {
+                this.storeFilter.loading = false;
+                axios.defaults.withCredentials = true;
+                this.animationInput();
+                console.error('⚠️ Error during Server Proxy -> TomTom API Call while trying to get location from search input:', error);
+            }
         },
         // Get Distance between two places in km
         getDistance(lat1, lon1, lat2, lon2) {
@@ -88,14 +89,24 @@ export default {
         animationInput() {
             this.animation = true,
                 setTimeout(() => this.animation = false, 600)
-        }
-    }
+        },
+        updateScreenWidth() {
+            this.screenWidth = window.innerWidth;
+        },
+    },
+    mounted() {
+        window.addEventListener('resize', this.updateScreenWidth);
+        this.updateScreenWidth();
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.updateScreenWidth);
+    },
 }
 
 </script>
 
 <template>
-    <div class="searchContainer d-flex justify-content-center w-100">
+    <div class="searchContainer d-flex justify-content-center" >
         <form class="d-flex flex-column w-75" @submit.prevent="onSubmit">
             <input @keyup.enter="getLocation()" v-model="search" class="form-control me-2" type="search"
                 placeholder="Search city or address" aria-label="Search" :class="{ 'inputError': animation }">
@@ -133,8 +144,15 @@ export default {
     }
 }
 
+input{
+    max-width: 100%; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
 @media (max-width: 576px) {
     .searchContainer {
         margin-top: 20px;
     }
-}</style>
+}
+</style>
