@@ -47,10 +47,11 @@ export default {
             </div>
             <div class="searchBar" :class="{
         'w-100': screenWidth > 992,
-        'mediumSearch': screenWidth <= 992 && screenWidth > 768,
-        'smallSearch': screenWidth <= 768 && screenWidth > 577,
-        'customSmallSearch': screenWidth <= 576,
-        'xsSearch': screenWidth <= 537,
+    'mediumSearch': screenWidth <= 992 && screenWidth > 768,
+    'smallSearch': screenWidth <= 768 && screenWidth > 576,
+    'customSmallSearch': screenWidth <= 576 && screenWidth > 538,
+    'xsSearch': screenWidth <= 538 && screenWidth > 320,
+    'xxsSearch': screenWidth <= 320,
     }">
                 <Searchbar />
             </div>
@@ -194,6 +195,12 @@ export default {
 
 .xsSearch{
     width: 215px;
+    margin-top: -17px;
+}
+
+.xxsSearch{
+    width: 200px;
+    
 }
 </style>
 
