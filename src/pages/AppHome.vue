@@ -23,7 +23,8 @@ export default {
       sponsored: [],
       loadingError: false,
       apartTotalPages: 0,
-      apartCurrentPage: 0
+      apartCurrentPage: 0,
+      sponsored: true
     }
   },
   methods: {
@@ -53,7 +54,7 @@ export default {
         this.loadingError = "Cannot load apartments data. " + err;
         this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
       })
-    }
+    },
 
   },
   mounted() {
@@ -81,7 +82,7 @@ export default {
   <!-- Section title -->
 
   <div class="container d-flex justify-content-start mx-auto my-3">
-    <h3 class="text-start ms-4 mt-5">Most popular apartments</h3>
+    <h3 class="text-start ms-4 mt-5">Best Choice</h3>
   </div>
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
@@ -90,7 +91,7 @@ export default {
     <section v-if="sponsored.length > 0"
       class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
       <template v-for="apartment in sponsored">
-        <MainApartmentCard :apartment="apartment" />
+        <MainApartmentCard :apartment="apartment" :sponsored="sponsored" />
       </template>
     </section>
 
@@ -112,7 +113,7 @@ export default {
     </section>
 
     <!-- Subscription Cards -->
-    <SubscriptionList />
+   <!--  <SubscriptionList /> -->
 
     <!-- Page Navigation Buttons  -->
     <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">

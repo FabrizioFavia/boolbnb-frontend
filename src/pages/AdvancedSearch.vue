@@ -7,6 +7,7 @@ import AppSpinner from '../components/AppSpinner.vue';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
 
 
+
 export default {
     name: 'AdvancedSearch',
     components: {
@@ -21,6 +22,7 @@ export default {
         return {
             range: 20,
             apartments: [],
+            sponsored: [],
             apartTotalPages: 0,
             apartCurrentPage: 0,
             clicked: false,
@@ -30,6 +32,7 @@ export default {
             searchHistory: '',
             bedNumber: undefined,
             roomNumber: undefined,
+            sponsored: true,
             storeFilter,
             store,
             screenWidth: window.innerWidth,
@@ -81,9 +84,20 @@ export default {
                     this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
                 })
         },
+        getSponsored() {
+            this.store.loading = true
+            axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SPONSORED_API_PATH,).then((response) => {
+                this.sponsored = response.data.results,
+                    console.log("SPONSORIZZATI==>", this.sponsored);
+            }).catch(err => {
+                this.store.loading = false;
+                this.loadingError = "Cannot load apartments data. " + err;
+                this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
+            })
+        },
         updateScreenWidth() {
             this.screenWidth = window.innerWidth;
-        }
+        },
     },
     watch: {
         // Update Search Input Data
@@ -96,6 +110,7 @@ export default {
             this.getApartmentsData(1),
             this.searchHistory = this.$route.params.search,
             window.addEventListener('resize', this.updateScreenWidth);
+        this.getSponsored()
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.updateScreenWidth);
@@ -146,8 +161,8 @@ export default {
                         data-bs-dismiss="offcanvas" aria-label="Close">Apply</button>
                 </div>
                 <div class="col-3 mb-3">
-                    <button class="btn btn-danger text-white px-2" type="submit"
-                        data-bs-dismiss="offcanvas" aria-label="Close">Close</button>
+                    <button class="btn btn-danger text-white px-2" type="submit" data-bs-dismiss="offcanvas"
+                        aria-label="Close">Close</button>
                 </div>
             </div>
         </div>
@@ -183,7 +198,8 @@ export default {
                     <span class="ms-2 text-white">Filters</span>
                 </div>
                 <div class="filterBtnContainer">
-                    <button @click="saveValues()" class="btn applyBtn btn-warning px-1 text-white" type="submit">Apply</button>
+                    <button @click="saveValues()" class="btn applyBtn btn-warning px-1 text-white"
+                        type="submit">Apply</button>
                     <button @click="resetFilters()" class="btn btn-danger ms-2 px-1">Reset</button>
                 </div>
             </div>
@@ -211,8 +227,24 @@ export default {
     </div>
 
     <!-- Apartment Filter Cards -->
+    <div class="container d-flex justify-content-start mx-auto my-3">
+        <h3 class="text-start ms-4 mt-5">Best Choice</h3>
+    </div>
     <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
+        <!-- Sponsored Apartments -->
+        <section v-if="sponsored.length > 0"
+            class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
+            <template v-for="apartment in sponsored">
+                <MainApartmentCard :apartment="apartment" :sponsored="sponsored" />
+            </template>
+        </section>
+    </section>
+
+    <div class="container d-flex justify-content-start mx-auto my-3">
+        <h3 class="text-start ms-4 mt-5">All apartments</h3>
+    </div>
+    <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
         <!-- Filtered Apartment Cards -->
         <section v-if="storeFilter.apartFiltered.length > 0"
             class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
@@ -228,36 +260,34 @@ export default {
                 <MainApartmentCard :apartment="apartment" />
             </template>
         </section>
-
-        <!-- Page Navigation Buttons  -->
-        <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
-            <nav class="text-center" aria-label="Page navigation">
-                <ul class="pagination d-inline-flex">
+    </section>
+    <!-- Page Navigation Buttons  -->
+    <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
+        <nav class="text-center" aria-label="Page navigation">
+            <ul class="pagination d-inline-flex">
+                <li class="py-3 mx-3">
+                    <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
+                        class="page-link d-block rounded arrow" aria-label="Previous"
+                        :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                </li>
+                <template v-for="pageNumber in apartTotalPages">
                     <li class="py-3 mx-3">
-                        <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
-                            class="page-link d-block rounded arrow" aria-label="Previous"
-                            :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i>
+                        <button @click="getApartmentsData(pageNumber)"
+                            :class="apartCurrentPage === pageNumber ? 'active' : null" class="page-link d-block rounded">{{
+                                pageNumber }}
                         </button>
                     </li>
-                    <template v-for="pageNumber in apartTotalPages">
-                        <li class="py-3 mx-3">
-                            <button @click="getApartmentsData(pageNumber)"
-                                :class="apartCurrentPage === pageNumber ? 'active' : null"
-                                class="page-link d-block rounded">{{ pageNumber }}
-                            </button>
-                        </li>
-                    </template>
-                    <li class="py-3 mx-3">
-                        <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
-                            class="page-link d-block rounded arrow" aria-label="Next"
-                            :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i
-                                class="fa-solid fa-chevron-right"></i>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </section>
-
+                </template>
+                <li class="py-3 mx-3">
+                    <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
+                        class="page-link d-block rounded arrow" aria-label="Next"
+                        :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i
+                            class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
     </section>
 </template>
 
@@ -393,11 +423,11 @@ export default {
         display: none;
     }
 
-    .serviceItem{
+    .serviceItem {
         margin-bottom: 15px;
     }
 
-    .filterBtnContainer .applyBtn{
+    .filterBtnContainer .applyBtn {
         display: none;
     }
 }

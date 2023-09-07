@@ -2,7 +2,8 @@
 export default {
     name: 'MainApartmentCard',
     props: {
-        apartment: Object
+        apartment: Object,
+        sponsored: Boolean
     },
 }
 </script>
@@ -16,7 +17,7 @@ export default {
         <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }">
             <img :src='"http://localhost:8000/storage/" + apartment.image' :alt="apartment.name"
                 class="card-image w-100 h-100 position-absolute top-0 start-0">
-            <div class="sponsored rounded position-absolute text-white px-2 start-0 top-0">
+            <div v-show="sponsored" class="sponsored rounded position-absolute text-white px-2 start-0 top-0">
                 <i class="fa-solid fa-medal me-1"></i>
                 <span>BEST CHOICE</span>
             </div>
