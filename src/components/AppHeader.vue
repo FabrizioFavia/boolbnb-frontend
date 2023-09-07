@@ -193,7 +193,7 @@ export default {
 }
 
 .xsSearch{
-    width: 320px;
+    width: 250px;
 }
 </style>
 
