@@ -14,12 +14,12 @@ export default {
 
 <template>
 
-    <div class="castomDiv py-4">
+    <div class="castomDiv pt-4">
 
-        <div class="container">
+        <div class="container DivCastom">
             <div class="row">
                 <!-- colonna sinistra -->
-                <div class="col-6 d-flex flex-wrap">
+                <div class="col-12 col-lg-6 d-flex flex-wrap mb-3">
 
                     <div class="col-4 text-secondary text-start mt-4 px-2">
                         <h4 class="mb-3 fs-5">Society</h4>
@@ -47,18 +47,38 @@ export default {
                 </div>
 
                 <!-- colonna destra -->
-                <div class="col-6 mt-4 px-2">
+                <div class="col-12 col-lg-6 mt-4 px-2">
                     <h4 class="px-3 pb-3 fs-5 text-secondary">About Us</h4>
 
                     <div class="d-flex flex-wrap align-content-center justify-content-center">
-                        <div class="castomCard img1"></div>
-                        <div class="castomCard img2"></div>
-                        <div class="castomCard img3"></div>
-                        <div class="castomCard img4"></div>
+                        <div class="castomCard img1">
+                            <div class="show">
+                                <a href="https://github.com/soniabergamini"><i class="fa-brands fa-github castomGit" style="color: #757474;"></i></a>
+                            </div>
+                        </div>
+                        <div class="castomCard img2">
+                            <div class="show">
+                                <a href="https://github.com/FabrizioFavia"><i class="fa-brands fa-github castomGit" style="color: #757474;"></i></a>
+                            </div>
+                        </div>
+                        <div class="castomCard img3">
+                            <div class="show">
+                                <a href="https://github.com/WragnarokA"><i class="fa-brands fa-github castomGit" style="color: #757474;"></i></a>
+                            </div>
+                        </div>
+                        <div class="castomCard img4">
+                            <div class="show">
+                                <a href="https://github.com/BrunoCanini"><i class="fa-brands fa-github castomGit" style="color: #757474;"></i></a>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
+        </div>
+
+        <div class="col-12 d-flex justify-content-center text-secondary pb-1 mt-5">
+            <p class="smallCastom">Bool Bnb ® Copyright 2023 Bool Bnb S.r.l</p>
         </div>
 
     </div>
@@ -74,8 +94,8 @@ export default {
 }
 
 .castomCard{
-    width: 110px;
-    height: 110px;
+    width: 90px;
+    height: 90px;
     background-size: cover;
     background-color: rgb(1, 1, 1);
     border-radius: 50%;
@@ -98,6 +118,32 @@ export default {
 .img4{
     background-image: url("src/assets/bruno.png");
     background-position: center;
+}
+
+.castomCard:hover{
+    background-image: none;
+
+    .show{
+        display: block;
+    }
+}
+
+.show{
+    width: 90px;
+    height: 90px;
+    display: none;
+}
+
+.castomGit{
+    font-size: 90px;
+}
+
+.smallCastom{
+    font-size: smaller;
+}
+
+.DivCastom{
+    margin: auto;
 }
 
 </style>

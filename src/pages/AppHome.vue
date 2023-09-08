@@ -7,6 +7,7 @@ import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
 import Jumbotron from '../components/Jumbotron.vue';
 import Advertisement from '../components/Advertisement.vue'
+import AppFooter from '../components/AppFooter.vue';
 
 export default {
   name: 'AppHome',
@@ -15,7 +16,8 @@ export default {
     AppSpinner,
     SubscriptionList,
     Jumbotron,
-    Advertisement
+    Advertisement,
+    AppFooter,
 
   },
   data() {
@@ -148,6 +150,11 @@ export default {
     <Advertisement />
 
   </section>
+
+  <section>
+      <AppFooter />
+  </section>
+  
 </template>
 
 <style scoped lang="scss">
