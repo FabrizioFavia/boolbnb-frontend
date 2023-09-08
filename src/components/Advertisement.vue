@@ -34,7 +34,7 @@ export default{
 </script>
 
 <template>
-    <div class="container mt-5">
+    <div class="container my-5">
         <div class="row mb-4">
             <div class="col-6 py-3 animate-left"  ref="leftColumn">
                 <h2 class="advertText mb-4 mt-5">

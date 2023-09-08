@@ -84,8 +84,8 @@ export default {
   <!-- SPONSORED SECTION -->
   <!-- Section title -->
 
-  <div class="container d-flex justify-content-start mx-auto my-3">
-    <h3 class="text-start ms-4 mt-5">Best Choice</h3>
+  <div class="container d-flex justify-content-start mx-auto mb-3">
+    <h4 class="text-start ms-4 mt-5 sectionTitle">Best Choice</h4>
   </div>
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
@@ -102,12 +102,45 @@ export default {
 
   <!-- ALL APART SECTION -->
   <!-- Section title -->
-  <div class="container d-flex justify-content-start mx-auto my-3">
-    <h3 class="text-start ms-4 mt-5">All apartments</h3>
+  <div class="container d-flex justify-content-between align-items-center mx-auto my-3">
+    <div>
+      <h4 class="text-start d-inline ms-4 me-5 mt-5 sectionTitle">All apartments</h4>
+    </div>
+    <div class="sectionContainer me-5 pe-2">
+      <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
+        <nav class="text-center" aria-label="Page navigation">
+          <ul class="pagination d-inline-flex">
+            <li class="py-3 mx-3">
+              <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
+                class="page-link d-block rounded arrow" aria-label="Previous"
+                :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i></button>
+            </li>
+            <template v-for="pageNumber in apartTotalPages">
+              <li class="py-3 mx-3">
+                <button @click="getApartmentsData(pageNumber)" :class="apartCurrentPage === pageNumber ? 'active' : null"
+                  class="page-link d-block rounded">{{ pageNumber }}</button>
+              </li>
+            </template>
+            <li class="py-3 mx-3">
+              <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
+                class="page-link d-block rounded arrow" aria-label="Next"
+                :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i
+                  class="fa-solid fa-chevron-right"></i></button>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </div>
+
   </div>
 
   <!-- All apartments -->
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
+
+
+    <!-- Page Navigation Buttons  -->
+
+
     <section v-if="apartments.length > 0"
       class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
       <template v-for="apartment in apartments">
@@ -118,30 +151,7 @@ export default {
     <!-- Subscription Cards -->
     <!--  <SubscriptionList /> -->
 
-    <!-- Page Navigation Buttons  -->
-    <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
-      <nav class="text-center" aria-label="Page navigation">
-        <ul class="pagination d-inline-flex">
-          <li class="py-3 mx-3">
-            <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
-              class="page-link d-block rounded arrow" aria-label="Previous"
-              :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i></button>
-          </li>
-          <template v-for="pageNumber in apartTotalPages">
-            <li class="py-3 mx-3">
-              <button @click="getApartmentsData(pageNumber)" :class="apartCurrentPage === pageNumber ? 'active' : null"
-                class="page-link d-block rounded">{{ pageNumber }}</button>
-            </li>
-          </template>
-          <li class="py-3 mx-3">
-            <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
-              class="page-link d-block rounded arrow" aria-label="Next"
-              :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i
-                class="fa-solid fa-chevron-right"></i></button>
-          </li>
-        </ul>
-      </nav>
-    </section>
+
 
     <!-- Advertisement section -->
 
@@ -154,6 +164,48 @@ export default {
 @use 'src/style.scss' as *;
 
 
+.pagination {
+  // font-family: 'Itim', cursive;
+  border-radius: 8px 8px 0 0;
+  /* border-top: 4px solid $primary-orange; */
+
+  .page-link {
+    color: $primary-orange;
+    background: transparent;
+    /* line-height: 1rem; */
+    height: 1.5rem;
+    width: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    border-radius: 100% !important;
+    border: 1px solid $primary-orange;
+    /* transition: all 0.3s ease 0s; */
+  }
+
+  .page-link:hover,
+  .page-link.active,
+  .page-link:focus:not(.arrow) {
+    color: white;
+    background: $primary-orange;
+    /* line-height: 2.375rem;
+      height: 2.5625rem; */
+    /* margin: -5px 0 -3px; */
+    border: 1px solid $primary-orange;
+  }
+
+  .page-link.active:hover {
+    background: $light-orange;
+  }
+
+  .page-link.disabled {
+    color: lightgrey;
+    border: 1px solid lightgrey;
+  }
+}
+
+
 #apartmentsSec {
 
 
@@ -161,41 +213,15 @@ export default {
     gap: 2.5rem;
   }
 
-  & .pagination {
-    // font-family: 'Itim', cursive;
-    border-radius: 8px 8px 0 0;
-    border-top: 4px solid $primary-orange;
+}
 
-    & .page-link {
-      color: $primary-orange;
-      background: transparent;
-      line-height: 1rem;
-      height: 2rem;
-      width: 2.625rem;
-      border: 1px solid $primary-orange;
-      transition: all 0.3s ease 0s;
-    }
+.sectionTitle {
+  border: 3px solid $light-orange;
+  padding: 2px 10px;
+  background-color: $light-orange;
+  border-radius: 15px;
+  color: white;
 
-    & .page-link:hover,
-    & .page-link.active,
-    & .page-link:focus:not(.arrow) {
-      color: white;
-      background: $primary-orange;
-      line-height: 2.375rem;
-      height: 2.5625rem;
-      margin: -5px 0 -3px;
-      border: 1px solid $primary-orange;
-    }
-
-    & .page-link.active:hover {
-      background: $light-orange;
-    }
-
-    & .page-link.disabled {
-      color: lightgrey;
-      border: 1px solid lightgrey;
-    }
-  }
 }
 
 @media only screen and (max-width: 480px) {
