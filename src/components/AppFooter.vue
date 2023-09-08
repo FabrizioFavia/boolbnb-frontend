@@ -90,7 +90,6 @@ export default {
 
 .castomDiv{
     background-color: rgb(37, 37, 37);
-    // height: 500px;
 }
 
 .castomCard{

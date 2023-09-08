@@ -36,14 +36,14 @@ export default{
 <template>
     <div class="container my-5">
         <div class="row mb-4">
-            <div class="col-6 py-3 animate-left"  ref="leftColumn">
+            <div class="col-lg-6 col-md-12 col-sm-12 py-3 animate-left"  ref="leftColumn">
                 <h2 class="advertText mb-4 mt-5">
                     Want to earn More? Host with Ease.
                 </h2>
                 <h3 class="ps-4 d-inline">Register Your Apartment</h3>
                 <h3 class="d-inline ps-2"><a class="text-decoration-none orangeText" href="http://localhost:8000/register">Now!</a></h3>
             </div>
-            <div class="col-5 mt-5 animate-right"  ref="rightColumn">
+            <div class="col-lg-5 col-md-12 col-sm-12 mt-5 animate-right"  ref="rightColumn">
                 <img class=" w-100 h-100 mt-1 rounded rounded-3" src="src/assets/host.jpg" alt="Host image">
             </div>
         </div>

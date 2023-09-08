@@ -67,7 +67,7 @@ a {
     width: 30%;
     height: 20rem;
     // flex: 1;
-    min-width: 290px;
+   /*  min-width: 290px; */
     box-shadow: 0 0 1rem #f9923d77;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
@@ -147,4 +147,41 @@ a {
             color: $light-blue;
         }
     }
-}</style>
+}
+
+/* MEDIA QUERY */
+
+@media (min-width: 1200px) {
+    .apartment-card{
+        min-width: 290px;
+    }
+}
+@media (max-width: 1199px) {
+    .apartment-card{
+        width: 400px;
+    }
+}
+
+
+    @media (max-width: 992px) {
+    .apartment-card{
+        width: 45%;
+    }
+    }
+
+    @media (max-width: 768px) {
+    .apartment-card{
+        min-width: 44%;
+    }
+    }
+
+
+    @media (max-width: 576px) {
+    .apartment-card{
+        width: 90%;
+    }
+    }
+
+
+
+</style>
