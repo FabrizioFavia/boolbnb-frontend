@@ -3,11 +3,13 @@ import AppHeader from './components/AppHeader.vue';
 // import SubscriptionList from './components/SubscriptionList.vue';
 import { storeFilter } from './data/storeFilter';
 import axios from 'axios';
+import AppFooter from './components/AppFooter.vue';
 /* import Jumbotron from './components/Jumbotron.vue'; */
 
 export default {
   components: {
     AppHeader,
+    AppFooter,
     /*  Jumbotron */
     // SubscriptionList,
   },
@@ -44,7 +46,9 @@ export default {
       <router-view></router-view>
     </div>
   </main>
-  <footer class="container"></footer>
+  <footer>
+    <AppFooter />
+  </footer>
   <!-- <SubscriptionList /> -->
 </template>
 
