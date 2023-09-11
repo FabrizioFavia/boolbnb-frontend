@@ -5,13 +5,15 @@ import { storeFilter } from '../data/storeFilter';
 import { store } from '../data/store';
 import AppSpinner from '../components/AppSpinner.vue';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
+import AppFooter from '../components/AppFooter.vue';
 
 export default {
     name: 'AdvancedSearch',
     components: {
         AppHome,
         AppSpinner,
-        MainApartmentCard
+        MainApartmentCard,
+        AppFooter
     },
     props: {
         search: String
@@ -244,6 +246,10 @@ export default {
                 <MainApartmentCard :apartment="apartment" />
             </template>
         </section> -->
+    </section>
+
+    <section>
+        <AppFooter />
     </section>
     
 </template>

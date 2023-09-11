@@ -1,7 +1,11 @@
 <script>
+import AppFooter from '../components/AppFooter.vue';
 
 export default {
     name: "AppError",
+    components: {
+        AppFooter
+    },
     props: [
         'code'
     ],
@@ -36,8 +40,10 @@ export default {
                             <i class="fa-solid fa-arrow-left"></i> GO BACK HOME
                         </button>
                     </router-link>
-                    <button @click="showAlert = !showAlert" class="bg-gray-900 px-3 py-1 border border-secondary rounded mt-5 ms-2">
-                        {{ showAlert ? 'SHOW LESS' : 'LEARN MORE' }} <i v-show="!showAlert" class="fa-solid fa-circle-info fa-sm"></i>
+                    <button @click="showAlert = !showAlert"
+                        class="bg-gray-900 px-3 py-1 border border-secondary rounded mt-5 ms-2">
+                        {{ showAlert ? 'SHOW LESS' : 'LEARN MORE' }} <i v-show="!showAlert"
+                            class="fa-solid fa-circle-info fa-sm"></i>
                     </button>
                 </div>
             </div>
@@ -75,7 +81,9 @@ section {
                 font-size: 1.3rem !important;
             }
 
-            & h3, h2, button {
+            & h3,
+            h2,
+            button {
                 font-weight: 700;
                 color: $primary-orange; //#FBAB1B;
             }
@@ -107,6 +115,5 @@ section {
             font-size: 3rem !important;
             line-height: 1 !important;
         }
-    } 
-}
-</style>
+    }
+}</style>
