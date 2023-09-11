@@ -14,7 +14,7 @@ export default {
 
 <template>
 
-    <div class="castomDiv pt-4">
+    <div class="castomDiv pt-4 mt-5">
 
         <div class="container DivCastom">
             <div class="row">

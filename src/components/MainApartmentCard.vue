@@ -10,37 +10,38 @@ export default {
 
 <template>
     <!-- Apartment Card -->
-    <div
-        class="apartment-card position-relative overflow-hidden rounded d-flex flex-wrap justify-content-center text-start">
 
-        <!-- On Click Redirect to Route 'show-apartments' -->
+    <div
+        class="apartment-card position-relative overflow-hidden rounded text-start">
         <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }">
+            <!-- On Click Redirect to Route 'show-apartments' -->
+
             <img :src='"http://localhost:8000/storage/" + apartment.image' :alt="apartment.name"
                 class="card-image w-100 h-100 position-absolute top-0 start-0">
             <div v-show="sponsored" class="sponsored rounded position-absolute text-white px-2 start-0 top-0">
                 <i class="fa-solid fa-medal me-1"></i>
                 <span>BEST CHOICE</span>
             </div>
-        </router-link>
 
 
-        <!-- Retractable Overlay -->
-        <div class="overlay position-absolute bottom-0 text-white p-4">
-            <h2 class="title mb-2">{{ apartment.name }}</h2>
-            <div class="post-date mb-2 text-white-50">{{ apartment.address }}</div>
-            <div class="details-overlay">
-                <p class="fw-light">{{ apartment.description }}</p>
 
-                <!-- On Click Redirect to Route 'show-apartments' -->
-                <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }">
+            <!-- Retractable Overlay -->
+            <div class="overlay position-absolute bottom-0 text-white p-4">
+                <h2 class="title mb-2 w-100">{{ apartment.name }}</h2>
+                <div class="post-date mb-2 text-white-50">{{ apartment.address }}</div>
+                <div class="details-overlay">
+                    <p class="fw-light">{{ apartment.description }}</p>
+
+                    <!-- On Click Redirect to Route 'show-apartments' -->
+                    <!--  <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }"> -->
                     <button
                         class="btn bg-dark text-white-50 rounded read-more px-2 py-1 mt-2 text-decoration-none border border-secondary ms-auto d-block position-relative">READ
                         MORE <i class="fas fa-long-arrow-alt-right position-relative"></i></button>
-                </router-link>
+                    <!-- </router-link> -->
 
+                </div>
             </div>
-        </div>
-
+        </router-link>
     </div>
 </template>
 
@@ -66,8 +67,6 @@ a {
 .apartment-card {
     width: 30%;
     height: 20rem;
-    // flex: 1;
-   /*  min-width: 290px; */
     box-shadow: 0 0 1rem #f9923d77;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
@@ -82,8 +81,9 @@ a {
         z-index: -1;
     }
 
-    &>.overlay {
+    & .overlay {
         transition: background-color 1.5s ease;
+        background-color: rgba(0, 0, 0, 0.466);
     }
 
     & .title {
@@ -92,6 +92,10 @@ a {
 
     & .post-date {
         font-size: .7rem;
+    }
+
+    &:hover .overlay {
+        background-color: rgba(0, 0, 0, 0.636);
     }
 
     & .details-overlay {
@@ -110,10 +114,7 @@ a {
     &:hover .details-overlay {
         max-height: 20rem;
         opacity: 1;
-    }
 
-    &:hover .overlay {
-        background-color: rgba(0, 0, 0, 0.6);
     }
 
     &:hover .title {
@@ -152,36 +153,32 @@ a {
 /* MEDIA QUERY */
 
 @media (min-width: 1200px) {
-    .apartment-card{
+    .apartment-card {
         min-width: 290px;
     }
 }
+
 @media (max-width: 1199px) {
-    .apartment-card{
+    .apartment-card {
         width: 400px;
     }
 }
 
-
-    @media (max-width: 992px) {
-    .apartment-card{
+@media (max-width: 992px) {
+    .apartment-card {
         width: 45%;
     }
-    }
+}
 
-    @media (max-width: 768px) {
-    .apartment-card{
+@media (max-width: 768px) {
+    .apartment-card {
         min-width: 44%;
     }
-    }
+}
 
-
-    @media (max-width: 576px) {
-    .apartment-card{
+@media (max-width: 576px) {
+    .apartment-card {
         width: 90%;
     }
-    }
-
-
-
+}
 </style>

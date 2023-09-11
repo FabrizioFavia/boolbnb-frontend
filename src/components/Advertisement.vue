@@ -36,15 +36,15 @@ export default{
 <template>
     <div class="container my-5">
         <div class="row mb-4">
-            <div class="col-lg-6 col-md-12 col-sm-12 py-3 animate-left"  ref="leftColumn">
+            <div class="leftCol col-xl-6 col-lg-7 col-md-12 col-sm-12 py-3 animate-left"  ref="leftColumn">
                 <h2 class="advertText mb-4 mt-5">
                     Want to earn More? Host with Ease.
                 </h2>
-                <h3 class="ps-4 d-inline">Register Your Apartment</h3>
+                <h3 class=" d-inline">Register Your Apartment</h3>
                 <h3 class="d-inline ps-2"><a class="text-decoration-none orangeText" href="http://localhost:8000/register">Now!</a></h3>
             </div>
-            <div class="col-lg-5 col-md-12 col-sm-12 mt-5 animate-right"  ref="rightColumn">
-                <img class=" w-100 h-100 mt-1 rounded rounded-3" src="src/assets/host.jpg" alt="Host image">
+            <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12 mt-5 animate-right"  ref="rightColumn">
+                <img class="advImage w-100 h-100 mt-1 rounded rounded-3 object-fit-cover" src="src/assets/host.jpg" alt="Host image">
             </div>
         </div>
     </div>
@@ -79,6 +79,32 @@ export default{
 .animate-left.animated, .animate-right.animated {
   opacity: 1;
   transform: translateX(0);
+}
+
+/* MEDIA QUERY */
+
+@media only screen and (max-width: 765px) {
+  .advertText{
+    font-size: 40px;
+    padding: 20px 60px;
+    margin-top: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .advertText{
+    font-size: 35px;
+    margin-top: 0 !important;
+  }
+
+  .leftCol{
+    padding-top: 0;
+  }
+
+  .advImage{
+    width: 90% !important;
+    margin: 0 auto;
+  }
 }
 
 

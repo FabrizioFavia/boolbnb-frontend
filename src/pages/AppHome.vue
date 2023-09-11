@@ -110,7 +110,7 @@ export default {
   <!-- Section title -->
   <div class="container justify-content-between align-items-center mx-auto my-3">
     <div>
-      <h4 id="allApartTitle" class="text-start ms-4 me-5 mt-5 sectionTitle">All apartments</h4>
+      <h4 id="allApartTitle" class="ms-4 me-5 mt-5 sectionTitle">All apartments</h4>
     </div>
     <!-- Page number -->
     <div class="sectionContainer me-5 pe-2 mt-5">
