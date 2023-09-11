@@ -11,8 +11,7 @@ export default {
 <template>
     <!-- Apartment Card -->
 
-    <div
-        class="apartment-card position-relative overflow-hidden rounded text-start">
+    <div class="apartment-card position-relative overflow-hidden rounded text-start">
         <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }">
             <!-- On Click Redirect to Route 'show-apartments' -->
 
@@ -23,8 +22,6 @@ export default {
                 <span>BEST CHOICE</span>
             </div>
 
-
-
             <!-- Retractable Overlay -->
             <div class="overlay position-absolute bottom-0 text-white p-4">
                 <h2 class="title mb-2 w-100">{{ apartment.name }}</h2>
@@ -33,12 +30,11 @@ export default {
                     <p class="fw-light">{{ apartment.description }}</p>
 
                     <!-- On Click Redirect to Route 'show-apartments' -->
-                    <!--  <router-link :to="{ name: 'show-apartments', params: { id: apartment.id } }"> -->
+
                     <button
                         class="btn bg-dark text-white-50 rounded read-more px-2 py-1 mt-2 text-decoration-none border border-secondary ms-auto d-block position-relative">READ
-                        MORE <i class="fas fa-long-arrow-alt-right position-relative"></i></button>
-                    <!-- </router-link> -->
-
+                        MORE <i class="fas fa-long-arrow-alt-right position-relative"></i>
+                    </button>
                 </div>
             </div>
         </router-link>
@@ -150,7 +146,7 @@ a {
     }
 }
 
-/* MEDIA QUERY */
+/**************** MEDIA QUERY *****************/  
 
 @media (min-width: 1200px) {
     .apartment-card {

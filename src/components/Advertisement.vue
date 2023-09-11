@@ -1,13 +1,13 @@
 <script>
 
-export default{
-    name: 'Advertisement',
-    data() {
-        return {
-            variable: 'prova'
-        }
-    },
-    methods: {
+export default {
+  name: 'Advertisement',
+  data() {
+    return {
+      variable: 'prova'
+    }
+  },
+  methods: {
     handleIntersection(entries) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -32,59 +32,68 @@ export default{
 }
 
 </script>
-
+<!-- Advertisement section -->
 <template>
-    <div class="container my-5">
-        <div class="row mb-4">
-            <div class="leftCol col-xl-6 col-lg-7 col-md-12 col-sm-12 py-3 animate-left"  ref="leftColumn">
-                <h2 class="advertText mb-4 mt-5">
-                    Want to earn More? Host with Ease.
-                </h2>
-                <h3 class=" d-inline">Register Your Apartment</h3>
-                <h3 class="d-inline ps-2"><a class="text-decoration-none orangeText" href="http://localhost:8000/register">Now!</a></h3>
-            </div>
-            <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12 mt-5 animate-right"  ref="rightColumn">
-                <img class="advImage w-100 h-100 mt-1 rounded rounded-3 object-fit-cover" src="src/assets/host.jpg" alt="Host image">
-            </div>
-        </div>
+  <div class="container my-5">
+    <div class="row mb-4">
+
+      <!-- Left column -->
+      <div class="leftCol col-xl-6 col-lg-7 col-md-12 col-sm-12 py-3 animate-left" ref="leftColumn">
+        <h2 class="advertText mb-4 mt-5">
+          Want to earn More? Host with Ease.
+        </h2>
+        <h3 class=" d-inline">Register Your Apartment</h3>
+        <h3 class="d-inline ps-2"><a class="text-decoration-none orangeText"
+            href="http://localhost:8000/register">Now!</a></h3>
+      </div>
+
+      <!-- Right column -->
+      <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12 mt-5 animate-right" ref="rightColumn">
+        <img class="advImage w-100 h-100 mt-1 rounded rounded-3 object-fit-cover" src="src/assets/host.jpg"
+          alt="Host image">
+      </div>
     </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 @use 'src/style.scss' as *;
 
-.advertText{
-    font-size: 60px;
-    padding: 20px 130px;
+.advertText {
+  font-size: 60px;
+  padding: 20px 130px;
 }
 
-.orangeText{
-    color: $primary-orange;
+.orangeText {
+  color: $primary-orange;
 }
 
 
-/* ANIMAZIONE */
- .animate-right {
+/*************** TRANSITION *****************/ 
+
+.animate-right {
   opacity: 0;
-  transform: translateX(+100px); 
+  transform: translateX(+100px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.animate-left{
-    opacity: 0;
-  transform: translateX(-100px); 
+.animate-left {
+  opacity: 0;
+  transform: translateX(-100px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.animate-left.animated, .animate-right.animated {
+.animate-left.animated,
+.animate-right.animated {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* MEDIA QUERY */
+
+/*************** MEDIA QUERY ****************/
 
 @media only screen and (max-width: 765px) {
-  .advertText{
+  .advertText {
     font-size: 40px;
     padding: 20px 60px;
     margin-top: 0 !important;
@@ -92,21 +101,18 @@ export default{
 }
 
 @media only screen and (max-width: 576px) {
-  .advertText{
+  .advertText {
     font-size: 35px;
     margin-top: 0 !important;
   }
 
-  .leftCol{
+  .leftCol {
     padding-top: 0;
   }
 
-  .advImage{
+  .advImage {
     width: 90% !important;
     margin: 0 auto;
   }
 }
-
-
-
 </style>
