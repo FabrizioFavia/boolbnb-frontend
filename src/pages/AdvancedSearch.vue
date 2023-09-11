@@ -6,8 +6,6 @@ import { store } from '../data/store';
 import AppSpinner from '../components/AppSpinner.vue';
 import MainApartmentCard from '../components/MainApartmentCard.vue';
 
-
-
 export default {
     name: 'AdvancedSearch',
     components: {
@@ -68,25 +66,11 @@ export default {
                 this.servicesIds = [],
                 this.storeFilter.searchParams = null
         },
-        // Returns Apartments Data via API Call
-        getApartmentsData(pageNumber) {
-            this.store.loading = true
-            axios.get(
-                import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTS_API_PATH,
-                { params: { page: pageNumber } }).then((response) => {
-                    this.store.loading = false,
-                        this.apartments = response.data.results.data,
-                        this.apartCurrentPage = response.data.results.current_page,
-                        this.apartTotalPages = response.data.results.last_page
-                }).catch(err => {
-                    this.store.loading = false;
-                    this.loadingError = "Cannot load apartments data. " + err;
-                    this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
-                })
-        },
+        // Returns Sponsored Apartments Data via API Call
         getSponsored() {
             this.store.loading = true
             axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SPONSORED_API_PATH,).then((response) => {
+                this.store.loading = false;
                 this.sponsored = response.data.results,
                     console.log("SPONSORIZZATI==>", this.sponsored);
             }).catch(err => {
@@ -107,9 +91,8 @@ export default {
     },
     mounted() {
         this.getService(),
-            this.getApartmentsData(1),
-            this.searchHistory = this.$route.params.search,
-            window.addEventListener('resize', this.updateScreenWidth);
+        this.searchHistory = this.$route.params.search,
+        window.addEventListener('resize', this.updateScreenWidth);
         this.getSponsored()
     },
     beforeUnmount() {
@@ -223,14 +206,14 @@ export default {
 
     <!-- Empty Search Alert Message -->
     <div v-show="storeFilter.apartFiltered.length === 0 && !storeFilter.loading" class="alert alert-danger mt-3"
-        role="alert" ref="alert">Your search for "{{ searchHistory }}" returned no results! You are viewing all apartments
+        role="alert" ref="alert">Your search for "{{ searchHistory }}" returned no results! 
     </div>
 
     <!-- Apartment Filter Cards -->
-    <div class="container d-flex justify-content-start mx-auto my-3">
+    <div v-if="sponsored.length > 0" class="container d-flex justify-content-start mx-auto my-3">
         <h3 class="text-start ms-4 mt-5">Best Choice</h3>
     </div>
-    <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
+    <section id="sponsoredSec" class="d-flex flex-column justify-content-center container mx-auto">
 
         <!-- Sponsored Apartments -->
         <section v-if="sponsored.length > 0"
@@ -239,9 +222,10 @@ export default {
                 <MainApartmentCard :apartment="apartment" :sponsored="sponsored" />
             </template>
         </section>
+
     </section>
 
-    <div class="container d-flex justify-content-start mx-auto my-3">
+    <div v-if="storeFilter.apartFiltered.length > 0" class="container d-flex justify-content-start mx-auto my-3">
         <h3 class="text-start ms-4 mt-5">All apartments</h3>
     </div>
     <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
@@ -254,41 +238,14 @@ export default {
         </section>
 
         <!-- All Apartments Cards -->
-        <section v-else-if="apartments.length > 0"
+        <!-- <section v-else-if="apartments.length > 0"
             class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
             <template v-for="apartment in apartments">
                 <MainApartmentCard :apartment="apartment" />
             </template>
-        </section>
+        </section> -->
     </section>
-    <!-- Page Navigation Buttons  -->
-    <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
-        <nav class="text-center" aria-label="Page navigation">
-            <ul class="pagination d-inline-flex">
-                <li class="py-3 mx-3">
-                    <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
-                        class="page-link d-block rounded arrow" aria-label="Previous"
-                        :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                </li>
-                <template v-for="pageNumber in apartTotalPages">
-                    <li class="py-3 mx-3">
-                        <button @click="getApartmentsData(pageNumber)"
-                            :class="apartCurrentPage === pageNumber ? 'active' : null" class="page-link d-block rounded">{{
-                                pageNumber }}
-                        </button>
-                    </li>
-                </template>
-                <li class="py-3 mx-3">
-                    <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
-                        class="page-link d-block rounded arrow" aria-label="Next"
-                        :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i
-                            class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </li>
-            </ul>
-        </nav>
-    </section>
+    
 </template>
 
 <style scoped lang="scss">
@@ -365,48 +322,12 @@ export default {
     }
 }
 
-#apartmentsSec {
-
+#apartmentsSec, #sponsoredSec {
 
     &>section:first-child {
         gap: 2.5rem;
     }
 
-    & .pagination {
-        // font-family: 'Itim', cursive;
-        border-radius: 8px 8px 0 0;
-        border-top: 4px solid $primary-orange;
-
-        & .page-link {
-            color: $primary-orange;
-            background: transparent;
-            line-height: 1rem;
-            height: 2rem;
-            width: 2.625rem;
-            border: 1px solid $primary-orange;
-            transition: all 0.3s ease 0s;
-        }
-
-        & .page-link:hover,
-        & .page-link.active,
-        & .page-link:focus:not(.arrow) {
-            color: white;
-            background: $primary-orange;
-            line-height: 2.375rem;
-            height: 2.5625rem;
-            margin: -5px 0 -3px;
-            border: 1px solid $primary-orange;
-        }
-
-        & .page-link.active:hover {
-            background: $light-orange;
-        }
-
-        & .page-link.disabled {
-            color: lightgrey;
-            border: 1px solid lightgrey;
-        }
-    }
 }
 
 /* Media Query */
