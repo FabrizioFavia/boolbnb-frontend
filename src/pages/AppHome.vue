@@ -25,7 +25,7 @@ export default {
       store,
       storeFilter,
       apartments: [],
-      sponsored: [],
+      sponsoredApartments: [],
       loadingError: false,
       apartTotalPages: 0,
       apartCurrentPage: 0,
@@ -52,8 +52,8 @@ export default {
     getSponsored() {
       this.store.loading = true
       axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SPONSORED_API_PATH,).then((response) => {
-        this.sponsored = response.data.results,
-          console.log("SPONSORIZZATI==>", this.sponsored);
+        this.sponsoredApartments = response.data.results,
+          console.log("SPONSORIZZATI==>", this.sponsoredApartments);
       }).catch(err => {
         this.store.loading = false;
         this.loadingError = "Cannot load apartments data. " + err;
@@ -97,9 +97,9 @@ export default {
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
     <!-- Sponsored apartments -->
-    <section v-if="sponsored.length > 0"
+    <section v-if="sponsoredApartments.length > 0"
       class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
-      <template v-for="apartment in sponsored">
+      <template v-for="apartment in sponsoredApartments">
         <MainApartmentCard :apartment="apartment" :sponsored="sponsored" />
       </template>
     </section>
