@@ -62,7 +62,7 @@ export default {
     },
     scrollToSectionTitle() {
       const sectionTitle = document.getElementById('allApartTitle');
-        sectionTitle.scrollIntoView({ behavior: 'smooth' });
+      sectionTitle.scrollIntoView({ behavior: 'smooth' });
     }
 
   },
@@ -88,6 +88,7 @@ export default {
   <AppSpinner />
 
   <!-- SPONSORED SECTION ---------------------->
+
   <!-- Section title -->
 
   <div class="container d-flex justify-content-start mx-auto mb-3">
@@ -95,8 +96,7 @@ export default {
   </div>
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
-    <!-- Apartment Cards -->
-    <!-- sponsored apartments -->
+    <!-- Sponsored apartments -->
     <section v-if="sponsored.length > 0"
       class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
       <template v-for="apartment in sponsored">
@@ -107,12 +107,16 @@ export default {
   </section>
 
   <!-- ALL APART SECTION ----------------------->
+
   <!-- Section title -->
+
   <div class="container justify-content-between align-items-center mx-auto my-3">
     <div>
       <h4 id="allApartTitle" class="ms-4 me-5 mt-5 sectionTitle">All apartments</h4>
     </div>
+
     <!-- Page number -->
+
     <div class="sectionContainer me-5 pe-2 mt-5">
       <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
         <nav class="text-center" aria-label="Page navigation">
@@ -164,8 +168,9 @@ export default {
             </li>
             <template v-for="pageNumber in apartTotalPages">
               <li class="py-3 mx-3">
-                <button @click="getApartmentsData(pageNumber), scrollToSectionTitle()" :class="apartCurrentPage === pageNumber ? 'active' : null"
-                  class="page-link d-block rounded">{{ pageNumber }}</button>
+                <button @click="getApartmentsData(pageNumber), scrollToSectionTitle()"
+                  :class="apartCurrentPage === pageNumber ? 'active' : null" class="page-link d-block rounded">{{
+                    pageNumber }}</button>
               </li>
             </template>
             <li class="py-3 mx-3">
@@ -179,14 +184,14 @@ export default {
       </section>
     </div>
 
-    <!-- Advertisement section -->
+    <!-- ADVERTISEMENT SECTION ---------------------->
     <section>
       <Advertisement />
     </section>
 
   </section>
 
-  <!-- Footer section -->
+  <!-- FOOTER SECTION ------------------------>
   <section>
     <AppFooter />
   </section>

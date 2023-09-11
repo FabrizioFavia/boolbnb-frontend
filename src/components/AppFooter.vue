@@ -13,12 +13,12 @@ export default {
 </script>
 
 <template>
-
     <div class="castomDiv pt-4 mt-5">
 
         <div class="container DivCastom">
             <div class="row">
-                <!-- colonna sinistra -->
+
+                <!-- Left column -->
                 <div class="col-12 col-lg-6 d-flex flex-wrap mb-3">
 
                     <div class="col-4 text-secondary text-start mt-4 px-2">
@@ -46,29 +46,33 @@ export default {
 
                 </div>
 
-                <!-- colonna destra -->
+                <!-- Right column -->
                 <div class="col-12 col-lg-6 mt-4 px-2">
                     <h4 class="px-3 pb-3 fs-5 text-secondary">About Us</h4>
 
                     <div class="d-flex flex-wrap align-content-center justify-content-center">
                         <div class="castomCard img1">
                             <div class="show">
-                                <a href="https://github.com/soniabergamini"><i class="fa-brands fa-github castomGit" style="color: #757474;"></i></a>
+                                <a href="https://github.com/soniabergamini"><i class="fa-brands fa-github castomGit"
+                                        style="color: #757474;"></i></a>
                             </div>
                         </div>
                         <div class="castomCard img2">
                             <div class="show">
-                                <a href="https://github.com/FabrizioFavia"><i class="fa-brands fa-github castomGit" style="color: #757474;"></i></a>
+                                <a href="https://github.com/FabrizioFavia"><i class="fa-brands fa-github castomGit"
+                                        style="color: #757474;"></i></a>
                             </div>
                         </div>
                         <div class="castomCard img3">
                             <div class="show">
-                                <a href="https://github.com/WragnarokA"><i class="fa-brands fa-github castomGit" style="color: #757474;"></i></a>
+                                <a href="https://github.com/WragnarokA"><i class="fa-brands fa-github castomGit"
+                                        style="color: #757474;"></i></a>
                             </div>
                         </div>
                         <div class="castomCard img4">
                             <div class="show">
-                                <a href="https://github.com/BrunoCanini"><i class="fa-brands fa-github castomGit" style="color: #757474;"></i></a>
+                                <a href="https://github.com/BrunoCanini"><i class="fa-brands fa-github castomGit"
+                                        style="color: #757474;"></i></a>
                             </div>
                         </div>
                     </div>
@@ -77,22 +81,23 @@ export default {
             </div>
         </div>
 
+        <!-- Bottom Footer -->
+
         <div class="col-12 d-flex justify-content-center text-secondary pb-1 mt-5">
             <p class="smallCastom">Bool Bnb ® Copyright 2023 Bool Bnb S.r.l</p>
         </div>
 
     </div>
-
 </template>
 
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
-.castomDiv{
+.castomDiv {
     background-color: rgb(37, 37, 37);
 }
 
-.castomCard{
+.castomCard {
     width: 90px;
     height: 90px;
     background-size: cover;
@@ -101,48 +106,47 @@ export default {
     margin: 5px;
 }
 
-.img1{
+.img1 {
     background-image: url("src/assets/sonia-PhotoRoom.png-PhotoRoom.png");
 }
 
-.img2{
+.img2 {
     background-image: url("src/assets/fabrizio-PhotoRoom.png-PhotoRoom.png");
     background-position: center left;
 }
 
-.img3{
+.img3 {
     background-image: url("src/assets/wilmer.png");
 }
 
-.img4{
+.img4 {
     background-image: url("src/assets/bruno.png");
     background-position: center;
 }
 
-.castomCard:hover{
+.castomCard:hover {
     background-image: none;
 
-    .show{
+    .show {
         display: block;
     }
 }
 
-.show{
+.show {
     width: 90px;
     height: 90px;
     display: none;
 }
 
-.castomGit{
+.castomGit {
     font-size: 90px;
 }
 
-.smallCastom{
+.smallCastom {
     font-size: smaller;
 }
 
-.DivCastom{
+.DivCastom {
     margin: auto;
 }
-
 </style>
