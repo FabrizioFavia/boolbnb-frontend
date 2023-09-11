@@ -62,18 +62,17 @@ export default{
     color: $primary-orange;
 }
 
+
 /* ANIMAZIONE */
-
-
  .animate-right {
   opacity: 0;
-  transform: translateX(+250px); /* o qualsiasi valore di offset desiderato */
+  transform: translateX(+100px); 
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .animate-left{
     opacity: 0;
-  transform: translateX(-250px); /* o qualsiasi valore di offset desiderato */
+  transform: translateX(-100px); 
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 

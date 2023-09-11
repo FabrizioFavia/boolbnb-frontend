@@ -60,6 +60,10 @@ export default {
         this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
       })
     },
+    scrollToSectionTitle() {
+      const sectionTitle = document.getElementById('allApartTitle');
+        sectionTitle.scrollIntoView({ behavior: 'smooth' });
+    }
 
   },
   mounted() {
@@ -83,7 +87,7 @@ export default {
   <!-- Spinner Loader -->
   <AppSpinner />
 
-  <!-- SPONSORED SECTION -->
+  <!-- SPONSORED SECTION ---------------------->
   <!-- Section title -->
 
   <div class="container d-flex justify-content-start mx-auto mb-3">
@@ -102,13 +106,14 @@ export default {
 
   </section>
 
-  <!-- ALL APART SECTION -->
+  <!-- ALL APART SECTION ----------------------->
   <!-- Section title -->
-  <div class="container d-flex justify-content-between align-items-center mx-auto my-3">
+  <div class="container justify-content-between align-items-center mx-auto my-3">
     <div>
-      <h4 class="text-start d-inline ms-4 me-5 mt-5 sectionTitle">All apartments</h4>
+      <h4 id="allApartTitle" class="text-start ms-4 me-5 mt-5 sectionTitle">All apartments</h4>
     </div>
-    <div class="sectionContainer me-5 pe-2">
+    <!-- Page number -->
+    <div class="sectionContainer me-5 pe-2 mt-5">
       <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
         <nav class="text-center" aria-label="Page navigation">
           <ul class="pagination d-inline-flex">
@@ -119,8 +124,9 @@ export default {
             </li>
             <template v-for="pageNumber in apartTotalPages">
               <li class="py-3 mx-3">
-                <button @click="getApartmentsData(pageNumber)" :class="apartCurrentPage === pageNumber ? 'active' : null"
-                  class="page-link d-block rounded">{{ pageNumber }}</button>
+                <button @click="getApartmentsData(pageNumber), scrollToSectionTitle()"
+                  :class="apartCurrentPage === pageNumber ? 'active' : null" class="page-link d-block rounded">{{
+                    pageNumber }}</button>
               </li>
             </template>
             <li class="py-3 mx-3">
@@ -139,10 +145,6 @@ export default {
   <!-- All apartments -->
   <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
 
-
-    <!-- Page Navigation Buttons  -->
-
-
     <section v-if="apartments.length > 0"
       class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
       <template v-for="apartment in apartments">
@@ -150,21 +152,44 @@ export default {
       </template>
     </section>
 
-    <!-- Subscription Cards -->
-    <!--  <SubscriptionList /> -->
-
-
+    <!-- Page number -->
+    <div class="sectionContainer me-5 pe-2">
+      <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
+        <nav class="text-center" aria-label="Page navigation">
+          <ul class="pagination d-inline-flex">
+            <li class="py-3 mx-3">
+              <button @click="apartCurrentPage > 1 ? getApartmentsData(apartCurrentPage - 1) : null"
+                class="page-link d-block rounded arrow" aria-label="Previous"
+                :class="apartCurrentPage > 1 ? null : 'disabled'"><i class="fa-solid fa-chevron-left"></i></button>
+            </li>
+            <template v-for="pageNumber in apartTotalPages">
+              <li class="py-3 mx-3">
+                <button @click="getApartmentsData(pageNumber), scrollToSectionTitle()" :class="apartCurrentPage === pageNumber ? 'active' : null"
+                  class="page-link d-block rounded">{{ pageNumber }}</button>
+              </li>
+            </template>
+            <li class="py-3 mx-3">
+              <button @click="apartCurrentPage < apartTotalPages ? getApartmentsData(apartCurrentPage + 1) : null"
+                class="page-link d-block rounded arrow" aria-label="Next"
+                :class="apartCurrentPage < apartTotalPages ? null : 'disabled'"><i
+                  class="fa-solid fa-chevron-right"></i></button>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </div>
 
     <!-- Advertisement section -->
-
-    <Advertisement />
+    <section>
+      <Advertisement />
+    </section>
 
   </section>
 
+  <!-- Footer section -->
   <section>
-      <AppFooter />
+    <AppFooter />
   </section>
-  
 </template>
 
 <style scoped lang="scss">
@@ -172,14 +197,12 @@ export default {
 
 
 .pagination {
-  // font-family: 'Itim', cursive;
   border-radius: 8px 8px 0 0;
-  /* border-top: 4px solid $primary-orange; */
+
 
   .page-link {
     color: $primary-orange;
     background: transparent;
-    /* line-height: 1rem; */
     height: 1.5rem;
     width: 1.5rem;
     display: flex;
@@ -188,7 +211,7 @@ export default {
     font-size: 10px;
     border-radius: 100% !important;
     border: 1px solid $primary-orange;
-    /* transition: all 0.3s ease 0s; */
+
   }
 
   .page-link:hover,
@@ -196,9 +219,6 @@ export default {
   .page-link:focus:not(.arrow) {
     color: white;
     background: $primary-orange;
-    /* line-height: 2.375rem;
-      height: 2.5625rem; */
-    /* margin: -5px 0 -3px; */
     border: 1px solid $primary-orange;
   }
 
@@ -223,12 +243,13 @@ export default {
 }
 
 .sectionTitle {
+  width: fit-content;
   border: 3px solid $light-orange;
   padding: 2px 10px;
   background-color: $light-orange;
   border-radius: 15px;
   color: white;
-
+  scroll-margin-top: 40px;
 }
 
 @media only screen and (max-width: 480px) {
