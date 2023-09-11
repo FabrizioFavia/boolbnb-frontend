@@ -3,7 +3,7 @@ export default {
     name: 'MainApartmentCard',
     props: {
         apartment: Object,
-        sponsored: Boolean
+        sponsored: Array
     },
 }
 </script>
