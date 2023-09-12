@@ -53,7 +53,7 @@ export default {
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             const distance = R * c; // meters
-            const distanceKm = (distance / 1000).toFixed(2); // km, rounded
+            const distanceKm = (distance / 1000).toFixed(2); // km, rounded 
             return distanceKm;
         },
         // Manages the search Filtering the results
@@ -85,9 +85,9 @@ export default {
         // Check Advanced Filter On Search Input
         checkFilter(element) {
             // Room Number Filter
-            if (Number(element.room_number) === Number(this.storeFilter.searchParams.roomNumber) || this.storeFilter.searchParams.roomNumber === undefined) {
+            if (Number(element.room_number) >= Number(this.storeFilter.searchParams.roomNumber) || this.storeFilter.searchParams.roomNumber === undefined) {
                 // Bed Number Filter
-                if (Number(element.bed_number) === Number(this.storeFilter.searchParams.bedNumber) || this.storeFilter.searchParams.bedNumber === undefined) {
+                if (Number(element.bed_number) >= Number(this.storeFilter.searchParams.bedNumber) || this.storeFilter.searchParams.bedNumber === undefined) {
                     // Services Filter
                     if (this.storeFilter.searchParams.services.every((el) => element.services.some((item) => item.id === el))) {
                         // Range Filter
