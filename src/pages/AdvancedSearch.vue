@@ -86,7 +86,7 @@ export default {
 
 <template>
     <!-- Search Filters -->
-
+<div class="advancedSearhPage">
     <!-- offCanvas -->
     <div v-if="screenWidth < 992" class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1"
         id="staticBackdrop" aria-labelledby="staticBackdropLabel">
@@ -133,7 +133,7 @@ export default {
             </div>
         </div>
     </div>
-
+</div>
     <!-- offCanvas end-->
 
     <!-- advanced searchbar -->
@@ -188,8 +188,8 @@ export default {
     <AppSpinner></AppSpinner>
 
     <!-- Empty Search Alert Message -->
-    <div v-show="storeFilter.apartFiltered.length === 0 && !storeFilter.loading" class="alert alert-danger mt-3"
-        role="alert" ref="alert">Your search for "{{ searchHistory }}" returned no results! 
+    <div v-show="storeFilter.apartFiltered.length === 0 && !storeFilter.loading" class="alert alert-danger mt-3 py-3"
+        role="alert" ref="alert"><p class="fs-5">Your search for "{{ searchHistory }}" returned no results!</p>
     </div>
 
     <!-- Apartment Filter Cards -->
@@ -225,12 +225,12 @@ export default {
     height: 35px;
 }
 
+#apartmentsSec{
+    min-height: 430px !important;
+}
+
 .filterSection {
 
-    // position: fixed;
-    // width: 100%;
-    // top: 60px;
-    // z-index: 2;
     .topNav {
         filter: saturate(0.9);
         background-color: $light-orange;
@@ -241,7 +241,7 @@ export default {
         margin: 0 auto;
         transition: background-color 1.5s ease;
         filter: saturate(0.9);
-        /* border-radius: 0 0 15px 15px; */
+   
         background-color: rgb(137 158 165 / 72%);
 
         transition: all .5s ease;

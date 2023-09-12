@@ -107,20 +107,20 @@ export default {
 }
 
 .img1 {
-    background-image: url("src/assets/sonia-PhotoRoom.png-PhotoRoom.png");
+    background-image: url("/sonia.png");
 }
 
 .img2 {
-    background-image: url("src/assets/fabrizio-PhotoRoom.png-PhotoRoom.png");
+    background-image: url("/fabrizio.png");
     background-position: center left;
 }
 
 .img3 {
-    background-image: url("src/assets/wilmer.png");
+    background-image: url("/wilmer.png");
 }
 
 .img4 {
-    background-image: url("src/assets/bruno.png");
+    background-image: url("/bruno.png");
     background-position: center;
 }
 
