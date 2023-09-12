@@ -100,7 +100,7 @@ export default {
                 <button type="submit" class="btn" :disabled="loading">{{ loading ? 'SENDING...' : 'SEND' }}</button>
 
                 <!-- Confirmation Message -->
-                <p class="text-success text-sm mt-3" v-if="success">Your message has been successfully sent!</p>
+                <p class="text-success-emphasis text-sm mt-3" v-if="success">Your message has been successfully sent!</p>
                 <p class="text-danger text-sm mt-3" v-if="failure">Something went wrong while sending your message</p>
 
             </form>

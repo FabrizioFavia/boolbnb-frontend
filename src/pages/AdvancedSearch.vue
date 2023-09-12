@@ -188,8 +188,8 @@ export default {
     <AppSpinner></AppSpinner>
 
     <!-- Empty Search Alert Message -->
-    <div v-show="storeFilter.apartFiltered.length === 0 && !storeFilter.loading" class="alert alert-danger mt-3 py-3"
-        role="alert" ref="alert"><p class="fs-5">Your search for "{{ searchHistory }}" returned no results!</p>
+    <div v-show="storeFilter.apartFiltered.length === 0 && !storeFilter.loading" class="alert alert-danger mt-3 py-2"
+        role="alert" ref="alert"><p class="fs-6">🔎 Your search for "{{ searchHistory }}" returned no results!</p>
     </div>
 
     <!-- Apartment Filter Cards -->

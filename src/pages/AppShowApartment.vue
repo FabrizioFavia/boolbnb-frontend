@@ -36,6 +36,7 @@ export default {
     },
     // Get User IP via API Call
     getUserIP() {
+      axios.defaults.withCredentials = false;
       axios.get('https://api.ipify.org/?format=json').then((response) => {
         let userIP = response.data.ip;
         // this.postUserIP(userIP);
@@ -166,5 +167,18 @@ ul {
       color: $light-blue;
     }
   }
+}
+
+@media (max-width: 576px) {
+  ul {
+    row-gap: 2px;
+    column-gap: 5px;
+
+    &>li {
+      width: calc(100% / 2 - 5px);
+    }
+  }
+
+
 }
 </style>
