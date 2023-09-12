@@ -21,10 +21,6 @@ export default {
     data() {
         return {
             range: 20,
-            apartments: [],
-            sponsored: [],
-            apartTotalPages: 0,
-            apartCurrentPage: 0,
             clicked: false,
             animation: false,
             services: [],
@@ -32,7 +28,6 @@ export default {
             searchHistory: '',
             bedNumber: undefined,
             roomNumber: undefined,
-            sponsored: true,
             storeFilter,
             store,
             screenWidth: window.innerWidth,
@@ -68,19 +63,6 @@ export default {
                 this.servicesIds = [],
                 this.storeFilter.searchParams = null
         },
-        // Returns Sponsored Apartments Data via API Call
-        getSponsored() {
-            this.store.loading = true
-            axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SPONSORED_API_PATH,).then((response) => {
-                this.store.loading = false;
-                this.sponsored = response.data.results,
-                    console.log("SPONSORIZZATI==>", this.sponsored);
-            }).catch(err => {
-                this.store.loading = false;
-                this.loadingError = "Cannot load apartments data. " + err;
-                this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
-            })
-        },
         updateScreenWidth() {
             this.screenWidth = window.innerWidth;
         },
@@ -95,7 +77,6 @@ export default {
         this.getService(),
         this.searchHistory = this.$route.params.search,
         window.addEventListener('resize', this.updateScreenWidth);
-        this.getSponsored()
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.updateScreenWidth);
@@ -127,7 +108,7 @@ export default {
                 </div>
                 <div class="d-flex px-3 my-4">
                     <label class="me-2 " for="radius">Radius</label>
-                    <input v-model="range" min="20" step="10" max="2000" name="radius" type="range" class="w-100 ps-2">
+                    <input v-model="range" min="1" max="200" name="radius" type="range" class="w-100 ps-2">
                     <span class=" ms-2">{{ range }}</span> <span class="ms-1 ">km</span>
                 </div>
             </div>
@@ -170,7 +151,7 @@ export default {
                 </div>
                 <div class="radiusContainer d-flex">
                     <label class="me-2 text-white" for="radius">Radius</label>
-                    <input v-model="range" min="20" step="10" max="2000" name="radius" type="range" class="w-100 ps-2">
+                    <input v-model="range" min="0" step="10" max="1000" name="radius" type="range" class="w-100">
                     <span class="text-white ms-2">{{ range }}</span> <span class="ms-1 text-white">km</span>
                 </div>
 
@@ -212,40 +193,20 @@ export default {
     </div>
 
     <!-- Apartment Filter Cards -->
-    <div v-if="sponsored.length > 0" class="container d-flex justify-content-start mx-auto my-3">
-        <h3 class="text-start ms-4 mt-5">Best Choice</h3>
-    </div>
-    <section id="sponsoredSec" class="d-flex flex-column justify-content-center container mx-auto">
-
-        <!-- Sponsored Apartments -->
-        <section v-if="sponsored.length > 0"
-            class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
-            <template v-for="apartment in sponsored">
-                <MainApartmentCard :apartment="apartment" :sponsored="sponsored" />
-            </template>
-        </section>
-
-    </section>
-
-    <div v-if="storeFilter.apartFiltered.length > 0" class="container d-flex justify-content-start mx-auto my-3">
-        <h3 class="text-start ms-4 mt-5">All apartments</h3>
+    <div v-if="storeFilter.apartFiltered.length > 0" class="container mx-auto my-3">
+        <h3 class="text-start ms-4 mt-5">Apartments</h3>
+        <p class="mt-3 mb-0"><strong>{{ storeFilter.apartFiltered.length }} results found</strong></p>
     </div>
     <section id="apartmentsSec" class="d-flex flex-column justify-content-center container mx-auto">
+
         <!-- Filtered Apartment Cards -->
         <section v-if="storeFilter.apartFiltered.length > 0"
-            class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
+            class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap px-4 py-2">
             <template v-for="apartment in storeFilter.apartFiltered">
                 <MainApartmentCard :apartment="apartment" />
             </template>
         </section>
 
-        <!-- All Apartments Cards -->
-        <!-- <section v-else-if="apartments.length > 0"
-            class="d-flex flex-column flex-sm-row align-items-center align-items-sm-stretch justify-content-center justify-content-xl-start flex-wrap p-4">
-            <template v-for="apartment in apartments">
-                <MainApartmentCard :apartment="apartment" />
-            </template>
-        </section> -->
     </section>
 
     <section>

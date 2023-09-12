@@ -53,7 +53,7 @@ export default {
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             const distance = R * c; // meters
-            const distanceKm = (distance / 1000).toFixed(2); // km, rounded
+            const distanceKm = (distance / 1000).toFixed(2); // km, rounded 
             return distanceKm;
         },
         // Manages the search Filtering the results
@@ -66,17 +66,28 @@ export default {
                     element.distance <= 20 && this.storeFilter.apartFiltered.push(element) // Basic Search: show only apartments with 20km distance
                 }
             });
-            this.storeFilter.apartFiltered.sort((a, b) => a.distance - b.distance), // sort apartments by distance
-                this.storeFilter.loading = false;
+            this.sortResults();            
+            this.storeFilter.loading = false;
             // this.storeFilter.apartFiltered.length === 0 && this.animationInput();
             this.$router.push({ name: 'advancedSearch', params: { search: this.search } });
+        },
+        // Sort apartments array by distance, sponsored first
+        sortResults() {
+            this.storeFilter.apartFiltered.sort((a, b) => {
+                if (a.sponsorships.length > 0 && b.sponsorships.length === 0) {
+                    return -1;
+                } else if (a.sponsorships.length === 0 && b.sponsorships.length > 0) {
+                    return 1;
+                }
+                return a.distance - b.distance;
+            })
         },
         // Check Advanced Filter On Search Input
         checkFilter(element) {
             // Room Number Filter
-            if (Number(element.room_number) === Number(this.storeFilter.searchParams.roomNumber) || this.storeFilter.searchParams.roomNumber === undefined) {
+            if (Number(element.room_number) >= Number(this.storeFilter.searchParams.roomNumber) || this.storeFilter.searchParams.roomNumber === undefined) {
                 // Bed Number Filter
-                if (Number(element.bed_number) === Number(this.storeFilter.searchParams.bedNumber) || this.storeFilter.searchParams.bedNumber === undefined) {
+                if (Number(element.bed_number) >= Number(this.storeFilter.searchParams.bedNumber) || this.storeFilter.searchParams.bedNumber === undefined) {
                     // Services Filter
                     if (this.storeFilter.searchParams.services.every((el) => element.services.some((item) => item.id === el))) {
                         // Range Filter
@@ -106,9 +117,10 @@ export default {
 </script>
 
 <template>
-    <div class="searchContainer d-flex justify-content-center" >
+    <div class="searchContainer d-flex justify-content-center">
         <form class="d-flex flex-column w-75" :class="{
-        'w-100': screenWidth < 578}" @submit.prevent="onSubmit">
+            'w-100': screenWidth < 578
+        }" @submit.prevent="onSubmit">
             <input @keyup.enter="getLocation()" v-model="search" class="form-control me-2" type="search"
                 placeholder="Search city or address" aria-label="Search" :class="{ 'inputError': animation }">
         </form>
@@ -145,9 +157,9 @@ export default {
     }
 }
 
-input{
-    max-width: 100%; 
-    overflow: hidden; 
+input {
+    max-width: 100%;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 

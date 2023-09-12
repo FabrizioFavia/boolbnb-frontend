@@ -33,11 +33,23 @@ export default {
             this.loadingError = "Cannot load apartment data. " + err,
             this.$router.push({ name: 'error', params: { code: err.response.status ?? '404' }, query: { message: err.response.data.error ?? err.message } })
         })
-    }
+    },
+    // Get User IP via API Call
+    getUserIP() {
+      axios.get('https://api.ipify.org/?format=json').then((response) => {
+        let userIP = response.data.ip;
+        // this.postUserIP(userIP);
+      }).catch(error => console.error('⚠️ Error during Ipinfo API Call:', error));
+    },
+    // Send User IP View to DB via API Call
+    // postUserIP(userIP) {
+    //   axios.post(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_VIEWS_API_PATH, userIP).then((response) => console.log('response for sending data to DB about views: ', response)).catch( error => console.error('⚠️ Error sending data to DB about views, via API call:', error))
+    // }
   },
   mounted() {
     this.getApartment(this.$route.params.id);
     this.storeFilter.apartFiltered = [];
+    this.getUserIP();
   }
 }
 </script>
@@ -119,11 +131,11 @@ export default {
   /* background: rgba(0,0,0,.5); */
   background-color: white;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
   border-radius: 10px;
 }
 
-.textColoCustom{
+.textColoCustom {
   color: $primary-orange;
 }
 
