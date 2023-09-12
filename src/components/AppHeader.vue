@@ -43,7 +43,7 @@ export default {
                     <img class="navLogo" src="../assets/logo4.jpeg" alt="">
                     <img class="smallLogo" src="../assets/logo4.jpeg" alt="">
                 </router-link>
-                <h4 v-if="screenWidth >= 576">BoolBnb</h4>
+                <h4 class="logoText" v-if="screenWidth >= 576">BoolBnb</h4>
             </div>
             <div class="searchBar" :class="{
         'w-100': screenWidth > 992,

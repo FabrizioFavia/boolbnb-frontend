@@ -5,10 +5,23 @@ $light-orange: #F9913D;
 $light-blue: #29C0B2;
 
 /******** RESET STYLE ********/
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Pacifico', cursive;
+  font-family: 'Paytone One', sans-serif;
+
+  /* font-family: 'Cinzel', serif; */
+
 }
 
 /******** PAGE STYLE ********/
@@ -22,4 +35,11 @@ $light-blue: #29C0B2;
   background-color: rgb(17 24 39);
 }
 
+.jumboText {
+  font-family: 'Carter One', cursive;
+}
 
+.logoText {
+color: #343434;
+font-family: 'Carter One', cursive;
+}
