@@ -52,8 +52,7 @@ export default {
     getSponsored() {
       this.store.loading = true
       axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_SPONSORED_API_PATH,).then((response) => {
-        this.sponsoredApartments = response.data.results,
-          console.log("SPONSORIZZATI==>", this.sponsoredApartments);
+        this.sponsoredApartments = response.data.results
       }).catch(err => {
         this.store.loading = false;
         this.loadingError = "Cannot load apartments data. " + err;

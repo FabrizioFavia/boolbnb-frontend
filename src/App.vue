@@ -23,7 +23,6 @@ export default {
     getApartmentsData() {
       axios.get(
         import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_APARTMENTSALL_API_PATH).then((response) => {
-          console.log('all apartments data: ', response.data.results);
           response.data.results.forEach(element => {
             this.storeFilter.apartmentsall.push(element)
           });
