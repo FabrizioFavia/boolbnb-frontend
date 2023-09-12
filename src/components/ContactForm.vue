@@ -1,6 +1,5 @@
 <script>
 import axios from 'axios';
-axios.defaults.withCredentials = true;
 
 export default {
     name: "ContactForm",
@@ -15,9 +14,16 @@ export default {
     },
     // Get Auth User Email from API Call
     created() {
+        axios.defaults.withCredentials = true;
         axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_AUTH_EMAIL_API_PATH)
-            .then(response => this.requestData.user_mail = response.data.email)
-            .catch(err => console.error('Contact Request GET AUTH MAIL API Failure. ', err));
+            .then(response => {
+                this.requestData.user_mail = response.data.email;
+                axios.defaults.withCredentials = false;
+            })
+            .catch(err => {
+                console.error('Contact Request GET AUTH MAIL API Failure. ', err),
+                axios.defaults.withCredentials = false;
+    });
     },
     watch: {
         // Immediately Sets Failure False When Success Becomes True

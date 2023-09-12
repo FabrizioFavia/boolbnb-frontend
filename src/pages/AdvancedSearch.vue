@@ -108,7 +108,7 @@ export default {
                 </div>
                 <div class="d-flex px-3 my-4">
                     <label class="me-2 " for="radius">Radius</label>
-                    <input v-model="range" min="1" step="10" max="1000" name="radius" type="range" class="w-100 ps-2">
+                    <input v-model="range" min="1" max="200" name="radius" type="range" class="w-100 ps-2">
                     <span class=" ms-2">{{ range }}</span> <span class="ms-1 ">km</span>
                 </div>
             </div>
