@@ -116,7 +116,7 @@ export default {
 
     <!-- Page number -->
 
-    <div class="sectionContainer me-5 pe-2 mt-5">
+    <div class="sectionContainer me-5 pe-2 mt-3">
       <section v-if="apartments.length > 0 && storeFilter.apartFiltered.length === 0">
         <nav class="text-center" aria-label="Page navigation">
           <ul class="pagination d-inline-flex">
