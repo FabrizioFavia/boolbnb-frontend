@@ -1,10 +1,12 @@
 <script>
 import axios from 'axios';
+import { store } from '../data/store';
 
 export default {
     name: "ContactForm",
     data() {
         return {
+            store,
             requestData: { apartment_id: '', user_mail: '', text: '' },
             loading: false,
             errors: [],
@@ -12,18 +14,9 @@ export default {
             failure: false
         }
     },
-    // Get Auth User Email from API Call
+    // Get Auth User Email from Store
     created() {
-        axios.defaults.withCredentials = true;
-        axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_AUTH_EMAIL_API_PATH)
-            .then(response => {
-                this.requestData.user_mail = response.data.email;
-                axios.defaults.withCredentials = false;
-            })
-            .catch(err => {
-                console.error('Contact Request GET AUTH MAIL API Failure. ', err),
-                axios.defaults.withCredentials = false;
-    });
+        this.requestData.user_mail = this.store.user_email ?? '';
     },
     watch: {
         // Immediately Sets Failure False When Success Becomes True

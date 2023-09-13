@@ -1,5 +1,6 @@
 <script>
 import Searchbar from './Searchbar.vue';
+import { store } from '../data/store';
 import { storeFilter } from '../data/storeFilter';
 
 export default {
@@ -9,6 +10,7 @@ export default {
     },
     data() {
         return {
+            store,
             storeFilter,
             openMenu: false,
             screenWidth: window.innerWidth,
@@ -16,6 +18,7 @@ export default {
     },
     mounted() {
         window.addEventListener('resize', this.updateScreenWidth);
+
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.updateScreenWidth);
@@ -46,13 +49,13 @@ export default {
                 <h4 class="logoText" v-if="screenWidth >= 576">BoolBnb</h4>
             </div>
             <div class="searchBar" :class="{
-        'w-100': screenWidth > 992,
-    'mediumSearch': screenWidth <= 992 && screenWidth > 768,
-    'smallSearch': screenWidth <= 768 && screenWidth > 576,
-    'customSmallSearch': screenWidth <= 576 && screenWidth > 538,
-    'xsSearch': screenWidth <= 538 && screenWidth > 320,
-    'xxsSearch': screenWidth <= 320,
-    }">
+                'w-100': screenWidth > 992,
+                'mediumSearch': screenWidth <= 992 && screenWidth > 768,
+                'smallSearch': screenWidth <= 768 && screenWidth > 576,
+                'customSmallSearch': screenWidth <= 576 && screenWidth > 538,
+                'xsSearch': screenWidth <= 538 && screenWidth > 320,
+                'xxsSearch': screenWidth <= 320,
+            }">
                 <Searchbar />
             </div>
             <button @click="isOpen()" class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -62,11 +65,21 @@ export default {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div v-show="openMenu || screenWidth >= 992" class="linkContainer">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="http://localhost:8000/login">Login</a>
+                        <li v-show="!store.user_email" class="nav-item">
+                            <a class="nav-link" aria-current="page" href="http://localhost:8000/login">
+                                <span>Login</span>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8000/register">Register</a>
+                        <li v-show="!store.user_email" class="nav-item">
+                            <a class="nav-link" href="http://localhost:8000/register">
+                                <span>Register</span>
+                            </a>
+                        </li>
+                        <li v-show="store.user_email" class="nav-item">
+                            <a class="nav-link" href="http://localhost:8000/login">
+                                <span><i class="fa-solid fa-user fa-sm d-inline me-1"></i> </span>
+                                <span>{{ store.user_name ?? 'User' }}</span>
+                            </a> 
                         </li>
                         <li class="nav-item">
                             <button v-show="screenWidth < 992" @click="isOpen()" class="btn" data-bs-toggle="collapse"
@@ -92,7 +105,9 @@ export default {
 <style scoped lang="scss">
 @use 'src/style.scss' as *;
 
-
+.nav-link:hover, .nav-link:hover span{
+    color: $secondary-blue;
+}
 
 .navLogo {
     height: 40px;
@@ -163,8 +178,7 @@ export default {
     }
 }
 
-@media (max-width: 992px) {
-}
+@media (max-width: 992px) {}
 
 .navbar {
     height: 56px;
@@ -179,28 +193,28 @@ export default {
     }
 }
 
-.mediumSearch{
+.mediumSearch {
     width: 498px;
 }
 
-.smallSearch{
+.smallSearch {
     width: 300px;
-    
+
 }
 
-.customSmallSearch{
+.customSmallSearch {
     width: 400px;
     margin-top: -17px;
 }
 
-.xsSearch{
+.xsSearch {
     width: 215px;
     margin-top: -17px;
 }
 
-.xxsSearch{
+.xxsSearch {
     width: 200px;
-    
+
 }
 </style>
 

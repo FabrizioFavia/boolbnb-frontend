@@ -1,5 +1,6 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
+import { store } from './data/store';
 import { storeFilter } from './data/storeFilter';
 import axios from 'axios';
 
@@ -11,7 +12,8 @@ export default {
   },
   data() {
     return {
-      storeFilter
+      storeFilter,
+      store
     }
   },
   methods: {
@@ -23,17 +25,31 @@ export default {
             this.storeFilter.apartmentsall.push(element)
           });
         })
+    },
+    getAuth() {
+      axios.defaults.withCredentials = true;
+      axios.get(import.meta.env.VITE_BASE_API_URL + import.meta.env.VITE_AUTH_EMAIL_API_PATH)
+        .then(response => {
+          this.store.user_email = response.data.email;
+          this.store.user_name = response.data.name;
+          console.log(this.store.user_email, this.store.user_name);
+          axios.defaults.withCredentials = false;
+        })
+        .catch(err => {
+            axios.defaults.withCredentials = false;
+        });
     }
   },
   mounted() {
-    this.getApartmentsData()
+    this.getApartmentsData(),
+    this.getAuth()
   }
 }
 
 </script>
 
 <template>
-  <header :class="{ 'd-flex align-items-center' : this.$route.name != 'home'}">
+  <header :class="{ 'd-flex align-items-center': this.$route.name != 'home' }">
     <AppHeader />
   </header>
 
@@ -76,5 +92,4 @@ main {
 .totalvh {
   height: calc(100vh - 96px);
 }
-
 </style>
