@@ -32,7 +32,6 @@ export default {
         .then(response => {
           this.store.user_email = response.data.email;
           this.store.user_name = response.data.name;
-          console.log(this.store.user_email, this.store.user_name);
           axios.defaults.withCredentials = false;
         })
         .catch(err => {
