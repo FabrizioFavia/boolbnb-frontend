@@ -31,6 +31,7 @@ export default {
                 <div class="post-date mb-2 text-white-50">{{ apartment.address }}</div>
                 <div class="details-overlay">
                     <p class="fw-light">{{ apartment.description }}</p>
+                    <p>€ {{ apartment.price }}</p>
 
                     <!-- On Click Redirect to Route 'show-apartments' -->
 

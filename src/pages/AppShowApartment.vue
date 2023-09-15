@@ -19,6 +19,8 @@ export default {
       storeFilter,
       apartment: "",
       loadingError: false,
+      startDate: null,
+      endDate: null
     }
   },
   methods: {
@@ -81,6 +83,21 @@ export default {
       <div class="col-12 col-lg-4">
         <Map :apartment="apartment"></Map>
         <p class="text-secondary pt-3"><i class="fa-solid fa-location-dot me-1"></i> {{ apartment.address }}</p>
+      </div>
+<!-- START DATE -->
+      <div class="d-flex justify-content-between text-body-secondary dateContainer">
+        <label for="spons_date">Choose the <strong>start date</strong> of your
+          sponsorship:</label>
+        <input type="date" name="spons_date" id="spons_date" required min="{{ date('Y-m-d') }}"
+          max="{{ date('Y-m-d', strtotime('+2 months')) }}" class="w-40" v-model="startDate">
+      </div>
+
+      <!-- END DATE -->
+      <div class="d-flex justify-content-between text-body-secondary dateContainer">
+        <label for="spons_date">Choose the <strong>end date</strong> of your
+          sponsorship:</label>
+        <input type="date" name="spons_date" id="spons_date" required min="{{ date('Y-m-d') }}"
+          max="{{ date('Y-m-d', strtotime('+2 months')) }}" class="w-40" v-model="endDate">
       </div>
 
     </div>
